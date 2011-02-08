@@ -59,6 +59,7 @@ Ti.include('/Metal/config.js');
         this[parts[0]] = Object(parts[0]);
       }
       */
+      // TODO [metal::createNameSpace] We need to make this generic and not only work for metal namespace!
       object = metal;
       
       //Ti.API.info('[metal] value: ' + value);
