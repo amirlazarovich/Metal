@@ -16,16 +16,16 @@ metal.net = (function() {
       var parameters = '?';
       
       for (var p in params) {
-        parameters += (parameters == '?')? params[p] : '&' + params[p];
+      	if (params.hasOwnProperty(p)) {
+      		parameters += (parameters == '?')? params[p] : '&' + params[p];	
+      	}
       }
       
       return parameters;
-    } 
+    };
 
     return {
-        
         SUCCESS: 1,
-        
         
         /**
          * Perform HTTP GET request
@@ -36,7 +36,7 @@ metal.net = (function() {
          * @param {Function ({Boolean} success, {Object} response)} cb Callback function to handle HTTP response
          * @param [optional] {String} mockup The name of the mockup response (i.e. success/failure/etc.)
          */
-        get : function(url, params, cb, mockup) {
+        get: function(url, params, cb, mockup) {
             // If mockup flag was sent, send dummy values
             if (typeof mockup != 'undefined') {
               metal.debug.info('net', 'mockup: ' + mockup);

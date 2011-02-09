@@ -8,6 +8,8 @@ metal.ui.TableSection = metal.extend(metal.ui.AbstractMetalView, {
 
     id: 'MetalTableSection',
 
+	type: 'MetalTableSection',
+	
     properties: {
         
     },
@@ -37,7 +39,7 @@ metal.ui.TableSection = metal.extend(metal.ui.AbstractMetalView, {
         var row;
         if (metal.isArray(items)) {
             for (var i in items) {
-                if (items[i].type == 'metal') {
+                if (items[i].framework == 'metal') {
                     this.view.add(items[i].getView());
                 } else {
                     row = new metal.ui.TableRow(items[i]);
@@ -45,7 +47,7 @@ metal.ui.TableSection = metal.extend(metal.ui.AbstractMetalView, {
                 }
             }
         } else {
-            if (items.type == 'metal') {
+            if (items.framework == 'metal') {
                 this.view.add(items.getView());
             } else {
                 row = new metal.ui.TableRow(items[i]);

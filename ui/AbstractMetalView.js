@@ -15,7 +15,9 @@ metal.ui.AbstractMetalView = metal.extend(Object, {
      */
     id: 'AbstractMetalView',
     
-    type: 'metal',
+    framework: 'metal',
+    
+    type: 'AbstractMetalView',
     
     /**
      * Holds all this view's properties
@@ -94,10 +96,34 @@ metal.ui.AbstractMetalView = metal.extend(Object, {
     
     /**
      * 
+     * @method getItem
+     */
+    getItem: function(indexOrObject) {
+    	if (typeof indexOrObject == 'object') {
+    		for (var i = 0, iln = this.items.length; i < iln; i++) {
+    			if (this.items[i] === indexOrObject) {
+    				return this.items[i];
+    			}
+    		}
+    	} else {
+    		return this.items[indexOrObject];
+    	}
+    },
+    
+    /**
+     * 
      * @method getType
      */
     getType: function() {
       return this.type;
+    },
+    
+    /**
+     * 
+     * @method getFramework
+     */
+    getFramework: function() {
+    	return this.framework;
     },
     
     /**
@@ -120,7 +146,7 @@ metal.ui.AbstractMetalView = metal.extend(Object, {
         } else {
           this.properties[nameOrObject] = value;
           //TODO [AbstractMetalView::set] need to set the views property in a better way
-          if (value.type == 'metal') {
+          if (value.framework == 'metal') {
             this.view[nameOrObject] = value.getView();
           } else {
             this.view[nameOrObject] = value;
@@ -136,14 +162,14 @@ metal.ui.AbstractMetalView = metal.extend(Object, {
     add: function(items) {
         if (metal.isArray(items)) {
             for (var i in items) {
-                if (items[i].type == 'metal') {
+                if (items[i].framework == 'metal') {
                     this.view.add(items[i].getView());
                 } else {
                     this.view.add(items[i]);
                 }
             }
         } else {
-            if (items.type == 'metal') {
+            if (items.framework == 'metal') {
                 this.view.add(items.getView());
             } else {
                 this.view.add(items);

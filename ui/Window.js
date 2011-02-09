@@ -14,6 +14,8 @@ metal.ui.Window = metal.extend(metal.ui.AbstractMetalView, {
      */
     id: 'MetalWindow',
 
+	type: 'MetalWindow',
+	
     /**
      * Holds all this view's properties
      *

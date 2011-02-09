@@ -26,6 +26,8 @@ metal.ui.TableView = metal.extend(metal.ui.AbstractMetalView, (function() {
     
     id: 'MetalTableView',
     
+    type: 'MetalTableView',
+    
     /**
      * The native view this class wraps
      *
@@ -58,10 +60,15 @@ metal.ui.TableView = metal.extend(metal.ui.AbstractMetalView, (function() {
     /**
      * The views associated with this class
      *
-     * @property {Titanium.UI.TableViewRow / Titanium.UI.TableViewSection} items
+     * @property {Titanium.UI.TableViewRow or Titanium.UI.TableViewSection} items
      */
     items: [],
     
+    /**
+     * The table view properties
+     * 
+     * @property {Object} properties
+     */
     properties: {
       searchHidden: true
     },
@@ -123,6 +130,6 @@ metal.ui.TableView = metal.extend(metal.ui.AbstractMetalView, (function() {
     
     
     
-  }
+  };
   
 })());

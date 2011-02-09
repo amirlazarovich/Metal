@@ -44,7 +44,8 @@ function tcpClient(atoken, options)
 		var sct = resp.source.nak;
 		var dt = resp.data;
 		var prts = (dt && (dt != null)) ? dt.toString().split('=') : null;
-
+		var arg;
+		
 		try
 		{
 			if (prts != null)
@@ -76,7 +77,7 @@ function tcpClient(atoken, options)
 				{
 					if (options[cmd] && (options[cmd] != null))
 					{
-						var arg = '';
+						arg = '';
 
 						sct.write('executing command: ' + dt.toString());
 						
@@ -101,17 +102,17 @@ function tcpClient(atoken, options)
 		{
 			//alert('error in onread: ' + eee);
 		}
-	}
+	};
 
 	this.onReadError = function(e) 
 	{ 
 		//alert('Read error...'); 
-	}
+	};
 
 	this.onWriteError = function(e) 
 	{ 
 		//alert('Write error...'); 
-	}
+	};
 	
 	this.connect = function(cb) 
 	{

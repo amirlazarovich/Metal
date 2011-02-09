@@ -1,10 +1,10 @@
-metal.ns('metal.ui.View');
+metal.ns('metal.ui.Button');
 
 /**
  * 
  * @class View
  */
-metal.ui.View = metal.extend(metal.ui.AbstractMetalView, {
+metal.ui.Button = metal.extend(metal.ui.AbstractMetalView, {
   
   /**
      * The id of this window
@@ -12,9 +12,9 @@ metal.ui.View = metal.extend(metal.ui.AbstractMetalView, {
      * @private
      * @property {String} id
      */
-    id: 'MetalView',
+    id: 'MetalButton',
 	
-	type: 'MetalView',
+	type: 'MetalButton',
 	
     /**
      * Holds all this view's properties
@@ -22,7 +22,7 @@ metal.ui.View = metal.extend(metal.ui.AbstractMetalView, {
      * @property {Object} properties
      */
     properties : {
-        backgroundColor: 'white'
+        
     },
 
     /**
@@ -37,15 +37,15 @@ metal.ui.View = metal.extend(metal.ui.AbstractMetalView, {
      */
     constructor: function(config) {
         metal.overrideClass(this, config);
-        metal.debug.info('View::' + this.id, 'constructor');
+        metal.debug.info('Button::' + this.id, 'constructor');
 
         // Set native component
-        this.view = Ti.UI.createView(this.properties);
+        this.view = Ti.UI.createButton(this.properties);
 
         this.initComponents();
         this.initEvents();
         // Call parent constructor
-        metal.ui.View.superclass.constructor.call(this);
+        metal.ui.Button.superclass.constructor.call(this);
     }
   
 });

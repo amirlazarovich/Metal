@@ -15,12 +15,22 @@ metal.ui.TabGroup = metal.extend(metal.ui.AbstractMetalView, {
      */
     id: 'MetalTabGroup',
     
+    type: 'MetalTabGroup',
+    
     /**
      * The index of the starting tab
      * 
      * @property {Integer} startingTab
      */
     startingTab: 0,
+    
+    /**
+     * 
+     * @property {Object} properties
+     */
+    properties: {
+    	
+    },
     
     /**
      * The native view this class wraps
@@ -53,13 +63,15 @@ metal.ui.TabGroup = metal.extend(metal.ui.AbstractMetalView, {
         metal.ui.TabGroup.superclass.constructor.call(this);
     },
     
+   
+    
     /**
      * 
      * @method setActiveTab
      * @param {Integer / Object} indexOrObject
      */
     setActiveTab: function(indexOrObject) {
-      this.view.setActiveTab(indexOrObject);
+      	this.view.setActiveTab(indexOrObject);
     },
     
     /**
@@ -84,5 +96,40 @@ metal.ui.TabGroup = metal.extend(metal.ui.AbstractMetalView, {
                 this.view.addTab(tabs.getView());
             }
         }
+    },
+    
+    /**
+     * 
+     * @override
+     * @method initEvents
+     */
+    initEvents: function() {
+    	var me = this;
+    	// Call parent
+    	metal.ui.TabGroup.superclass.initEvents.call(me);
+        
+        // Initialize focus event only after the tab group is opened
+        // why? well because Titanium fires too many dummy focus events...
+        me.on('open', function() {
+        	
+        	// Get next view (which is the starting view)
+        	var nextView = me.getItem(me.startingTab);
+        	
+        	// Notify the control
+        	metal.control.setActiveTab(nextView);
+        	
+        	// Set tab group focus event
+            me.on('focus', function(e) {
+            	
+            	// Get next view
+               	nextView = me.getItem(e.index);
+               	
+               	// Notify the control
+                metal.control.setActiveTab(nextView);
+            });
+        });
+        
+        
+        
     }
-})
+});

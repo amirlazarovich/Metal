@@ -59,7 +59,6 @@ Ti.include('/Metal/config.js');
         this[parts[0]] = Object(parts[0]);
       }
       */
-      // TODO [metal::createNameSpace] We need to make this generic and not only work for metal namespace!
       object = metal;
       
       //Ti.API.info('[metal] value: ' + value);
@@ -96,7 +95,9 @@ Ti.include('/Metal/config.js');
     }
     if (object && config && typeof config == 'object') {
       for ( var key in config) {
-        object[key] = config[key];
+      	if (config.hasOwnProperty(key)) {
+      		object[key] = config[key];	
+      	}
       }
     }
     return object;
@@ -136,9 +137,9 @@ Ti.include('/Metal/config.js');
         if (!(key in object)) {
           object[key] = config[key];
         }
-      }
+      };
     }
-  }
+  };
   
   // Empty object
   var empty = {};
@@ -213,10 +214,11 @@ Ti.include('/Metal/config.js');
   metal.urlEncode = function(object) {
     var val = "";
     var i = 0;
-    for ( var key in object) {
-      val = val + (i == 0 ? "" : "&") + encodeURI(key) + "="
-          + encodeURI(object[key]);
-      i++;
+    for (var key in object) {
+    	if (object.hasOwnProperty(key)) {
+    		val = val + (i == 0 ? "" : "&") + encodeURI(key) + "=" + encodeURI(object[key]);
+  			i++;	
+    	}
     }
     return val;
   };
@@ -227,12 +229,13 @@ Ti.include('/Metal/config.js');
    * @method isArray
    * @param {Object} The object to check if it is an array
    */
-  metal.isArray = function isArray(obj) {
+  metal.isArray = function(obj) {
     // TODO [metal] :: isArray function is not working
-    if (typeof obj.pop == 'undefined' || typeof obj.push == 'undefined')
-      return false;
-    else
-      return true;
+    if (typeof obj.pop == 'undefined' || typeof obj.push == 'undefined') {
+    	return false;
+    } else {
+    	return true;
+    }
   };
 
   /**
@@ -261,11 +264,10 @@ Ti.include('/Metal/config.js');
   metal.extend = function() {
     // inline overrides
     var inlineOverrides = function(o) {
-      for ( var m in o) {
-        if (!o.hasOwnProperty(m)) {
-          continue;
+      for (var m in o) {
+        if (o.hasOwnProperty(m)) {
+           this[m] = o[m];
         }
-        this[m] = o[m];
       }
     };
   
@@ -400,6 +402,11 @@ Ti.include(
   '/Metal/ui/TableView.js',
   '/Metal/ui/TableRow.js',
   '/Metal/ui/TableSection.js',
+  '/Metal/ui/Label.js',
+  '/Metal/ui/Button.js',
+  
+  // Model
+  '/Metal/model/GeoLocation.js',
   
   // Custom UI
   //'/Metal/customUI/simpleWindow.js',

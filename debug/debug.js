@@ -4,7 +4,6 @@
  * @include cloudebug.js
  */
 Ti.include("/Metal/debug/cloudebug.js");
-//Ti.include('/Metal/debug/dumpObj.js');
 
 // Define namepsace
 metal.ns('metal.debug');
@@ -108,7 +107,17 @@ metal.debug = (function() {
          * @default false
          */
         cloudebug: false,
-
+		
+		forceLog: function(msg, obj, stringify) {
+			if (obj != undefined) {
+				var more = (stringify != undefined)? 
+					(': ' + JSON.stringify(obj)) :
+				 	(': ' + deepSearch(obj));  
+				msg += more;
+			}
+			Ti.API.info('[-----------Read me-----------] ' + msg);
+		},
+		
         /**
          * Debug INFO
          *
@@ -118,18 +127,20 @@ metal.debug = (function() {
          *        and added to the msg
          */
         info : function(win, msg, obj) {
-            if (this.state >= this.INFO) {
+        	var me = metal.debug; // Using this to enable an alias
+            if (me.state >= me.INFO) {
                 msg = (obj != undefined) ? (msg + deepSearch(obj)) : msg;
                 Ti.API.info('[' + win + '] ' + msg);
-                if (this.cloudebug == true) {
+                if (me.cloudebug == true) {
                     cloud.write('[info] ' + '[' + win + '] ' + msg);
                 }
             }
         },
         debug: function(msg) {
-            if (this.state >= this.DEBUG) {
+        	var me = metal.debug; // Using this to enable an alias
+            if (me.state >= me.DEBUG) {
                 Ti.API.debug(msg);
-                if (this.cloudbug == true) {
+                if (me.cloudbug == true) {
                     cloud.write('[debug] ' + msg);
                 }
             }
@@ -152,7 +163,7 @@ metal.debug = (function() {
             }
 
         }
-    }
+    };
 
 })();
 // If Cloud debugging is set to true, initialize it
@@ -160,4 +171,6 @@ if (metal.CLOUD_DEBUG == true) {
     metal.debug.initCloudebug();
 }
 
-
+// Create alias for less key stokes :)
+this.flog = metal.debug.forceLog;
+this.ilog = metal.debug.info;

@@ -22,7 +22,6 @@ metal.test.net = (function() {
                         },
                         timestamp: '1234'
                     };
-                    break;
 
                 case 'new':
                     return {
@@ -32,21 +31,18 @@ metal.test.net = (function() {
                         },
                         timestamp: '1234'
                     };
-                    break;
 
                 case 'failure':
                     return {
                         returnValue: 0,
                         message: 'Wrong username or password'
                     };
-                    break;
 
                 case 'error':
                     return {
                         returnValue: -1,
                         message: 'Bad request'
                     };
-                    break;
             };
         }
     };

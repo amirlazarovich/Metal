@@ -8,6 +8,8 @@ metal.ui.TableRow = metal.extend(metal.ui.AbstractMetalView, {
 
     id: 'MetalTableRow',
 
+	type: 'MetalTableRow',
+	 
     properties: {
         /*
         hasCheck: false,
