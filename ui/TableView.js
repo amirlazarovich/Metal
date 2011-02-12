@@ -47,7 +47,7 @@ metal.ui.TableView = metal.extend(metal.ui.AbstractMetalView, (function() {
      * 
      * @property {Titanium.UI.createSearchBar} search
      */
-    search: null,
+    search: undefined,
     
     /**
      * Table header
@@ -55,7 +55,7 @@ metal.ui.TableView = metal.extend(metal.ui.AbstractMetalView, (function() {
      * 
      * @property {Titanium.UI.View or metal.ui.AbstractMetalView} header
      */
-    header: null, 
+    header: undefined, 
     
     /**
      * The views associated with this class

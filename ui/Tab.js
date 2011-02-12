@@ -38,6 +38,8 @@ metal.ui.Tab = metal.extend(metal.ui.AbstractMetalView, {
      * 
      * @property {metal.ui.AbstractMetalView} window
      */
+     //TODO --fix-required-- Shouldnt this property need to be in the properties property?
+     // 					 It's kinda confusing
     window: undefined,
     
     /**
@@ -51,7 +53,11 @@ metal.ui.Tab = metal.extend(metal.ui.AbstractMetalView, {
         this.view = Ti.UI.createTab(this.properties);
        
        	// Set enclosing window
-       	this.view.window = this.window.getView();
+       	if (this.window) {
+       		this.view.window = typeof this.window.getView != 'undefined' ? this.window.getView() : this.window;
+       	} else {
+       		this.window = this.view.window;
+        }
        
         // Call parent constructor
         metal.ui.Tab.superclass.constructor.call(this);

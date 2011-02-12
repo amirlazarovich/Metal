@@ -117,7 +117,15 @@ Ti.include('/Metal/config.js');
     if (config.properties != undefined ||
         config.items != undefined) {
       metal.apply(object, config);
+      if (config.properties == undefined){
+      	delete config.items;
+      	metal.apply(object.properties, config);
+      }
     } else {
+    	metal.debug.info('No properties/items found')
+      // If we only copy the config to the properties the ID will not be copied. 
+      // @TODO --fix We need a better solution.
+      metal.apply(object, config);
       metal.apply(object.properties, config);
     }
   };
@@ -381,7 +389,6 @@ Ti.include('/Metal/config.js');
 
 
 Ti.include(
-  
   // Debug
   '/Metal/debug/debug.js',
   
@@ -399,6 +406,8 @@ Ti.include(
   '/Metal/ui/TabGroup.js',
   '/Metal/ui/Tab.js',
   '/Metal/ui/View.js',
+  '/Metal/ui/Map.js',
+  '/Metal/ui/Marker.js',
   '/Metal/ui/TableView.js',
   '/Metal/ui/TableRow.js',
   '/Metal/ui/TableSection.js',

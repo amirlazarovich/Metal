@@ -41,7 +41,7 @@ metal.ui.AbstractMetalView = metal.extend(Object, {
      * @property {Titanium.UI.View / metal.ui.AbstractMetalView} items
      */
     items: [],
-
+	
     /**
      * This view's controller
      *
@@ -146,10 +146,12 @@ metal.ui.AbstractMetalView = metal.extend(Object, {
         } else {
           this.properties[nameOrObject] = value;
           //TODO [AbstractMetalView::set] need to set the views property in a better way
-          if (value.framework == 'metal') {
-            this.view[nameOrObject] = value.getView();
-          } else {
-            this.view[nameOrObject] = value;
+          if (value){
+	          if (value.framework == 'metal') {
+	            this.view[nameOrObject] = value.getView();
+	          } else {
+	            this.view[nameOrObject] = value;
+	          }
           }
         }
     },

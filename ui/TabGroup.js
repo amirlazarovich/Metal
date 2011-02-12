@@ -49,18 +49,18 @@ metal.ui.TabGroup = metal.extend(metal.ui.AbstractMetalView, {
     /**
      * @constructor
      */
-    constructor: function(config) {
+    constructor: function(config) {    	
         metal.overrideClass(this, config);
         metal.debug.info('TabGroup::' + this.id, 'constructor');
         
         // Set native component
         this.view = Ti.UI.createTabGroup(this.properties);
         
-        // Set active tab
-        this.setActiveTab(this.startingTab);
-        
         // Call parent constructor
         metal.ui.TabGroup.superclass.constructor.call(this);
+        
+        // Set active tab
+        this.setActiveTab(this.startingTab);
     },
     
    
@@ -78,23 +78,47 @@ metal.ui.TabGroup = metal.extend(metal.ui.AbstractMetalView, {
      * 
      * @ovverride
      * @method add
-     * @param {[Array of] Titanium.UI.Tab} tabs
+     * @param {[Array of] Titanium.UI.Tab} items
      */
-    add: function(tabs) {
-       if  (metal.isArray(tabs)) {
-            for (var i in tabs) {
-                if (tabs[i] == '[object TiUITab]') {
-                    this.view.addTab(tabs[i]);
-                } else {
-                    this.view.addTab(tabs[i].getView());
-                }
+    add: function(items) {
+       if  (metal.isArray(items)) {
+            for (var i in items) {
+				this.addTab(items[i]);
             }
+        } else if (items){
+			this.addTab(items);
+        }
+    },
+    
+    /**
+     * Add a tab component to the tabgroup
+     * @method addTab
+     * @param {[Array<Titanium.UI.Tab/Metal.ui.AbstractMetalView>]} tab
+     */
+    addTab: function(tab){
+    	// Check if it is a TiUITab
+        if (tab == '[object TiUITab]') {
+        	metal.debug.info('Instance of this');
+            this.view.addTab(tab);
+            
+        // See if it is a Metal.ui.Tab
+        } else if (tab instanceof metal.ui.Tab) {
+        	metal.debug.info('Instance of tab');
+            this.view.addTab(tab.getView());
+            
+        // Create a new tab component
         } else {
-            if (tabs == '[object TiUITab]') {
-                this.view.addTab(tabs);
-            } else {
-                this.view.addTab(tabs.getView());
-            }
+        	metal.debug.info('Create tab');
+        	var ntab = new metal.ui.Tab({
+        		id: tab.id + 'tab',
+        		properties: {
+        			title: tab.title || '',
+        			icon: tab.icon || null,
+        			window: tab.getView()
+        		}
+        	});
+        	//tab.tab = ntab;
+        	this.view.addTab(ntab.getView());
         }
     },
     
@@ -128,8 +152,5 @@ metal.ui.TabGroup = metal.extend(metal.ui.AbstractMetalView, {
                 metal.control.setActiveTab(nextView);
             });
         });
-        
-        
-        
     }
 });
