@@ -50,15 +50,12 @@ metal.ui.Map = metal.extend(metal.ui.AbstractMetalView, (function() {
             // Set native component
             this.view = Ti.Map.createView(this.properties);
 
-            //this.initComponents();
-            //this.initEvents();
             // Call parent constructor
             metal.ui.Map.superclass.constructor.call(this);
         },
         
         initComponents: function() {
             var markers = this.markers;
-            metal.debug.info(markers.length);
             this.markers = new Array(markers.length);
 
             if (markers) {
