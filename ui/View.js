@@ -4,7 +4,7 @@ metal.ns('metal.ui.View');
  * 
  * @class View
  */
-metal.ui.View = metal.extend(metal.ui.AbstractMetalView, {
+metal.ui.View = metal.extend(metal.ui.AbstractView, {
   
   /**
      * The id of this window
@@ -26,11 +26,11 @@ metal.ui.View = metal.extend(metal.ui.AbstractMetalView, {
     },
 
     /**
-     * The native view this class wraps
+     * The Titanium view this class wraps
      *
-     * @property {Titanium.UI.View} view
+     * @property {Titanium.UI.View} titaniumComponent
      */
-    view: undefined,
+    titaniumComponent: undefined,
     
     /**
      * @constructor
@@ -40,7 +40,7 @@ metal.ui.View = metal.extend(metal.ui.AbstractMetalView, {
         metal.debug.info('View::' + this.id, 'constructor');
 
         // Set native component
-        this.view = Ti.UI.createView(this.properties);
+        this.titaniumComponent = Ti.UI.createView(this.properties);
 
         this.initComponents();
         this.initEvents();

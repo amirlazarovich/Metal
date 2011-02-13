@@ -17,7 +17,35 @@ Sample code (put this in app.js):
 				barColor: '#000',
 				backgroundColor: '#fff',
 				icon: 'KS_nav_ui.png',
-				items: []
+				items: [
+					new metal.ui.View({
+						properties: {
+							width: 100,
+							height: 100,
+							backgroundColor: 'black'
+						},
+						
+						animation: new metal.ui.Animation({
+							properties: {
+								duration: 1000,
+								backgroundColor: 'red',
+								top: 10,
+								autoreverse: true,
+								repeat: 100
+							},
+							
+							initEvents: function() {
+								this.on('start', function() {
+									flog('animation has started');
+								});
+								
+								this.on('complete', function() {
+									flog('animation is over');
+								});
+							}
+						})
+					})
+				]
 			}),
 			new metal.ui.Window({
 				id: 'fleetscr',

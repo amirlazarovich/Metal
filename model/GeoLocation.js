@@ -27,6 +27,14 @@ metal.model.GeoLocation = metal.extend(Object, {
 	},
 	
 	/**
+	 * @constructor
+	 * @param {Object} config
+	 */
+	constructor: function(config) {
+		metal.apply(this, config);
+	},
+	
+	/**
 	 * Return a string representation of this geo location
 	 * 
 	 * @method toString

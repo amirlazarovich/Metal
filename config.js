@@ -1,17 +1,14 @@
-this.metal = this.metal || {};
-
 /**
- * Global configuration file
- *
- * @class config
+ * Metal Configuration file
  */
-metal.config = (function() {
-
-    return {
-        serverDomain : 'myDomain.com',
+(function() {
+	var config = {
+		serverDomain : 'myDomain.com',
         serverPath: '/myServerPath',
         debugState: 3, // DEBUG
         cloudebug: false // Set Cloud debugging mode
     };
+	
+	// Apply metal configuration
+	metal.initConfig(config);
 })();
-

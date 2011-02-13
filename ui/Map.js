@@ -2,7 +2,7 @@
  *
  * @class metal.ui.Map
  */
-metal.ui.Map = metal.extend(metal.ui.AbstractMetalView, (function() {
+metal.ui.Map = metal.extend(metal.ui.AbstractView, (function() {
 
     return {
         /**
@@ -27,11 +27,11 @@ metal.ui.Map = metal.extend(metal.ui.AbstractMetalView, (function() {
         },
 
         /**
-         * The native view this class wraps
+         * The Titanium view this class wraps
          *
-         * @property {Titanium.UI.View} view
+         * @property {Titanium.UI.View} titaniumComponent
          */
-        view: undefined,
+        titaniumComponent: undefined,
 
         markers: [],
 
@@ -47,8 +47,8 @@ metal.ui.Map = metal.extend(metal.ui.AbstractMetalView, (function() {
             metal.overrideClass(this, config);
             metal.debug.info('Map::' + this.id, 'constructor');
 
-            // Set native component
-            this.view = Ti.Map.createView(this.properties);
+            // Set Titanium component
+            this.titaniumComponent = Ti.Map.createView(this.properties);
 
             // Call parent constructor
             metal.ui.Map.superclass.constructor.call(this);

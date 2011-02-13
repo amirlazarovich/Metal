@@ -1,11 +1,12 @@
-metal.ns('metal.ui.AbstractMetalView');
+metal.ns('metal.ui.AbstractView');
 
 /**
  * Base class for all Metal views
  * 
- * @class AbstractMetalView
+ * @abstract
+ * @class AbstractView
  */
-metal.ui.AbstractMetalView = metal.extend(Object, {
+metal.ui.AbstractView = metal.extend(metal.core.Observable, {
     
     /**
      * The id of this view
@@ -17,7 +18,7 @@ metal.ui.AbstractMetalView = metal.extend(Object, {
     
     framework: 'metal',
     
-    type: 'AbstractMetalView',
+    type: 'AbstractView',
     
     /**
      * Holds all this view's properties
@@ -28,20 +29,27 @@ metal.ui.AbstractMetalView = metal.extend(Object, {
 
     },
 
+	/**
+	 * The animation set on this view
+	 * 
+	 * @properties {metal.model.Animation} animation
+	 */
+	animation: null,
+
     /**
-     * The native view this class wraps
+     * The Titanium view this class wraps
      *
-     * @property {Titanium.UI.View} view
+     * @property {Titanium.UI.View} titaniumComponent
      */
-    view: undefined,
+    titaniumComponent: undefined,
 
     /**
      * The views associated with this class
      *
-     * @property {Titanium.UI.View / metal.ui.AbstractMetalView} items
+     * @property {Titanium.UI.View / metal.ui.AbstractView} items
      */
     items: [],
-	
+
     /**
      * This view's controller
      *
@@ -55,7 +63,7 @@ metal.ui.AbstractMetalView = metal.extend(Object, {
      */
     constructor: function(config) {
         metal.overrideClass(this, config);
-        metal.debug.info('AbstractMetalView::' + this.id, 'constructor');
+        metal.debug.info('AbstractView::' + this.id, 'constructor');
 
         // Add bidirectional association
         this.controller = metal.control.add(this.id, this);
@@ -65,8 +73,10 @@ metal.ui.AbstractMetalView = metal.extend(Object, {
 
         this.initComponents();
         this.initEvents();
+		this.initAnimation();
+		        
         // Call parent constructor
-        metal.ui.AbstractMetalView.superclass.constructor.call(this);
+        metal.ui.AbstractView.superclass.constructor.call(this);
     },
     
     /**
@@ -76,7 +86,7 @@ metal.ui.AbstractMetalView = metal.extend(Object, {
      * @param {Function} cb
      */
     animate: function(obj, cb) {
-      this.view.animate(obj, cb || function() {});
+      this.titaniumComponent.animate(obj, cb || function() {});
     },
     
     /**
@@ -84,7 +94,7 @@ metal.ui.AbstractMetalView = metal.extend(Object, {
      * @method getView
      */
     getView: function() {
-        return this.view;
+        return this.titaniumComponent;
     },
     /**
      *
@@ -99,7 +109,7 @@ metal.ui.AbstractMetalView = metal.extend(Object, {
      * @method getItem
      */
     getItem: function(indexOrObject) {
-    	if (typeof indexOrObject == 'object') {
+    	if (metal.isObject(indexOrObject)) {
     		for (var i = 0, iln = this.items.length; i < iln; i++) {
     			if (this.items[i] === indexOrObject) {
     				return this.items[i];
@@ -127,6 +137,23 @@ metal.ui.AbstractMetalView = metal.extend(Object, {
     },
     
     /**
+     * @method getAnimation
+     * @param {String} type
+     */
+    getAnimation: function(type) {
+    	var animation;
+    	type = type || '';
+    	if (type == 'titanium') {
+    		// Getting the titanium component
+    		animation = this.animation.getComponent();
+    	} else {
+    		//  Getting the metal component
+    		animation = this.animation;
+    	}
+    	return animation;
+    },
+    
+    /**
      *
      * @method get
      * @param {String} name
@@ -141,61 +168,49 @@ metal.ui.AbstractMetalView = metal.extend(Object, {
      * @param {Object} value
      */
     set: function(nameOrObject, value) {
-        if (typeof nameOrObject == 'object') {
+        if (metal.isObject(nameOrObject)) {
           metal.apply(this, nameOrObject);
         } else {
           this.properties[nameOrObject] = value;
-          //TODO [AbstractMetalView::set] need to set the views property in a better way
-          if (value){
-	          if (value.framework == 'metal') {
-	            this.view[nameOrObject] = value.getView();
-	          } else {
-	            this.view[nameOrObject] = value;
-	          }
-          }
+          // TODO [AbstractView::set] Need to set view properties in a better way
+          // What about watching the properties object, and for any change, 
+          // do it also on the native view
+          this.titaniumComponent[nameOrObject] = metal.getView(value);
         }
     },
     
     /**
      *
      * @method add
-     * @param {[Array of] Titanium.UI.View or metal.ui.AbstractMetalView} items
+     * @param {[Array of] Titanium.UI.View or metal.ui.AbstractView} items
      */
     add: function(items) {
         if (metal.isArray(items)) {
             for (var i in items) {
-                if (items[i].framework == 'metal') {
-                    this.view.add(items[i].getView());
-                } else {
-                    this.view.add(items[i]);
-                }
+            	if (items.hasOwnProperty(i)) {
+            		this.titaniumComponent.add(metal.getView(items[i]));
+            	}
             }
         } else {
-            if (items.framework == 'metal') {
-                this.view.add(items.getView());
-            } else {
-                this.view.add(items);
-            }
+            this.titaniumComponent.add(metal.getView(items));
         }
     },
     /**
      * 
      * @method setToolbar
-     * @param {[Array of] Titanium.UI.View or metal.ui.AbstractMetalView} items
+     * @param {[Array of] Titanium.UI.View or metal.ui.AbstractView} items
      */
     setToolbar: function(items) {
       if (metal.isArray(items)) {
           var toolbar = [];
             for (var i in items) {
-                if (typeof items[i].controller != 'undefined') {
-                    toolbar.push(items[i].getView());
-                } else {
-                    toolbar.push(items[i]);
-                }
+            	if (items.hasOwnProperty(i)) {
+            		toolbar.push(metal.getView(items[i]));
+            	}
             }
-            this.view.setToolbar(toolbar);
+            this.titaniumComponent.setToolbar(toolbar);
         } else {
-           throw this.id + ': Trying to pass a setToolbar function something other than Array';
+        	this.titaniumComponent.setToolbar(metal.getView(items));
         }
     },
     /**
@@ -203,52 +218,16 @@ metal.ui.AbstractMetalView = metal.extend(Object, {
      * @method open
      */
     open: function() {
-        this.view.open();
+        this.titaniumComponent.open();
     },
     
     /**
      * 
      * @method remove
-     * @param {Titanium.UI.View or metal.ui.AbstractMetalView} item
+     * @param {Titanium.UI.View or metal.ui.AbstractView} item
      */
     remove: function(item) {
-      if (typeof item.controller != 'undefined') {
-        this.view.remove(item.getView());
-      } else {
-        this.view.remove(item);
-      } 
-    },
-    
-    /**
-     * Register an event
-     *
-     * @method on
-     */
-    on: function(event, cb) {
-        this.view.addEventListener(event, cb);
-    },
-    /**
-     * Dismisses an event
-     *
-     * @method dismiss
-     */
-    dismiss: function(event, cb) {
-        this.view.removeEventListener(event, cb);
-    },
-    /**
-     * Fires an event
-     *
-     * @method fire
-     * @param event The event name
-     * @param {Function} obj The event parameter sent to listener
-     */
-    fire: function(event, obj) {
-        metal.debug.info('AbstractMetalView::' + this.id, 'event fired: ' + event);
-        if (typeof this[event] != "undefined") {
-            return this[event](obj);
-        } else {
-            this.view.fireEvent(event, obj);
-        }
+    	this.titaniumComponent.remove(metal.getView(item));
     },
     /**
      * Hide this window
@@ -256,7 +235,7 @@ metal.ui.AbstractMetalView = metal.extend(Object, {
      * @method hide
      */
     hide: function() {
-        this.view.hide();
+        this.titaniumComponent.hide();
     },
     /**
      * Close this window
@@ -264,21 +243,33 @@ metal.ui.AbstractMetalView = metal.extend(Object, {
      * @method close
      */
     close: function() {
-        this.view.close();
+        this.titaniumComponent.close();
     },
     /**
      *
      * @method initComponents
      */
     initComponents: function() {
-        metal.debug.info('AbstractMetalView::' + this.id, 'initComponents');
+        metal.debug.info('AbstractView::' + this.id, 'initComponents');
     },
     /**
      *
      * @method initEvents
      */
     initEvents: function() {
-        metal.debug.info('AbstractMetalView::' + this.id, 'initEvents');
+        metal.debug.info('AbstractView::' + this.id, 'initEvents');
+    },
+    /**
+     * 
+     * @method initAnimation
+     */
+    initAnimation: function() {
+    	metal.debug.info('AbstractView::' + this.id, 'initAnimation');
+		var animation = this.getAnimation();
+    	if (animation != null) {
+    		// Animation is set on this view
+    		this.animate(animation.getComponent());
+    	}
     },
     /**
      *
@@ -286,7 +277,7 @@ metal.ui.AbstractMetalView = metal.extend(Object, {
      * @param {Object} obj
      */
     beforeopen: function(obj) {
-        metal.debug.info('AbstractMetalView::' + this.id, 'before open event');
+        metal.debug.info('AbstractView::' + this.id, 'before open event');
         return true;
     },
     /**
@@ -295,7 +286,7 @@ metal.ui.AbstractMetalView = metal.extend(Object, {
      * @param {Object} obj
      */
     beforeclose: function(obj) {
-        metal.debug.info('AbstractMetalView::' + this.id, 'before close event');
+        metal.debug.info('AbstractView::' + this.id, 'before close event');
         return true;
     }
 });

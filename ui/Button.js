@@ -4,7 +4,7 @@ metal.ns('metal.ui.Button');
  * 
  * @class View
  */
-metal.ui.Button = metal.extend(metal.ui.AbstractMetalView, {
+metal.ui.Button = metal.extend(metal.ui.AbstractView, {
   
   /**
      * The id of this window
@@ -26,11 +26,11 @@ metal.ui.Button = metal.extend(metal.ui.AbstractMetalView, {
     },
 
     /**
-     * The native view this class wraps
+     * The Titanium view this class wraps
      *
-     * @property {Titanium.UI.View} view
+     * @property {Titanium.UI.View} titaniumComponent
      */
-    view: undefined,
+    titaniumComponent: undefined,
     
     /**
      * @constructor
@@ -39,8 +39,8 @@ metal.ui.Button = metal.extend(metal.ui.AbstractMetalView, {
         metal.overrideClass(this, config);
         metal.debug.info('Button::' + this.id, 'constructor');
 
-        // Set native component
-        this.view = Ti.UI.createButton(this.properties);
+        // Set Titanium component
+        this.titaniumComponent = Ti.UI.createButton(this.properties);
 
         this.initComponents();
         this.initEvents();

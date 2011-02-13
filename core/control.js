@@ -39,8 +39,8 @@ metal.control = (function() {
     			//currentView.close();
     		}
     	}
-    }
-
+    };
+    
     return {
 
         apply: function(action, event, message) {
@@ -68,9 +68,14 @@ metal.control = (function() {
             }
         },
         setActive: function(view, animation) {
+            // Don't open the same view twice
+			if (this.getActive() === view) {
+				return;
+			}
+			
             // Close current view
             closeCurrentView();
-
+			
             // Set a new view
             history.push(view);
 
@@ -81,6 +86,11 @@ metal.control = (function() {
         },
         
         setActiveTab: function(view, animation) {
+        	// Don't open the same view twice
+			if (this.getActive() === view) {
+				return;
+			}
+			
         	// Close current tab
         	closeCurrentTabView();
         	

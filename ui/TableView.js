@@ -4,7 +4,7 @@ metal.ns('metal.ui.TableView');
  * 
  * @class TableView
  */
-metal.ui.TableView = metal.extend(metal.ui.AbstractMetalView, (function() {
+metal.ui.TableView = metal.extend(metal.ui.AbstractView, (function() {
   
   function parseData(data, header) {
       var store = [];
@@ -29,11 +29,11 @@ metal.ui.TableView = metal.extend(metal.ui.AbstractMetalView, (function() {
     type: 'MetalTableView',
     
     /**
-     * The native view this class wraps
+     * The Titanium view this class wraps
      *
-     * @property {Titanium.UI.TableView} view
+     * @property {Titanium.UI.TableView} titaniumComponent
      */
-    view: undefined,
+    titaniumComponent: undefined,
     
     /**
      * The data store associated with this table view
@@ -53,9 +53,16 @@ metal.ui.TableView = metal.extend(metal.ui.AbstractMetalView, (function() {
      * Table header
      * TODO [TableView] When setting both table header and search bar the latter gets cut off
      * 
-     * @property {Titanium.UI.View or metal.ui.AbstractMetalView} header
+     * @property {Titanium.UI.View or metal.ui.AbstractView} header
      */
     header: undefined, 
+    
+    /**
+     * Table footer
+     * 
+     * @property {Titanium.UI.View or metal.ui.AbstractView} footer
+     */
+    footer: undefined,
     
     /**
      * The views associated with this class
@@ -81,55 +88,58 @@ metal.ui.TableView = metal.extend(metal.ui.AbstractMetalView, (function() {
         metal.overrideClass(this, config);
         metal.debug.info('MetalTableView::' + this.id, 'constructor');
         
-        // Set native component
-        this.view = Ti.UI.createTableView(this.properties);
+        // Set Titanium component
+        this.titaniumComponent = Ti.UI.createTableView(this.properties);
         
         // Set data/serach bar if passed
-        this.view.data = parseData(this.data, this.header);
-        this.view.search = this.search;
+        this.titaniumComponent.data = parseData(this.data, this.header);
+        this.titaniumComponent.search = this.search;
+        if (!metal.isNothing(this.footer)) { 
+        	this.titaniumComponent.footerView = metal.getView(this.footer); 
+    	}
         
         // Call parent constructor
         metal.ui.TableView.superclass.constructor.call(this);
     },
     
     appendRow: function(row, animation) {
-      this.view.appendRow(row, animation);
+      this.titaniumComponent.appendRow(row, animation);
     },
     
     deleteRow: function(row, animation) {
-      this.view.deleteRow(row, animation);
+      this.titaniumComponent.deleteRow(row, animation);
     },
     
     insertRowAfter: function(index, row, animation) {
-      this.view.insertRowAfter(index, row, animation);
+      this.titaniumComponent.insertRowAfter(index, row, animation);
     },
     
     insertRowBefore: function(index, row, animation) {
-      this.view.insertRowBefore(index, row, animation);
+      this.titaniumComponent.insertRowBefore(index, row, animation);
     },
     
     scrollToIndex: function(index, animation) {
-      this.view.scrollToIndex(index, animation);
+      this.titaniumComponent.scrollToIndex(index, animation);
     },
     
     scrollToTop: function(top, isAnimated) {
-      this.view.scrollToTop(top, {animated: isAnimated || false});
+      this.titaniumComponent.scrollToTop(top, {animated: isAnimated || false});
     },
     
     selectRow: function(rowIndex) {
-      this.view.selectRow(rowIndex);
+      this.titaniumComponent.selectRow(rowIndex);
+    },
+    
+    deselectRow: function(rowIndex) {
+    	this.titaniumComponent.deselectRow(rowIndex);
     },
     
     setData: function(data, animation) {
-      this.view.setData(data, animation);
+      this.titaniumComponent.setData(data, animation);
     },
     
     updateRow: function(row, animation) {
-      this.view.updateRow(row, animation);
+      this.titaniumComponent.updateRow(row, animation);
     }
-    
-    
-    
   };
-  
 })());

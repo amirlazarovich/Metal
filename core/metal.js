@@ -1,428 +1,562 @@
-Ti.include('/Metal/config.js');
-
 /**
+ * Metal Framework
+ * This framework enables a Titanium developer to write code in a Object Oriented way
  *
+ * @class metal
  */
-(function() {
-  
-  this.metal = this.metal || {};
-  
-  // Check if global configuration is set
-  // If not, set default values
-  if (typeof metal.config == "undefined") {
-    metal.config = {
-      serverDomain : 'myDomain.com',
-      serverPath: '/myServerPath',
-      debugState: 3, // DEBUG
-      cloudebug: false // Set Cloud debugging mode
-    };
-  }
-  
-  /**
-   * Set debug state threshold level:
-   * 0 - NONE
-   * 1 - ERROR
-   * 2 - INFO
-   * 3 - DEBUG
-   * 
-   * @property {Integer} DEBUG_STATE
-   */
-  metal.DEBUG_STATE = metal.config.debugState;
-  
-  /**
-   * Set cloud debugging state
-   * 
-   * @property {Boolean} CLOUD_DEBUG
-   */
-  metal.CLOUD_DEBUG = metal.config.cloudebug;
-  
-  /**
-   * @param {String}
-   *            namespace1
-   * @param {String}
-   *            namespace2
-   * @param {String}
-   *            etc
-   * @return {Object} The namespace object. (If multiple arguments are passed,
-   *         this will be the last namespace created)
-   * @method createNameSpace
-   */
-   metal.createNameSpace = function() {
-    var ln = arguments.length, i, value, split, x, xln, parts, object;
+this.metal = (function() {
 
-    for (i = 0; i < ln; i++) {
-      value = arguments[i];
-      parts = value.split(".");
-      /*
-      if (typeof this[parts[0]] == 'undefined') {
-        Ti.API.info('[metal] ' + parts[0] + ' was undefined');
-        this[parts[0]] = Object(parts[0]);
-      }
-      */
-      object = metal;
-      
-      //Ti.API.info('[metal] value: ' + value);
-      for (x = 1, xln = parts.length; x < xln; x++) {
-        object = object[parts[x]] = Object(object[parts[x]]);
+    /**
+     * @param {String}
+     *            namespace1
+     * @param {String}
+     *            namespace2
+     * @param {String}
+     *            etc
+     * @return {Object} The namespace object. (If multiple arguments are passed,
+     *         this will be the last namespace created)
+     * @method createNameSpace
+     */
+    function createNameSpace() {
+        var ln = arguments.length, i, value, split, x, xln, parts, object;
+
+        for (i = 0; i < ln; i++) {
+            value = arguments[i];
+            parts = value.split(".");
+            /*
+             if (typeof this[parts[0]] == 'undefined') {
+             Ti.API.info('[metal] ' + parts[0] + ' was undefined');
+             this[parts[0]] = Object(parts[0]);
+             }
+             */
+            object = metal;
+
+            //Ti.API.info('[metal] value: ' + value);
+            for (x = 1, xln = parts.length; x < xln; x++) {
+                object = object[parts[x]] = Object(object[parts[x]]);
+                //Ti.API.info('[metal] object: ' + JSON.stringify(object));
+            }
+        }
+
         //Ti.API.info('[metal] object: ' + JSON.stringify(object));
-      }
-    }
-    
-    //Ti.API.info('[metal] object: ' + JSON.stringify(object));
-    return object;
-  };
-  
-  // Define an alias 
-  metal.ns = metal.createNameSpace;
-  
-  /**
-   * Copies all the properties of config to obj.
-   * 
-   * @param {Object}
-   *            object The receiver of the properties
-   * @param {Object}
-   *            config The source of the properties
-   * @param {Object}
-   *            defaults A different object that will also be applied for
-   *            default values
-   * @method apply
-   * @return {Object} returns obj
-   */
-  metal.apply = function(object, config, defaults) {
-    // no "this" reference for friendly out of scope calls
-    if (defaults) {
-      metal.apply(object, defaults);
-    }
-    if (object && config && typeof config == 'object') {
-      for ( var key in config) {
-      	if (config.hasOwnProperty(key)) {
-      		object[key] = config[key];	
-      	}
-      }
-    }
-    return object;
-  };
-  
-  /**
-   * Secure apply. Acts exactly like {metal.apply} with one change:
-   * if config.properties/config.items were not found then 
-   * it will apply config only of object.properties (used mainly in classes)
-   * 
-   * @method overrideClass
-   * @param {Object} object
-   * @param {Object} config
-   */
-  metal.overrideClass = function(object, config) {
-    config = config || {};
-    if (config.properties != undefined ||
-        config.items != undefined) {
-      metal.apply(object, config);
-      if (config.properties == undefined){
-      	delete config.items;
-      	metal.apply(object.properties, config);
-      }
-    } else {
-    	metal.debug.info('No properties/items found')
-      // If we only copy the config to the properties the ID will not be copied. 
-      // @TODO --fix We need a better solution.
-      metal.apply(object, config);
-      metal.apply(object.properties, config);
-    }
-  };
-  
-  /**
-   * Safe Apply
-   * Acts the same as apply with only one difference: 
-   * it doesn't overrides any keys in <object> 
-   * 
-   * @method sApply
-   * @param {Object} object
-   * @param {Object} config
-   */
-  metal.sApply = function(object, config) {
-    if (object && config && typeof config == 'object') {
-      for (var key in config) {
-        if (!(key in object)) {
-          object[key] = config[key];
-        }
-      };
-    }
-  };
-  
-  // Empty object
-  var empty = {};
-  
-  /**
-   * Extend an object with the properties from another 
-   * (thanks Dojo - http://docs.dojocampus.org/dojo/mixin)
-   * 
-   * @param {Object} target
-   * @param {Object} source
-   */
-  function mixin(target, source){
-    var name, s, i;
-    for(name in source){
-      if (source.hasOwnProperty(name)) {
-        s = source[name];
-        if(!(name in target) || (target[name] !== s && (!(name in empty) || empty[name] !== s))){
-          target[name] = s;
-        }
-      }
-    }
-    return target; // Object
-  };
-  
-  /**
-   * Copies all fields in "props" to "obj"
-   * 
-   * @param {Object} obj
-   * @param {Object...} props
-   */
-  metal.mixin = function(obj, props){
-    if(!obj){ obj = {}; }
-    for(var i=1, l=arguments.length; i<l; i++){
-      mixin(obj, arguments[i]);
-    }
-    return obj; // Object
-  };
-  
-  /**
-   * create a new object, combining the properties of the passed objects with the last arguments having
-   * priority over the first ones
-   *
-   * @param {Object} obj
-   * @param {Object...} props
-   */
-  metal.combine = function(obj, props) {
-    var newObj = {};
-    for(var i=0, l=arguments.length; i<l; i++){
-      mixin(newObj, arguments[i]);
-    }
-    return newObj;
-  };
-  
-  /**
-   * Override functions in a class
-   * 
-   * @method override
-   * @param originclass
-   *            {Object} The class to override
-   * @param overrides
-   *            {Object} The overrides
-   */
-  metal.override = function(origclass, overrides) {
-    metal.apply(origclass.prototype, overrides);
-    return;
-  };
-  
-  /**
-   * @method urlEncode
-   * @param {Object} object Creates an object that is
-   */
-  metal.urlEncode = function(object) {
-    var val = "";
-    var i = 0;
-    for (var key in object) {
-    	if (object.hasOwnProperty(key)) {
-    		val = val + (i == 0 ? "" : "&") + encodeURI(key) + "=" + encodeURI(object[key]);
-  			i++;	
-    	}
-    }
-    return val;
-  };
-  
-  /**
-   * isArray
-   * Checks if the object is an array
-   * @method isArray
-   * @param {Object} The object to check if it is an array
-   */
-  metal.isArray = function(obj) {
-    // TODO [metal] :: isArray function is not working
-    if (typeof obj.pop == 'undefined' || typeof obj.push == 'undefined') {
-    	return false;
-    } else {
-    	return true;
-    }
-  };
-
-  /**
-   * @method isNumber
-   * Checks if n is a number
-   * @param {Object} n The object to sjek.
-   */
-  metal.isNumber = function(n) {
-    return !isNaN(parseFloat(n)) && isFinite(n);
-  };
-
-  /**
-   * @method isObject 
-   * Check if an object is an object *_* fun.
-   * @param {Object} v Something to sjek.
-   */
-  metal.isObject = function(v) {
-    return !!v && Object.prototype.toString.call(v) === '[object Object]';
-  };
-  
-  /**
-   * Extend class
-   * @method extend
-   * @return {Object} The new class
-   */
-  metal.extend = function() {
-    // inline overrides
-    var inlineOverrides = function(o) {
-      for (var m in o) {
-        if (o.hasOwnProperty(m)) {
-           this[m] = o[m];
-        }
-      }
+        return object;
     };
-  
-    var objectConstructor = Object.prototype.constructor;
-  
-    return function(subclass, superclass, overrides) {
-      // First we check if the user passed in just the superClass with
-      // overrides
-      if (metal.isObject(superclass)) {
-        overrides = superclass;
-        superclass = subclass;
-        subclass = overrides.constructor != objectConstructor ? overrides.constructor
-            : function() {
-              superclass.apply(this, arguments);
+
+    /**
+     * Extend an object with the properties from another
+     * (thanks Dojo - http://docs.dojocampus.org/dojo/mixin)
+     *
+     * @param {Object} target
+     * @param {Object} source
+     */
+    function mixin(target, source) {
+        var name, s, i;
+        for(name in source) {
+            if (source.hasOwnProperty(name)) {
+                s = source[name];
+                if(!(name in target) || (target[name] !== s && (!(name in this.emptyObject) || this.emptyObject[name] !== s))) {
+                    target[name] = s;
+                }
+            }
+        }
+        return target; // Object
+    };
+
+    return {
+
+        /**
+         * Metal Configuration
+         * 
+         * @property {Object} config
+         */
+        config: {},
+
+        /**
+         * Set debug state threshold level:
+         * 0 - NONE
+         * 1 - ERROR
+         * 2 - INFO
+         * 3 - DEBUG
+         *
+         * @property {Integer} DEBUG_STATE
+         */
+        DEBUG_STATE: undefined,
+
+        /**
+         * Set cloud debugging state
+         *
+         * @property {Boolean} CLOUD_DEBUG
+         */
+        CLOUD_DEBUG: undefined,
+
+        /**
+         * Include scripts
+         *
+         * @method include
+         * @param {String} scripts...
+         */
+        include: function(/* scripts */) {
+         	for (var i = 0, iln = arguments.length; i < iln; i++) {
+                Ti.include(arguments[i]);
+            }
+        },
+        /**
+         *
+         * @method isUndefined
+         * @param {Object} obj
+         * @return {Boolean}
+         */
+        isUndefined: function(obj) {
+            return typeof obj == 'undefined';
+        },
+        /**
+         * Check if obj is null.
+         * In case obj is undefined, it will return false
+         *
+         * @method isNull
+         * @param {Object} obj
+         * @return {Boolean}
+         */
+        isNull: function(obj) {
+            return !this.isUndefined(obj) && obj === null;
+        },
+        /**
+         *
+         * @method isNothing
+         * @param {Object} obj
+         * @return {Boolean}
+         */
+        isNothing: function(obj) {
+            return this.isUndefined(obj) || this.isNull(obj);
+        },
+        /**
+         *
+         * @method initConfig
+         * @param {Object} config
+         */
+        initConfig: function(config) {
+            // If no configuration is given, set default
+            if (this.isNothing(config)) {
+                this.config = {
+                    debugState: 3, // DEBUG
+                    cloudebug: false // Set Cloud debugging mode
+                };
+            }
+
+            // Update
+            this.DEBUG_STATE = this.config.debugState;
+            this.CLOUD_DEBUG = this.config.cloudebug;
+        },
+        /**
+         * @method initGlobalEvents
+         */
+        initGlobalEvents: function() {
+            var me = this;
+            /**
+             * Detect orientation change and update screen dimensions
+             */
+            Ti.Gesture.addEventListener('orientationchange', function(e) {
+                // TODO [metal::orientationchange event] Check if this is correct
+                me.height = Ti.Platform.displayCaps.platformHeight;
+                me.width = Ti.Platform.displayCaps.platformWidth;
+                metal.debug.info('[metal] Device height: ' + metal.height + ', width: ' + metal.width);
+            });
+        },
+        /**
+         * @param {String}
+         *            namespace1
+         * @param {String}
+         *            namespace2
+         * @param {String}
+         *            etc
+         * @return {Object} The namespace object. (If multiple arguments are passed,
+         *         this will be the last namespace created)
+         * @method createNameSpace
+         */
+        createNameSpace: createNameSpace,
+
+        /**
+         * Alias for createNameSpace
+         *
+         * @method ns
+         */
+        ns: createNameSpace,
+
+        /**
+         * Copies all the properties of config to obj.
+         *
+         * @param {Object}
+         *            object The receiver of the properties
+         * @param {Object}
+         *            config The source of the properties
+         * @param {Object}
+         *            defaults A different object that will also be applied for
+         *            default values
+         * @method apply
+         * @return {Object} returns obj
+         */
+        apply: function(object, config, defaults) {
+            // no "this" reference for friendly out of scope calls
+            if (defaults) {
+                this.apply(object, defaults);
+            }
+            if (object && config && typeof config == 'object') {
+                for ( var key in config) {
+                    if (config.hasOwnProperty(key)) {
+                        if (typeof object[key] != 'undefined' && object[key] != null && typeof config[key] == 'object') {
+                            //this.apply(object[key], config[key]);
+                            object[key] = config[key];
+                            // TODO [HIGH PRIORITY] [metal::apply] Need to apply in a better way when it's an object.
+                            // This is a problem if we're using sencha based extend function - because
+                            // What sencha is doing is bad! for example:
+                            // var f = function() { prop: { x: 1 } };
+                            // var o = { prop: { y: 2 } };
+                            // var newO = this.extend(f, o);
+                            // alert(new f().prop.y); // --> 2
+                            // ...
+                            // We need to create a new extend function that doesnt change anything in the
+                            // base class and returns a new object
+                        } else {
+                            object[key] = config[key];
+                        }
+
+                    }
+                }
+            }
+            return object;
+        },
+        /**
+         * Secure apply. Acts exactly like {metal.apply} with one change:
+         * if config.properties/config.items were not found then
+         * it will apply config only of object.properties (used mainly in classes)
+         *
+         * @method overrideClass
+         * @param {Object} object
+         * @param {Object} config
+         */
+        overrideClass: function(object, config) {
+            if (typeof config == 'undefined' || config == null) {
+                // There's nothing to override
+                return;
+            }
+
+            if (config.properties != undefined ||
+            config.items != undefined ||
+            config.data != undefined /* TableView */) {
+                // Apply on the entire object
+                this.apply(object, config);
+                if (config.properties == undefined) {
+                	delete config.items;
+                	delete config.data;
+                	this.apply(object, { properties: config });
+                }
+            } else {
+                // Overriding only the properties field of object
+                this.apply(object, { properties: config });
+
+                //this.apply(object.properties, config); // TODO [metal::overrideClass] why this don't work?
+
+            }
+        },
+        /**
+         * Safe Apply
+         * Acts the same as apply with only one difference:
+         * it doesn't overrides any keys in <object>
+         *
+         * @method sApply
+         * @param {Object} object
+         * @param {Object} config
+         */
+        sApply: function(object, config) {
+            if (object && config && typeof config == 'object') {
+                for (var key in config) {
+                    if (!(key in object)) {
+                        object[key] = config[key];
+                    }
+                };
+            }
+        },
+        /**
+         * @property emptyObject
+         */
+        emptyObject: {},
+
+        /**
+         * Copies all fields in "props" to "obj"
+         *
+         * @param {Object} obj
+         * @param {Object...} props
+         */
+        mixin: function(obj, props) {
+            if(!obj) {
+                obj = {};
+            }
+            for(var i=1, l=arguments.length; i<l; i++) {
+                mixin(obj, arguments[i]);
+            }
+            return obj; // Object
+        },
+        /**
+         * create a new object, combining the properties of the passed objects with the last arguments having
+         * priority over the first ones
+         *
+         * @param {Object} obj
+         * @param {Object...} props
+         */
+        combine: function(obj, props) {
+            var newObj = {};
+            for(var i=0, l=arguments.length; i<l; i++) {
+                mixin(newObj, arguments[i]);
+            }
+            return newObj;
+        },
+        /**
+         * Override functions in a class
+         *
+         * @method override
+         * @param originclass
+         *            {Object} The class to override
+         * @param overrides
+         *            {Object} The overrides
+         */
+        override: function(origclass, overrides) {
+            this.apply(origclass.prototype, overrides);
+            return;
+        },
+        /**
+         * @method urlEncode
+         * @param {Object} object Creates an object that is
+         */
+        urlEncode: function(object) {
+            var val = "";
+            var i = 0;
+            for (var key in object) {
+                if (object.hasOwnProperty(key)) {
+                    val = val + (i == 0 ? "" : "&") + encodeURI(key) + "=" + encodeURI(object[key]);
+                    i++;
+                }
+            }
+            return val;
+        },
+        /**
+         * isArray
+         * Checks if the object is an array
+         * @method isArray
+         * @param {Object} The object to check if it is an array
+         */
+        isArray: function(obj) {
+            // TODO [metal] :: isArray function is not working
+            if (typeof obj.pop == 'undefined' || typeof obj.push == 'undefined') {
+                return false;
+            } else {
+                return true;
+            }
+        },
+        /**
+         * @method isNumber
+         * Checks if n is a number
+         * @param {Object} n The object to sjek.
+         */
+        isNumber: function(n) {
+            return !isNaN(parseFloat(n)) && isFinite(n);
+        },
+        /**
+         * @method isObject
+         * Check if an object is an object *_* fun.
+         * @param {Object} v Something to sjek.
+         */
+        isObject: function(v) {
+            return !!v && Object.prototype.toString.call(v) === '[object Object]';
+        },
+        /**
+         * Extend class
+         * @method extend
+         * @return {Object} The new class
+         */
+        extend: function() {
+            // inline overrides
+            var inlineOverrides = function(o) {
+                for (var m in o) {
+                    if (o.hasOwnProperty(m)) {
+                        this[m] = o[m];
+                    }
+                }
             };
-      }
-  
-      if (!superclass) {
-        throw "Attempting to extend from a class which has not been loaded on the page.";
-      }
-  
-      // We create a new temporary class
-      var F = function() {
-      }, subclassProto, superclassProto = superclass.prototype;
-  
-      F.prototype = superclassProto;
-      subclassProto = subclass.prototype = new F();
-      subclassProto.constructor = subclass;
-      subclass.superclass = superclassProto;
-  
-      if (superclassProto.constructor == objectConstructor) {
-        superclassProto.constructor = superclass;
-      }
-  
-      subclass.override = function(overrides) {
-        metal.override(subclass, overrides);
-      };
-  
-      subclassProto.superclass = subclassProto.supr = (function() {
-        return superclassProto;
-      });
-      
-      subclassProto.base = superclassProto.constructor;
-      subclassProto.override = inlineOverrides;
-      subclassProto.proto = subclassProto;
-  
-      subclass.override(overrides);
-      subclass.extend = function(o) {
-        return metal.extend(subclass, o);
-      };
-  
-      return subclass;
-    };
-  }();
-  
-  
-  /**
-   * Screen dimensions 
-   */
-  metal.height = Ti.Platform.displayCaps.platformHeight;
-  metal.width = Ti.Platform.displayCaps.platformWidth;
-  
-  Ti.API.info('[metal] Device height: ' + metal.height + ', width: ' + metal.width);
-  
-  /**
-   * Get the values needed to align the component to the right
-   * 
-   * @param {Integer} numOfComponents
-   * @param {Integer} substract 
-   * @param [optional] {Integer} optPadding
-   */
-  metal.getRightAlign = function(numOfComponents, substract, optPadding) {
-    var padding = optPadding || 5;
-    return metal.width - substract - padding - padding * numOfComponents;
-  };
-  
-  /**
-   * Register a global event
-   * 
-   * @method on
-   * @param {String} event
-   * @param {Function} cb The callback function
-   */
-  metal.on = function(event, cb) {
-    Ti.App.addEventListener(event, cb);
-  };
-  
-  /**
-   * Dismisses a global event
-   * 
-   * @method dismiss
-   * @param {String} event
-   * @param {Function} cb The callback function
-   */
-  metal.dismiss = function(event, cb) {
-    Ti.App.removeEventListener(event, cb);
-  };
-  
-  /**
-   * Fires a global event
-   * 
-   * @method fire
-   * @param {String} event The event name
-   * @param {Function} obj The event parameter sent to listener
-   */
-  metal.fire = function(event, obj) {
-    Ti.App.fireEvent(event, obj);
-  };
-  
-})();
+            var objectConstructor = Object.prototype.constructor;
 
+            return function(subclass, superclass, overrides) {
+                // First we check if the user passed in just the superClass with
+                // overrides
+                if (metal.isObject(superclass)) {
+                    overrides = superclass;
+                    superclass = subclass;
+                    subclass = overrides.constructor != objectConstructor ? overrides.constructor
+                    : function() {
+                        superclass.apply(this, arguments);
+                    };
+                }
 
-Ti.include(
-  // Debug
-  '/Metal/debug/debug.js',
-  
-  // Core
-  //'/Metal/core/auth.js',
-  '/Metal/core/control.js',
-  
-  // Util
-  '/Metal/util/net.js',
-  '/Metal/util/location.js',
-  
-  // UI
-  '/Metal/ui/AbstractMetalView.js',
-  '/Metal/ui/Window.js',
-  '/Metal/ui/TabGroup.js',
-  '/Metal/ui/Tab.js',
-  '/Metal/ui/View.js',
-  '/Metal/ui/Map.js',
-  '/Metal/ui/Marker.js',
-  '/Metal/ui/TableView.js',
-  '/Metal/ui/TableRow.js',
-  '/Metal/ui/TableSection.js',
-  '/Metal/ui/Label.js',
-  '/Metal/ui/Button.js',
-  
-  // Model
-  '/Metal/model/GeoLocation.js',
-  
-  // Custom UI
-  //'/Metal/customUI/simpleWindow.js',
-  //'/Metal/customUI/login.js',
-  
-  // Tests
-  '/Metal/test/net.js'
-  
-  
+                if (!superclass) {
+                    throw "Attempting to extend from a class which has not been loaded on the page.";
+                }
+
+                // We create a new temporary class
+                var F = function() {
+                }, subclassProto, superclassProto = superclass.prototype;
+                F.prototype = superclassProto;
+                subclassProto = subclass.prototype = new F();
+                subclassProto.constructor = subclass;
+                subclass.superclass = superclassProto;
+
+                if (superclassProto.constructor == objectConstructor) {
+                    superclassProto.constructor = superclass;
+                }
+
+                subclass.override = function(overrides) {
+                    metal.override(subclass, overrides);
+                };
+                subclassProto.superclass = subclassProto.supr = (function() {
+                    return superclassProto;
+                });
+                subclassProto.base = superclassProto.constructor;
+                subclassProto.override = inlineOverrides;
+                subclassProto.proto = subclassProto;
+
+                subclass.override(overrides);
+                subclass.extend = function(o) {
+                    return metal.extend(subclass, o);
+                };
+                return subclass;
+            };
+        }(),
+        /**
+         * Screen height dimension
+         * @property {Integer} height
+         */
+        height: Ti.Platform.displayCaps.platformHeight,
+
+        /**
+         * Screen width dimension
+         * @property {Integer} width
+         */
+        width: Ti.Platform.displayCaps.platformWidth,
+
+        /**
+         * @method getHeight
+         */
+        getHeight: function() {
+            return this.height;
+        },
+        /**
+         * @method getWidth
+         */
+        getWidth: function() {
+            return this.width;
+        },
+        /**
+         * Get the values needed to align the component to the right
+         *
+         * @param {Integer} numOfComponents
+         * @param {Integer} substract
+         * @param [optional] {Integer} optPadding
+         */
+        getRightAlign: function(numOfComponents, substract, optPadding) {
+            var padding = optPadding || 5;
+            return this.width - substract - padding - padding * numOfComponents;
+        },
+        /**
+         * Register a global event
+         *
+         * @method on
+         * @param {String} event
+         * @param {Function} cb The callback function
+         */
+        on: function(event, cb) {
+            Ti.App.addEventListener(event, cb);
+        },
+        /**
+         * Dismisses a global event
+         *
+         * @method dismiss
+         * @param {String} event
+         * @param {Function} cb The callback function
+         */
+        dismiss: function(event, cb) {
+            Ti.App.removeEventListener(event, cb);
+        },
+        /**
+         * Fires a global event
+         *
+         * @method fire
+         * @param {String} event The event name
+         * @param {Function} obj The event parameter sent to listener
+         */
+        fire: function(event, obj) {
+            Ti.App.fireEvent(event, obj);
+        },
+        /**
+         * Get the native UI view
+         *
+         * @method getView
+         * @param {Titanium.UI.View or metal.ui.AbstractView} view
+         */
+        getView: function(view) {
+            view = view || {};
+            if (view.framework == 'metal') {
+                return view.getView();
+            } else {
+                return view;
+            }
+        }
+    }
+
+}());
+// Initialize metal configuration
+metal.initConfig();
+
+// Initialize metal global events
+metal.initGlobalEvents();
+
+// Include all scripts
+metal.include(
+
+	// Metal Configuration
+	'/Metal/config.js',
+	
+	// Debug
+	'/Metal/debug/debug.js',
+	
+	// Core
+	'/Metal/core/control.js',
+	'/Metal/core/Observable.js',
+	
+	// Util
+	'/Metal/util/net.js',
+	'/Metal/util/location.js',
+	
+	// UI
+	'/Metal/ui/abstractView.js',
+	'/Metal/ui/Window.js',
+	'/Metal/ui/TabGroup.js',
+	'/Metal/ui/Tab.js',
+	'/Metal/ui/View.js',
+	'/Metal/ui/TableView.js',
+	'/Metal/ui/TableRow.js',
+	'/Metal/ui/TableSection.js',
+	'/Metal/ui/Label.js',
+	'/Metal/ui/Button.js',
+	'/Metal/ui/Animation.js',
+	'/Metal/ui/Map.js',
+ 	'/Metal/ui/Marker.js',
+	
+	// Model
+	'/Metal/model/GeoLocation.js',
+	
+	// Tests
+	'/Metal/test/net.js'
+
 );
+
+// Notify device dimensions
+metal.debug.info('metal', 'Device height: ' + metal.height + ', width: ' + metal.width);
+
