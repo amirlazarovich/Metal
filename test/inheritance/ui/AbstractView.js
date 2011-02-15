@@ -26,7 +26,7 @@ metal.ui.AbstractView = metal.extend(metal.core.Observable, {
      * @property {Object} properties
      */
     properties : {
-
+	checking: true
     },
 
 	/**
@@ -340,11 +340,11 @@ metal.ui.AbstractView = metal.extend(metal.core.Observable, {
         if (metal.isArray(items)) {
             for (var i in items) {
             	if (items.hasOwnProperty(i)) {
-            		this.titaniumComponent.add(metal.getView(items[i]));
+            		//this.titaniumComponent.add(metal.getView(items[i]));
             	}
             }
         } else {
-            this.titaniumComponent.add(metal.getView(items));
+            //this.titaniumComponent.add(metal.getView(items));
         }
     },
     /**

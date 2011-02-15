@@ -1,4 +1,4 @@
-metal.ns('metal.ui.Window');
+metal.ns('metal.ui.window');
 
 /**
  *
@@ -41,7 +41,9 @@ metal.ui.Window = metal.extend(metal.ui.AbstractView, {
         metal.debug.info('Window::' + this.id, 'constructor');
 
         // Set Titanium component
-        this.titaniumComponent = Ti.UI.createWindow(this.properties);
+        this.titaniumComponent = { 
+        	properties: this.properties
+        };
 
         // Call parent constructor
         metal.ui.Window.superclass.constructor.call(this);

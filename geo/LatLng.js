@@ -57,5 +57,5 @@ metal.geo.LatLng = metal.extend(Object, (function(){
 		distanceTo: function(ll){
 			return calcDistance(this, ll);
 		}
-	}
+	};
 })());

@@ -284,7 +284,6 @@ this.metal = (function() {
             }
 			
 			// Apply overrides
-			// TODO [metal::overrideClass] Find a better way to determine on which object should we apply a deep copy of config 
             if (config.properties != undefined ||
             config.items != undefined ||
             config.data != undefined /* TableView */ ||
@@ -480,13 +479,13 @@ this.metal = (function() {
          * Screen height dimension
          * @property {Integer} height
          */
-        height: Ti.Platform.displayCaps.platformHeight,
+        height: 480,
 
         /**
          * Screen width dimension
          * @property {Integer} width
          */
-        width: Ti.Platform.displayCaps.platformWidth,
+        width: 320,
 
         /**
          * @method getHeight
@@ -560,50 +559,3 @@ this.metal = (function() {
 }());
 // Initialize metal configuration
 metal.initConfig();
-
-// Initialize metal global events
-metal.initGlobalEvents();
-
-// Include all scripts
-metal.include(
-
-	// Metal Configuration
-	'/Metal/config.js',
-	
-	// Debug
-	'/Metal/debug/debug.js',
-	
-	// Core
-	'/Metal/core/control.js',
-	'/Metal/core/Observable.js',
-	
-	// Util
-	'/Metal/util/net.js',
-	'/Metal/util/location.js',
-	
-	// UI
-	'/Metal/ui/abstractView.js',
-	'/Metal/ui/Window.js',
-	'/Metal/ui/TabGroup.js',
-	'/Metal/ui/Tab.js',
-	'/Metal/ui/View.js',
-	'/Metal/ui/TableView.js',
-	'/Metal/ui/TableRow.js',
-	'/Metal/ui/TableSection.js',
-	'/Metal/ui/Label.js',
-	'/Metal/ui/Button.js',
-	'/Metal/ui/Animation.js',
-	'/Metal/ui/Map.js',
- 	'/Metal/ui/Marker.js',
-	
-	// Model
-	'/Metal/model/GeoLocation.js',
-	
-	// Tests
-	'/Metal/test/net.js'
-
-);
-
-// Notify device dimensions
-metal.debug.info('metal', 'Device height: ' + metal.height + ', width: ' + metal.width);
-

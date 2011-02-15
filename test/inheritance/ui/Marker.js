@@ -1,3 +1,4 @@
+metal.ns('metal.ui.Marker');
 /**
  *
  * @class metal.ui.Marker
@@ -22,7 +23,9 @@ metal.ui.Marker = metal.extend(metal.ui.AbstractView, (function() {
          */
         properties : {
         	title: 'test',
-			animate: true
+			mapType: 1,
+			animate: true,
+			userLocation: false
         },
 
         /**
@@ -42,7 +45,9 @@ metal.ui.Marker = metal.extend(metal.ui.AbstractView, (function() {
             metal.debug.info('Map::' + this.id, 'constructor');
 
             // Set Titanium component
-            this.titaniumComponent = Ti.Map.createAnnotation(this.properties);
+            this.titaniumComponent = {
+            	marker: true
+            };
             
             // Call parent constructor
             metal.ui.Marker.superclass.constructor.call(this);

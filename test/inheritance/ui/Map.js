@@ -1,3 +1,4 @@
+metal.ns('metal.ui.Map');
 /**
  *
  * @class metal.ui.Map
@@ -21,9 +22,9 @@ metal.ui.Map = metal.extend(metal.ui.AbstractView, (function() {
          * @property {Object} properties
          */
         properties : {
-            mapType: Titanium.Map.STANDARD_TYPE,
-            animate: true
-            //userLocation: false // Setting this to false breaks the pin point animation (Titanium wtf?!)
+            mapType: 1,
+            animate: true,
+            userLocation: false
         },
 
         /**
@@ -43,7 +44,9 @@ metal.ui.Map = metal.extend(metal.ui.AbstractView, (function() {
             metal.debug.info('Map::' + this.id, 'constructor');
 
             // Set Titanium component
-            this.titaniumComponent = Ti.Map.createView(this.properties);
+            this.titaniumComponent = {
+            	map: true
+            };
 
             // Call parent constructor
             metal.ui.Map.superclass.constructor.call(this);
@@ -86,7 +89,7 @@ metal.ui.Map = metal.extend(metal.ui.AbstractView, (function() {
          */
         addMarkerToMap: function(marker) {
             if (this.isMarker(marker)) {
-                this.getView().addAnnotation(marker.getView());
+                //this.getView().addAnnotation(marker.getView());
                 this.markers.push(marker);
                 marker.map = this;
             } else {
@@ -115,7 +118,7 @@ metal.ui.Map = metal.extend(metal.ui.AbstractView, (function() {
             if (isMarker(marker)) {
 
                 // Remove from map
-                this.getView().removeAnnotation(marker.getView());
+                //this.getView().removeAnnotation(marker.getView());
 
                 // Remove item from list
                 this.markers.splice(map.markers.indexOf(marker),1);

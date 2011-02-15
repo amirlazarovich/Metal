@@ -101,7 +101,9 @@ metal.ui.TabGroup = metal.extend(metal.ui.AbstractView, {
     add: function(items) {
         if  (metal.isArray(items)) {
             for (var i in items) {
-                this.addTab(items[i]);
+            	if (items.hasOwnProperty(i)) {
+            		this.addTab(items[i]);	
+            	}
             }
         } else if (items) {
             this.addTab(items);
