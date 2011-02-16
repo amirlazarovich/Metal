@@ -156,14 +156,20 @@ metal.ui.AbstractView = metal.extend(metal.ui.Component, {
         animatedCenterPoint: {
             type: 'object'
         },
+        backgroundColor: {
+    		type: 'string'
+    	},
         backgroundDisabledColor: {
-            type: 'string'
+            type: 'string',
+            androidOnly: true
         },
         backgroundDisabledImage: {
-            type: 'string'
+            type: 'string',
+            androidOnly: true
         },
         backgroundFocusedColor: {
-            type: 'string'
+            type: 'string',
+            androidOnly: true
         },
         backgroundFocusedImage: {
             type: 'string'
@@ -178,10 +184,12 @@ metal.ui.AbstractView = metal.extend(metal.ui.Component, {
             type: 'float'
         },
         backgroundSelectedColor: {
-            type: 'string'
+            type: 'string',
+            androidOnly: true
         },
         backgroundSelectedImage: {
-            type: 'string'
+            type: 'string',
+            androidOnly: true
         },
         backgroundTopCap: {
             type: 'float'
@@ -202,7 +210,8 @@ metal.ui.AbstractView = metal.extend(metal.ui.Component, {
             type: 'object'
         },
         focusable: {
-            type: 'boolean'
+            type: 'boolean',
+            androidOnly: true
         },
         fontFamily: {
             type: 'string'

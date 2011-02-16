@@ -40,8 +40,8 @@ metal.ui.View = metal.extend(metal.ui.AbstractView, {
         metal.debug.info('View::' + this.id, 'constructor');
 
         // Set native component
-        this.titaniumComponent ={ properties: this.properties };
-
+        this.titaniumComponent = { properties: this.properties };
+        
         // Call parent constructor
         metal.ui.View.superclass.constructor.call(this);
     }

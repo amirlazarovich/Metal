@@ -41,9 +41,7 @@ metal.ui.Window = metal.extend(metal.ui.AbstractView, {
         metal.debug.info('Window::' + this.id, 'constructor');
 
         // Set Titanium component
-        this.titaniumComponent = { 
-        	properties: this.properties
-        };
+        this.titaniumComponent = { properties: this.properties };
 
         // Call parent constructor
         metal.ui.Window.superclass.constructor.call(this);
@@ -59,9 +57,6 @@ metal.ui.Window = metal.extend(metal.ui.AbstractView, {
             type: 'string'
         },
         backButtonTitleImage: {
-            type: 'string'
-        },
-        backgroundColor: {
             type: 'string'
         },
         barColor: {

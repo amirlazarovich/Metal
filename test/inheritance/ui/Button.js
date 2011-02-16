@@ -40,7 +40,7 @@ metal.ui.Button = metal.extend(metal.ui.AbstractView, {
         metal.debug.info('Button::' + this.id, 'constructor');
 
         // Set Titanium component
-        this.titaniumComponent = Ti.UI.createButton(this.properties);
+        this.titaniumComponent = { properties: this.properties };
 
         // Call parent constructor
         metal.ui.Button.superclass.constructor.call(this);

@@ -170,5 +170,28 @@ metal.ui.TabGroup = metal.extend(metal.ui.AbstractView, {
                 metal.control.setActiveTab(nextView);
             });
         });
+    },
+    /**
+     * Titanium properties
+     *
+     * @property {Object} titaniumProperties
+     */
+    titaniumProperties: {
+        activeTab: {
+            type: 'object'
+        },
+        allowUserCustomization: {
+            type: 'boolean',
+            iosOnly: true
+        },
+        barColor: {
+            type: 'string'
+        },
+        editButtonTitle: {
+            type: 'string'
+        },
+        tabs: {
+            type: 'array'
+        }
     }
 });

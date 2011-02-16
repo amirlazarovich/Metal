@@ -166,6 +166,9 @@ metal.ui.AbstractView = metal.extend(metal.ui.Component, {
     	animatedCenterPoint: {
     		type: 'object'
     	},
+    	 backgroundColor: {
+    		type: 'string'
+    	},
     	backgroundDisabledColor: {
     		type: 'string'
     	},

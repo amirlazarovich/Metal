@@ -7,7 +7,7 @@ metal.ns('metal.ui.Component');
  * 
  * @class metal.ui.Component
  */
-metal.ui.Component = metal.extend(metal.core.Observable, {
+metal.ui.Component = metal.extend(metal.util.Observable, {
 	
 	/**
      * The id of this component
@@ -82,6 +82,18 @@ metal.ui.Component = metal.extend(metal.core.Observable, {
      */
     isTitaniumProperty: function(name) {
         return !!this.titaniumProperties[name];
+    },
+    
+    /**
+     * Check if the titanium property should be copied 
+     * to the metal object properties or not
+     * 
+     * @method isDiscarded
+     * @param {String} name
+     */
+    isDiscarded: function(name) {
+    	var prop = this.titaniumProperties[name] || {};
+    	return !!prop.discard;
     },
     
     /**

@@ -119,6 +119,75 @@ metal.ui.Animation = metal.extend(metal.ui.Component, {
      */
     initEvents: function() {
         metal.debug.info('Animation::' + this.id, 'initEvents');
+    },
+    
+    /**
+     * Titanium properties
+     *
+     * @property {Object} titaniumProperties
+     */
+    titaniumProperties: {
+    	autoreverse: {
+    		type: 'boolean'
+    	},
+    	backgroundColor: {
+    		type: 'string'
+    	},
+		bottom: {
+			type: 'float'
+		},
+		center: {
+			type: 'object'
+		},
+		
+		color: {
+			type: 'string'
+		},
+		curve: {
+			type: 'int'
+		},
+		delay: {
+			type: 'float'
+		},
+		duration: {
+			type: 'float'
+		},
+		height: {
+			type: 'float'
+		},
+		left: {
+			type: 'float'
+		},
+		opacity: {
+			type: 'float'
+		},
+		opaque: {
+			type: 'float'
+		},
+		repeat: { 
+			type: 'int'
+		},
+		right: {
+			type: 'float'
+		},
+		top: {
+			type: 'float'
+		},
+		transform: {
+			type: 'object'
+		},
+		transition: {
+			type: 'int'
+		},
+		visible: {
+			type: 'boolean'
+		},
+		width: {
+			type: 'float'
+		},
+		zIndex: {
+			type: 'int'
+		}
     }
 });
 

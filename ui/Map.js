@@ -23,7 +23,7 @@ metal.ui.Map = metal.extend(metal.ui.AbstractView, (function() {
         properties : {
             mapType: Titanium.Map.STANDARD_TYPE,
             animate: true,
-            userLocation: true 
+            userLocation: true
         },
 
         /**
@@ -49,6 +49,10 @@ metal.ui.Map = metal.extend(metal.ui.AbstractView, (function() {
             metal.ui.Map.superclass.constructor.call(this);
         },
         
+        /**
+         * @override
+         * @method initComponents
+         */
         initComponents: function() {
             var markers = this.markers;
             this.markers = [];

@@ -278,31 +278,28 @@ this.metal = (function() {
 	    		supr = metal.isNothing(supr.superclass) ? null : supr.superclass();
         	}
         	
-        	// Is there nothing to override?
-            if (metal.isNothing(config)) {
-                return;
-            }
-            
-			// Apply overrides
-			// TODO [metal::overrideClass] Find a better way to determine on which object should we apply a deep copy of config 
-            if (config.properties != undefined ||
-            config.items != undefined ||
-            config.data != undefined /* TableView */ ||
-            config.markers != undefined /* Map */) {
-                // Apply on the entire object
-                this.deepApply(object, config);
-                if (config.properties == undefined) {
-                	// TODO [metal::overrideClass] Decide if we support unwrapped properties
-                	// If the answer is yes, need to rewrite the following code
-                	delete config.items;
-                	delete config.data;
-                	delete config.animation;
-                	delete config.markers;
-                	this.deepApply(object.properties, config);
-                }
-            } else {
-                // Overriding only the properties field of object
-                this.deepApply(object.properties, config); 
+        	// Copy all overrides from config
+        	for (var x in config) {
+            	if (config.hasOwnProperty(x)) {
+            		if (object.isTitaniumProperty(x) && !object.isDiscarded(x)) {
+            			// Titanium property - apply on object.property
+            			object.properties = object.properties || {};
+            			object.properties[x] = config[x];
+            		} else if (this.isObject(config[x]) && config[x].framework != 'metal') {
+            			// Simple Object
+            			if (this.isNothing(object[x])) {
+            				// quicker assignment
+            				object[x] = config[x];
+            			} else {
+            				// perform a deep copy
+            				object[x] = object[x] || {};
+            				this.deepApply(object[x], config[x]);
+            			}
+            		} else {
+            			// Metal property - apply straight on the object itself
+            			object[x] = config[x];
+            		}
+            	}
             }
         },
         /**
@@ -575,9 +572,9 @@ metal.include(
 	
 	// Core
 	'/Metal/core/control.js',
-	'/Metal/core/Observable.js',
 	
 	// Util
+	'/Metal/util/Observable.js',
 	'/Metal/util/net.js',
 	'/Metal/util/location.js',
 	

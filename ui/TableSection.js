@@ -75,5 +75,29 @@ metal.ui.TableSection = metal.extend(metal.ui.AbstractView, {
       } else {
         this.set('headerView', header);
       }
+    },
+    
+    /**
+     * Titanium properties
+     *
+     * @property {Object} titaniumProperties
+     */
+    titaniumProperties: {
+    	footerTitle: {
+    		type: 'string'
+    	},/*
+    	footerView: {
+    		type: 'object'
+    	},*/
+    	headerTitle: {
+    		type: 'string'
+    	},/*
+    	headerView: {
+    		type: 'object'
+    	},*/
+    	rowCount: {
+    		type: 'int',
+    		readonly: true
+    	}
     }
 });

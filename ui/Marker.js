@@ -76,11 +76,17 @@ metal.ui.Marker = metal.extend(metal.ui.Component, (function() {
             image: {
                 type: 'string'
             },
+            latitude: {
+            	type: 'float'
+            },
             leftButton: {
                 type: 'int,string'
             },
             leftView: {
                 type: 'object'
+            },
+            longitude: {
+            	type: 'float'
             },
             pincolor: {
                 type: 'int'

@@ -40,7 +40,7 @@ metal.ui.Label = metal.extend(metal.ui.AbstractView, {
         metal.debug.info('Label::' + this.id, 'constructor');
 
         // Set Titanium component
-        this.titaniumComponent = Ti.UI.createLabel(this.properties);
+        this.titaniumComponent = { properties: this.properties };
 
         // Call parent constructor
         metal.ui.Label.superclass.constructor.call(this);

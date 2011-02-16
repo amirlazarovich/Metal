@@ -43,9 +43,7 @@ metal.ui.Map = metal.extend(metal.ui.AbstractView, (function() {
             metal.debug.info('Map::' + this.id, 'constructor');
 
             // Set Titanium component
-            this.titaniumComponent = {
-                map: true
-            };
+            this.titaniumComponent = { properties: this.properties };
 
             // Call parent constructor
             metal.ui.Map.superclass.constructor.call(this);

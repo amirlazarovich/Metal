@@ -69,8 +69,6 @@ metal.ui.TabGroup = metal.extend(metal.ui.AbstractView, {
     setActiveTab: function(indexOrObject) {
         this.titaniumComponent.setActiveTab(indexOrObject);
     },
-    
-    
     /**
      *
      * @ovverride
@@ -90,8 +88,7 @@ metal.ui.TabGroup = metal.extend(metal.ui.AbstractView, {
     }
     },
     */
-    
-    
+
     /**
      *
      * @ovverride
@@ -101,9 +98,9 @@ metal.ui.TabGroup = metal.extend(metal.ui.AbstractView, {
     add: function(items) {
         if  (metal.isArray(items)) {
             for (var i in items) {
-            	if (items.hasOwnProperty(i)) {
-            		this.addTab(items[i]);	
-            	}
+                if (items.hasOwnProperty(i)) {
+                    this.addTab(items[i]);
+                }
             }
         } else if (items) {
             this.addTab(items);
@@ -132,8 +129,8 @@ metal.ui.TabGroup = metal.extend(metal.ui.AbstractView, {
                 id: tab.id + 'tab',
                 window: tab.getView(),
                 properties: {
-                    title: tab.title || '',
-                    icon: tab.icon || null
+                    title: tab.get('title') || '',
+                    icon: tab.get('icon') || null
                 }
             });
             //tab.tab = ntab;
@@ -170,5 +167,28 @@ metal.ui.TabGroup = metal.extend(metal.ui.AbstractView, {
                 metal.control.setActiveTab(nextView);
             });
         });
+    },
+    /**
+     * Titanium properties
+     *
+     * @property {Object} titaniumProperties
+     */
+    titaniumProperties: {
+        activeTab: {
+            type: 'object'
+        },
+        allowUserCustomization: {
+            type: 'boolean',
+            iosOnly: true
+        },
+        barColor: {
+            type: 'string'
+        },
+        editButtonTitle: {
+            type: 'string'
+        },
+        tabs: {
+            type: 'array'
+        }
     }
 });

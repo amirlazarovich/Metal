@@ -59,9 +59,6 @@ metal.ui.Window = metal.extend(metal.ui.AbstractView, {
         backButtonTitleImage: {
             type: 'string'
         },
-        backgroundColor: {
-            type: 'string'
-        },
         barColor: {
             type: 'string'
         },

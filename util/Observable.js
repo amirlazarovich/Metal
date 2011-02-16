@@ -1,4 +1,4 @@
-metal.ns('metal.core.Observable');
+metal.ns('metal.util.Observable');
 
 /**
  * This abstract class represents an Observable object
@@ -8,7 +8,7 @@ metal.ns('metal.core.Observable');
  * @abstract
  * @class Observable
  */
-metal.core.Observable = metal.extend(Object, {
+metal.util.Observable = metal.extend(Object, {
 	
 	/**
 	 * The Titanium component this Observable controls over
@@ -25,7 +25,7 @@ metal.core.Observable = metal.extend(Object, {
 		metal.apply(this, config);
 		
 		// Call parent
-		metal.core.Observable.superclass.constructor.call(this);
+		metal.util.Observable.superclass.constructor.call(this);
 	},
     
     /**

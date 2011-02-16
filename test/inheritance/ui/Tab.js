@@ -76,5 +76,25 @@ metal.ui.Tab = metal.extend(metal.ui.AbstractView, {
         // Fire event on enclosing window
         var rtnValue = this.window.fire('beforeclose');
         return rtnValue || metal.ui.Tab.superclass.beforeclose(obj);
+    },
+    /**
+     * Titanium properties
+     *
+     * @property {Object} titaniumProperties
+     */
+    titaniumProperties: {
+        badge: {
+            type: 'string'
+        },
+        icon: {
+            type: 'string'
+        },
+        title: {
+            type: 'string'
+        },
+        window: {
+            type: 'object',
+            discard: true // Don't copy this property to metal property
+        }
     }
 });

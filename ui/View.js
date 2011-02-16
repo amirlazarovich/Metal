@@ -47,5 +47,6 @@ metal.ui.View = metal.extend(metal.ui.AbstractView, {
         // Call parent constructor
         metal.ui.View.superclass.constructor.call(this);
     }
+    
   
 });

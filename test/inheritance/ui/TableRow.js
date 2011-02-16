@@ -42,5 +42,54 @@ metal.ui.TableRow = metal.extend(metal.ui.AbstractView, {
 
         // Call parent constructor
         metal.ui.TableRow.superclass.constructor.call(this);
+    },
+    /**
+     * Titanium properties
+     *
+     * @property {Object} titaniumProperties
+     */
+    titaniumProperties: {
+        className: {
+            type: 'string'
+        },
+        color: {
+            type: 'string'
+        },
+        hasCheck: {
+            type: 'boolean'
+        },
+        hasChild: {
+            type: 'boolean'
+        },
+        hasDetail: {
+            type: 'boolean'
+        },
+        indentionLevel: {
+            type: 'int'
+        },
+        layout: {
+            type: 'string'
+        },
+        leftImage: {
+            type: 'string'
+        },
+        rightImage: {
+            type: 'string'
+        },
+        selectedBackgroundColor: {
+            type: 'string'
+        },
+        selectedBackgroundImage: {
+            type: 'string'
+        },
+        selectedColor: {
+            type: 'string'
+        },
+        selectionStyle: {
+            type: 'int'
+        },
+        title: {
+            type: 'string'
+        }
     }
 });

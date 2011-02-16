@@ -44,9 +44,7 @@ metal.ui.Marker = metal.extend(metal.ui.Component, (function() {
             metal.debug.info('Map::' + this.id, 'constructor');
 
             // Set Titanium component
-            this.titaniumComponent = {
-            	annotaion: true
-            };
+            this.titaniumComponent = { properties: this.properties };
 
             // Call parent constructor
             metal.ui.Marker.superclass.constructor.call(this);

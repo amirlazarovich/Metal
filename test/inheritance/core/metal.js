@@ -221,13 +221,7 @@ this.metal = (function() {
         deepApply: function(object, config, ignoreUndefined, isReversed) {
             if (!metal.isNothing(object) && metal.isObject(config)) {
             	var prop;
-            	// Copy the protoype of config to object if exists
-            	var proto = config.proto;
-            	if (!metal.isNothing(proto)) {
-            		// Quick hack for prototyping an object
-            		// TODO [metal::deepApply] Find a safer way to prototype an object
-            		object.__proto__ = proto;
-            	}
+            	
             	
             	// Go over all values inside config
                 for ( var key in config) {
@@ -289,16 +283,23 @@ this.metal = (function() {
 	    		supr = metal.isNothing(supr.superclass) ? null : supr.superclass();
         	}
         	
+        	// Copy all overrides from config
 			for (var x in config) {
             	if (config.hasOwnProperty(x)) {
-            		if (this.isObject(config[x])) {
-            			// Object - perform a deep apply
-            			object[x] = object[x] || {};
-            			this.deepApply(object[x], config[x]);
-            		} else if (object.isTitaniumProperty(x)) {
+            		if (object.isTitaniumProperty(x) && !object.isDiscarded(x)) {
             			// Titanium property - apply on object.property
             			object.properties = object.properties || {};
             			object.properties[x] = config[x];
+            		} else if (this.isObject(config[x]) && config[x].framework != 'metal') {
+            			// Simple Object
+            			if (this.isNothing(object[x])) {
+            				// quicker assignment
+            				object[x] = config[x];
+            			} else {
+            				// perform a deep copy
+            				object[x] = object[x] || {};
+            				this.deepApply(object[x], config[x]);
+            			}
             		} else {
             			// Metal property - apply straight on the object itself
             			object[x] = config[x];

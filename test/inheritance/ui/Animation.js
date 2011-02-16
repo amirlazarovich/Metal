@@ -60,26 +60,7 @@ metal.ui.Animation = metal.extend(metal.ui.Component, {
 	 * @property {Object} properties
 	 */
 	properties: {
-		//autoreverse
-		//backgroundColor
-		//bottom
-		//center
-		//color
-		//curve
-		//delay
-		//duration
-		//height
-		//left
-		//opacity
-		//opaque
-		//repeat
-		//right
-		//top
-		//transform
-		//transition
-		//visible
-		//width
-		//zIndex
+	
 	},
 	
 	/**
@@ -106,48 +87,88 @@ metal.ui.Animation = metal.extend(metal.ui.Component, {
         metal.debug.info('Animation::' + this.id, 'constructor');
 
 		// Set Titanium component
-		this.titaniumComponent = { animation: true };
+		this.titaniumComponent = { properties: this.properties };
         
         this.initEvents();
         // Call parent constructor
         metal.ui.Animation.superclass.constructor.call(this);
 	},
-	
-	/**
-	 * @method getComponent
-	 */
-	getComponent: function() {
-		return this.titaniumComponent;
-	},
-	
-	/**
-	 * @method getProperties
-	 */
-	getProperties: function() {
-		return this.properties;
-	},
-	
-	/**
-	 * @method getCallback
-	 */
-	getCallback: function() {
-		return this.callback;
-	},
-	
-	/**
-	 * @method get
-	 * @param {String} name The name of the animation property you want to get
-	 */
-	get: function(name) {
-		return this.properties[name];
-	},
-	
+
 	/**
      *
      * @method initEvents
      */
     initEvents: function() {
         metal.debug.info('Animation::' + this.id, 'initEvents');
+    },
+    
+     /**
+     * Titanium properties
+     *
+     * @property {Object} titaniumProperties
+     */
+    titaniumProperties: {
+    	autoreverse: {
+    		type: 'boolean'
+    	},
+    	backgroundColor: {
+    		type: 'string'
+    	},
+		bottom: {
+			type: 'float'
+		},
+		center: {
+			type: 'object'
+		},
+		
+		color: {
+			type: 'string'
+		},
+		curve: {
+			type: 'int'
+		},
+		delay: {
+			type: 'float'
+		},
+		duration: {
+			type: 'float'
+		},
+		height: {
+			type: 'float'
+		},
+		left: {
+			type: 'float'
+		},
+		opacity: {
+			type: 'float'
+		},
+		opaque: {
+			type: 'float'
+		},
+		repeat: { 
+			type: 'int'
+		},
+		right: {
+			type: 'float'
+		},
+		top: {
+			type: 'float'
+		},
+		transform: {
+			type: 'object'
+		},
+		transition: {
+			type: 'int'
+		},
+		visible: {
+			type: 'boolean'
+		},
+		width: {
+			type: 'float'
+		},
+		zIndex: {
+			type: 'int'
+		}
     }
 });
 

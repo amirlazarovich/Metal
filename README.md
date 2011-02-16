@@ -59,6 +59,14 @@ Sample code (put this in app.js):
 				title: 'Map',
 				icon: 'KS_nav_ui.png',
 				items: [new metal.ui.Map({
+					animate: true,
+					region: {
+						latitude:37.33168900, 
+						longitude:-122.03073100, 
+           				latitudeDelta:0.1, 
+           				longitudeDelta:0.1
+       				},
+					regionFit: true,
 					markers: [
 						new metal.ui.Marker({
 							latitude:37.33168900,
@@ -74,7 +82,7 @@ Sample code (put this in app.js):
 			new metal.ui.Window({
 				id: 'alertssrc',
 				title: 'Alerts',
-				icon: 'images/img-alerts.png',
+				icon: 'KS_nav_ui.png',
 				items:[new metal.ui.TableView()]
 			}),
 			new metal.ui.Window({
