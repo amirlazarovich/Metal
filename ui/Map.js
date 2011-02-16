@@ -22,8 +22,8 @@ metal.ui.Map = metal.extend(metal.ui.AbstractView, (function() {
          */
         properties : {
             mapType: Titanium.Map.STANDARD_TYPE,
-            animate: true
-            //userLocation: false // Setting this to false breaks the pin point animation (Titanium wtf?!)
+            animate: true,
+            userLocation: true 
         },
 
         /**
@@ -86,7 +86,7 @@ metal.ui.Map = metal.extend(metal.ui.AbstractView, (function() {
          */
         addMarkerToMap: function(marker) {
             if (this.isMarker(marker)) {
-                this.getView().addAnnotation(marker.getView());
+                this.getView().addAnnotation(marker.getComponent());
                 this.markers.push(marker);
                 marker.map = this;
             } else {
@@ -115,7 +115,7 @@ metal.ui.Map = metal.extend(metal.ui.AbstractView, (function() {
             if (isMarker(marker)) {
 
                 // Remove from map
-                this.getView().removeAnnotation(marker.getView());
+                this.getView().removeAnnotation(marker.getComponent());
 
                 // Remove item from list
                 this.markers.splice(map.markers.indexOf(marker),1);
@@ -129,6 +129,38 @@ metal.ui.Map = metal.extend(metal.ui.AbstractView, (function() {
         
         clearMarkers: function() {
             this.removeMarker(this.markers);
+        },
+        
+        /**
+         * Titanium properties
+         *
+         * @property {Object} titaniumProperties
+         */
+        titaniumProperties: {
+            animate: {
+            	type: 'boolean'
+            },
+            annotations: {
+            	type: 'array'
+            },
+            backgroundColor: {
+            	type: 'string'
+            },
+            location: {
+            	type: 'object'
+            },
+            mapType: {
+            	type: 'int'
+            },
+            region: {
+            	type: 'object'
+            },
+            regionFit: {
+            	type: 'boolean'
+            },
+            userLocation: {
+            	type: 'boolean'
+            }
         }
     };
 })());

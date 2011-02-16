@@ -11,6 +11,22 @@ metal.ns('metal.core.Observable');
 metal.core.Observable = metal.extend(Object, {
 	
 	/**
+     * The id of this component
+     *
+     * @private
+     * @property {String} id
+     */
+	id: 'MetalObservable',
+	
+	/**
+	 * The type of this component
+	 * 
+	 * @private
+	 * @property {String} type
+	 */
+	type: 'MetalObservable',
+	
+	/**
 	 * The Titanium component this Observable controls over
 	 * 
 	 * @property {Titanium.UI.View} titaniumComponent
@@ -34,7 +50,7 @@ metal.core.Observable = metal.extend(Object, {
      * @method on
      */
     on: function(event, cb) {
-        this.titaniumComponent.addEventListener(event, cb);
+        //this.titaniumComponent.addEventListener(event, cb);
     },
     /**
      * Dismisses an event

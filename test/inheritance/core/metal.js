@@ -221,6 +221,15 @@ this.metal = (function() {
         deepApply: function(object, config, ignoreUndefined, isReversed) {
             if (!metal.isNothing(object) && metal.isObject(config)) {
             	var prop;
+            	// Copy the protoype of config to object if exists
+            	var proto = config.proto;
+            	if (!metal.isNothing(proto)) {
+            		// Quick hack for prototyping an object
+            		// TODO [metal::deepApply] Find a safer way to prototype an object
+            		object.__proto__ = proto;
+            	}
+            	
+            	// Go over all values inside config
                 for ( var key in config) {
                     if (config.hasOwnProperty(key)) {
                         if (!metal.isNothing(object[key]) && metal.isObject(config[key])) {
@@ -233,6 +242,8 @@ this.metal = (function() {
 								// in case there are overrides 
                           		this.apply(prop, config[key]);
                           		this.apply(prop, object[key]);	
+                          		var proto = config[key].prototype;
+                          		
                           	} else {
                           		// Assuming a normal override where
                           		// config is the overrides of the object
@@ -278,31 +289,23 @@ this.metal = (function() {
 	    		supr = metal.isNothing(supr.superclass) ? null : supr.superclass();
         	}
         	
-        	// Is there nothing to override?
-            if (metal.isNothing(config)) {
-                return;
+			for (var x in config) {
+            	if (config.hasOwnProperty(x)) {
+            		if (this.isObject(config[x])) {
+            			// Object - perform a deep apply
+            			object[x] = object[x] || {};
+            			this.deepApply(object[x], config[x]);
+            		} else if (object.isTitaniumProperty(x)) {
+            			// Titanium property - apply on object.property
+            			object.properties = object.properties || {};
+            			object.properties[x] = config[x];
+            		} else {
+            			// Metal property - apply straight on the object itself
+            			object[x] = config[x];
+            		}
+            	}
             }
-			
-			// Apply overrides
-            if (config.properties != undefined ||
-            config.items != undefined ||
-            config.data != undefined /* TableView */ ||
-            config.markers != undefined /* Map */) {
-                // Apply on the entire object
-                this.deepApply(object, config);
-                if (config.properties == undefined) {
-                	// TODO [metal::overrideClass] Decide if we support unwrapped properties
-                	// If the answer is yes, need to rewrite the following code
-                	delete config.items;
-                	delete config.data;
-                	delete config.animation;
-                	delete config.markers;
-                	this.deepApply(object.properties, config);
-                }
-            } else {
-                // Overriding only the properties field of object
-                this.deepApply(object.properties, config); 
-            }
+            
         },
         /**
          * Safe Apply

@@ -282,7 +282,7 @@ this.metal = (function() {
             if (metal.isNothing(config)) {
                 return;
             }
-			
+            
 			// Apply overrides
 			// TODO [metal::overrideClass] Find a better way to determine on which object should we apply a deep copy of config 
             if (config.properties != undefined ||
@@ -582,7 +582,8 @@ metal.include(
 	'/Metal/util/location.js',
 	
 	// UI
-	'/Metal/ui/abstractView.js',
+	'/Metal/ui/Component.js',
+	'/Metal/ui/AbstractView.js',
 	'/Metal/ui/Window.js',
 	'/Metal/ui/TabGroup.js',
 	'/Metal/ui/Tab.js',

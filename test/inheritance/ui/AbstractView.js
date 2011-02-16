@@ -6,7 +6,7 @@ metal.ns('metal.ui.AbstractView');
  * @abstract
  * @class AbstractView
  */
-metal.ui.AbstractView = metal.extend(metal.core.Observable, {
+metal.ui.AbstractView = metal.extend(metal.ui.Component, {
     
     /**
      * The id of this view
@@ -26,7 +26,7 @@ metal.ui.AbstractView = metal.extend(metal.core.Observable, {
      * @property {Object} properties
      */
     properties : {
-	checking: true
+		checking: true
     },
 
 	/**
@@ -86,7 +86,7 @@ metal.ui.AbstractView = metal.extend(metal.core.Observable, {
      * @param {Function} cb
      */
     animate: function(obj, cb) {
-      this.titaniumComponent.animate(obj, cb || function() {});
+      //this.titaniumComponent.animate(obj, cb || function() {});
     },
     
     /**
@@ -151,32 +151,6 @@ metal.ui.AbstractView = metal.extend(metal.core.Observable, {
     		animation = this.animation;
     	}
     	return animation;
-    },
-    
-    /**
-     *
-     * @method get
-     * @param {String} name
-     */
-    get: function(name) {
-        return this.properties[name];
-    },
-    /**
-     *
-     * @method set
-     * @param {String or Object} nameOrObject
-     * @param {Object} value
-     */
-    set: function(nameOrObject, value) {
-        if (metal.isObject(nameOrObject)) {
-          metal.apply(this, nameOrObject);
-        } else {
-          this.properties[nameOrObject] = value;
-          // TODO [AbstractView::set] Need to set view properties in a better way
-          // What about watching the properties object, and for any change, 
-          // do it also on the native view
-          this.titaniumComponent[nameOrObject] = metal.getView(value);
-        }
     },
     
     /**
@@ -289,47 +263,6 @@ metal.ui.AbstractView = metal.extend(metal.core.Observable, {
     		type: 'int'
     	}
     },
-    
-	/**
-	 * Find if given name is a titanium property
-	 * 
-	 * @method isTitaniumProperty
-	 * @param {String} name
-	 */    
-    isTitaniumProperty: function(name) {
-    	return !!this.titaniumProperties[name];
-    },
-    
-    // Problem: 
-    // 1. How do i know if the property is inside properties or outside
-    
-    mySet: function(nameOrObject, value) {
-    	if (metal.isObject(nameOrObject)) {
-    		// Object
-    		//metal.overrideClass(this, nameOrObject);
-    		// TODO [AbstractView: mySet] Change all this to overrideClass when 
-    		// overrideClass will not override but only apply
-    		// In second thought, create a different apply function
-    		// that doesn't override anything, and only apply new values
-    		
-    		for (var x in nameOrObject) {
-    			if (nameOrObject.hasOwnProperty(x)) {
-    				if (this.isTitaniumProperty(x)) {
-    					this.titaniumComponent[x] = nameOrObject[x];
-    				} 
-					this.property[x] = nameOrObject[x];
-    			}
-    		}
-    	} else {
-    		// Name
-    		if (this.isTitaniumProperty(nameOrObject)) {
-				this.titaniumComponent[nameOrObject] = value;
-			} 
-			this.property[nameOrObject] = value;
-    	}
-    },
-    
-    
     
     /**
      *

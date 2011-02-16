@@ -23,8 +23,7 @@ metal.ui.Map = metal.extend(metal.ui.AbstractView, (function() {
          */
         properties : {
             mapType: 1,
-            animate: true,
-            userLocation: false
+            animate: true
         },
 
         /**
@@ -45,13 +44,12 @@ metal.ui.Map = metal.extend(metal.ui.AbstractView, (function() {
 
             // Set Titanium component
             this.titaniumComponent = {
-            	map: true
+                map: true
             };
 
             // Call parent constructor
             metal.ui.Map.superclass.constructor.call(this);
         },
-        
         initComponents: function() {
             var markers = this.markers;
             this.markers = [];
@@ -60,7 +58,6 @@ metal.ui.Map = metal.extend(metal.ui.AbstractView, (function() {
                 this.addMarker(markers);
             }
         },
-        
         /**
          * Add marker to this map
          *
@@ -75,28 +72,25 @@ metal.ui.Map = metal.extend(metal.ui.AbstractView, (function() {
                 this.addMarkerToMap(markers);
             }
         },
-        
         /**
          * Check if a marker is a marker
          */
         isMarker: function (marker) {
             return marker && marker.type=="MetalMarker";
         },
-        
         /**
          * Add marker to map
          * @private
          */
         addMarkerToMap: function(marker) {
             if (this.isMarker(marker)) {
-                //this.getView().addAnnotation(marker.getView());
+                //this.getView().addAnnotation(marker.getComponent()());
                 this.markers.push(marker);
                 marker.map = this;
             } else {
                 throw new Error("Marker is not a a type of metal.ui.Marker");
             }
         },
-        
         /**
          * Remove markers
          */
@@ -109,7 +103,6 @@ metal.ui.Map = metal.extend(metal.ui.AbstractView, (function() {
                 removeMarkerFromMap(markers);
             }
         },
-        
         /**
          * Remove a marker from the map
          * @private
@@ -118,7 +111,7 @@ metal.ui.Map = metal.extend(metal.ui.AbstractView, (function() {
             if (isMarker(marker)) {
 
                 // Remove from map
-                //this.getView().removeAnnotation(marker.getView());
+                //this.getView().removeAnnotation(marker.getComponent()());
 
                 // Remove item from list
                 this.markers.splice(map.markers.indexOf(marker),1);
@@ -129,9 +122,41 @@ metal.ui.Map = metal.extend(metal.ui.AbstractView, (function() {
                 throw new Error("Marker is not a a type of metal.ui.Marker");
             }
         },
-        
         clearMarkers: function() {
             this.removeMarker(this.markers);
+        },
+        
+        /**
+         * Titanium properties
+         *
+         * @property {Object} titaniumProperties
+         */
+        titaniumProperties: {
+            animate: {
+            	type: 'boolean'
+            },
+            annotations: {
+            	type: 'array'
+            },
+            backgroundColor: {
+            	type: 'string'
+            },
+            location: {
+            	type: 'object'
+            },
+            mapType: {
+            	type: 'int'
+            },
+            region: {
+            	type: 'object'
+            },
+            regionFit: {
+            	type: 'boolean'
+            },
+            userLocation: {
+            	type: 'boolean'
+            }
         }
+
     };
 })());

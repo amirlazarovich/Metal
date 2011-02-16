@@ -106,11 +106,40 @@ metal.ui.Animation = metal.extend(metal.ui.Component, {
         metal.debug.info('Animation::' + this.id, 'constructor');
 
 		// Set Titanium component
-		this.titaniumComponent = Ti.UI.createAnimation(this.properties);
+		this.titaniumComponent = { animation: true };
         
         this.initEvents();
         // Call parent constructor
         metal.ui.Animation.superclass.constructor.call(this);
+	},
+	
+	/**
+	 * @method getComponent
+	 */
+	getComponent: function() {
+		return this.titaniumComponent;
+	},
+	
+	/**
+	 * @method getProperties
+	 */
+	getProperties: function() {
+		return this.properties;
+	},
+	
+	/**
+	 * @method getCallback
+	 */
+	getCallback: function() {
+		return this.callback;
+	},
+	
+	/**
+	 * @method get
+	 * @param {String} name The name of the animation property you want to get
+	 */
+	get: function(name) {
+		return this.properties[name];
 	},
 	
 	/**
