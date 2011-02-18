@@ -69,8 +69,7 @@ metal.ui.Button = metal.extend(metal.ui.AbstractView, {
     	},
     	titleid: {
     		type: 'string'
-    	},
-    	
+    	}
     }
   
 });

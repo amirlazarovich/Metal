@@ -14,17 +14,11 @@ Sample code (put this in app.js):
 			new metal.ui.Window({
 				id: 'homescr',
 				title: 'Home',
-				barColor: '#000',
-				backgroundColor: '#fff',
+				className: 'window-simple',
 				icon: 'KS_nav_ui.png',
 				items: [
 					new metal.ui.View({
-						properties: {
-							width: 100,
-							height: 100,
-							backgroundColor: 'black'
-						},
-						
+						className: 'view-simple',
 						animation: new metal.ui.Animation({
 							properties: {
 								duration: 1000,
@@ -49,14 +43,15 @@ Sample code (put this in app.js):
 			}),
 			new metal.ui.Window({
 				id: 'fleetscr',
-				barColor: '#000',
 				title: 'Fleet',
+				className: 'window-different',
 				icon: 'KS_nav_ui.png',
 				items: [new metal.ui.TableView()]
 			}),
 			new metal.ui.Window({
 				id: 'mapscr',
 				title: 'Map',
+				className: 'window-simple',
 				icon: 'KS_nav_ui.png',
 				items: [new metal.ui.Map({
 					animate: true,
@@ -82,12 +77,14 @@ Sample code (put this in app.js):
 			new metal.ui.Window({
 				id: 'alertssrc',
 				title: 'Alerts',
+				className: 'window-different',
 				icon: 'KS_nav_ui.png',
 				items:[new metal.ui.TableView()]
 			}),
 			new metal.ui.Window({
 				id: 'driversrc',
 				title: 'Drivers',
+				className: 'window-simple',
 				icon: 'KS_nav_ui.png',
 				items:[new metal.ui.TableView()]
 			})

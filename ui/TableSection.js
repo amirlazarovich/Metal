@@ -85,16 +85,18 @@ metal.ui.TableSection = metal.extend(metal.ui.AbstractView, {
     titaniumProperties: {
     	footerTitle: {
     		type: 'string'
-    	},/*
+    	},
     	footerView: {
-    		type: 'object'
-    	},*/
+    		type: 'object',
+    		discard: true // Don't copy this property to metal property
+    	},
     	headerTitle: {
     		type: 'string'
-    	},/*
+    	},
     	headerView: {
-    		type: 'object'
-    	},*/
+    		type: 'object',
+    		discard: true // Don't copy this property to metal property
+    	},
     	rowCount: {
     		type: 'int',
     		readonly: true

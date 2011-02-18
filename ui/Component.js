@@ -39,7 +39,17 @@ metal.ui.Component = metal.extend(metal.util.Observable, {
      *
      * @property {Object} titaniumProperties
      */
-    titaniumProperties: {},
+    titaniumProperties: {
+    	id: {
+    		type: 'string'
+    	},
+    	className: {
+    		type: 'string'
+    	},
+    	classNames: {
+    		type: 'array'
+    	}
+    },
 	
 	/**
      * The Titanium view this class wraps
@@ -133,7 +143,7 @@ metal.ui.Component = metal.extend(metal.util.Observable, {
     	} else {
     		// Name
     		if (this.isTitaniumProperty(nameOrObject)) {
-				this.titaniumComponent[nameOrObject] = value;
+				this.titaniumComponent[nameOrObject] = metal.getView(value);
 			} 
 			this.properties[nameOrObject] = value;
     	}

@@ -68,9 +68,15 @@ metal.ui.Label = metal.extend(metal.ui.AbstractView, {
     	backgroundPaddingTop: {
     		type: 'int'
     	},
+    	color: {
+    		type: 'string'
+    	},
     	ellipsize: {
     		type: 'boolean',
     		androidOnly: true
+    	},
+    	font: {
+    		type: 'object'
     	},
     	highlightedColor: {
     		type: 'string'

@@ -143,6 +143,116 @@ metal.ui.AbstractView = metal.extend(metal.ui.Component, {
     },
     
     /**
+     *
+     * @method add
+     * @param {[Array of] Titanium.UI.View or metal.ui.AbstractView} items
+     */
+    add: function(items) {
+        if (metal.isArray(items)) {
+            for (var i in items) {
+                if (items.hasOwnProperty(i)) {
+                    this.titaniumComponent.add(metal.getView(items[i]));
+                }
+            }
+        } else {
+            this.titaniumComponent.add(metal.getView(items));
+        }
+    },
+    /**
+     *
+     * @method setToolbar
+     * @param {[Array of] Titanium.UI.View or metal.ui.AbstractView} items
+     */
+    setToolbar: function(items) {
+        if (metal.isArray(items)) {
+            var toolbar = [];
+            for (var i in items) {
+                if (items.hasOwnProperty(i)) {
+                    toolbar.push(metal.getView(items[i]));
+                }
+            }
+            this.titaniumComponent.setToolbar(toolbar);
+        } else {
+            this.titaniumComponent.setToolbar(metal.getView(items));
+        }
+    },
+    /**
+     *
+     * @method open
+     */
+    open: function() {
+        this.titaniumComponent.open();
+    },
+    /**
+     *
+     * @method remove
+     * @param {Titanium.UI.View or metal.ui.AbstractView} item
+     */
+    remove: function(item) {
+        this.titaniumComponent.remove(metal.getView(item));
+    },
+    /**
+     * Hide this window
+     *
+     * @method hide
+     */
+    hide: function() {
+        this.titaniumComponent.hide();
+    },
+    /**
+     * Close this window
+     *
+     * @method close
+     */
+    close: function() {
+        this.titaniumComponent.close();
+    },
+    /**
+     *
+     * @method initComponents
+     */
+    initComponents: function() {
+        metal.debug.info('AbstractView::' + this.id, 'initComponents');
+    },
+    /**
+     *
+     * @method initEvents
+     */
+    initEvents: function() {
+        metal.debug.info('AbstractView::' + this.id, 'initEvents');
+    },
+    /**
+     *
+     * @method initAnimation
+     */
+    initAnimation: function() {
+        metal.debug.info('AbstractView::' + this.id, 'initAnimation');
+        var animation = this.getAnimation();
+        if (animation != null) {
+            // Animation is set on this view
+            this.animate(animation.getComponent());
+        }
+    },
+    /**
+     *
+     * @event beforeopen
+     * @param {Object} obj
+     */
+    beforeopen: function(obj) {
+        metal.debug.info('AbstractView::' + this.id, 'before open event');
+        return true;
+    },
+    /**
+     *
+     * @event beforeclose
+     * @param {Object} obj
+     */
+    beforeclose: function(obj) {
+        metal.debug.info('AbstractView::' + this.id, 'before close event');
+        return true;
+    },
+    
+    /**
      * Titanium properties
      *
      * @property {Object} titaniumProperties
@@ -261,115 +371,5 @@ metal.ui.AbstractView = metal.extend(metal.ui.Component, {
         zIndex: {
             type: 'int'
         }
-    },
-
-    /**
-     *
-     * @method add
-     * @param {[Array of] Titanium.UI.View or metal.ui.AbstractView} items
-     */
-    add: function(items) {
-        if (metal.isArray(items)) {
-            for (var i in items) {
-                if (items.hasOwnProperty(i)) {
-                    this.titaniumComponent.add(metal.getView(items[i]));
-                }
-            }
-        } else {
-            this.titaniumComponent.add(metal.getView(items));
-        }
-    },
-    /**
-     *
-     * @method setToolbar
-     * @param {[Array of] Titanium.UI.View or metal.ui.AbstractView} items
-     */
-    setToolbar: function(items) {
-        if (metal.isArray(items)) {
-            var toolbar = [];
-            for (var i in items) {
-                if (items.hasOwnProperty(i)) {
-                    toolbar.push(metal.getView(items[i]));
-                }
-            }
-            this.titaniumComponent.setToolbar(toolbar);
-        } else {
-            this.titaniumComponent.setToolbar(metal.getView(items));
-        }
-    },
-    /**
-     *
-     * @method open
-     */
-    open: function() {
-        this.titaniumComponent.open();
-    },
-    /**
-     *
-     * @method remove
-     * @param {Titanium.UI.View or metal.ui.AbstractView} item
-     */
-    remove: function(item) {
-        this.titaniumComponent.remove(metal.getView(item));
-    },
-    /**
-     * Hide this window
-     *
-     * @method hide
-     */
-    hide: function() {
-        this.titaniumComponent.hide();
-    },
-    /**
-     * Close this window
-     *
-     * @method close
-     */
-    close: function() {
-        this.titaniumComponent.close();
-    },
-    /**
-     *
-     * @method initComponents
-     */
-    initComponents: function() {
-        metal.debug.info('AbstractView::' + this.id, 'initComponents');
-    },
-    /**
-     *
-     * @method initEvents
-     */
-    initEvents: function() {
-        metal.debug.info('AbstractView::' + this.id, 'initEvents');
-    },
-    /**
-     *
-     * @method initAnimation
-     */
-    initAnimation: function() {
-        metal.debug.info('AbstractView::' + this.id, 'initAnimation');
-        var animation = this.getAnimation();
-        if (animation != null) {
-            // Animation is set on this view
-            this.animate(animation.getComponent());
-        }
-    },
-    /**
-     *
-     * @event beforeopen
-     * @param {Object} obj
-     */
-    beforeopen: function(obj) {
-        metal.debug.info('AbstractView::' + this.id, 'before open event');
-        return true;
-    },
-    /**
-     *
-     * @event beforeclose
-     * @param {Object} obj
-     */
-    beforeclose: function(obj) {
-        metal.debug.info('AbstractView::' + this.id, 'before close event');
-        return true;
     }
 });

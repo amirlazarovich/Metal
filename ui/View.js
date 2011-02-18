@@ -22,7 +22,7 @@ metal.ui.View = metal.extend(metal.ui.AbstractView, {
      * @property {Object} properties
      */
     properties : {
-        backgroundColor: 'white'
+       
     },
 
     /**
