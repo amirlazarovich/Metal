@@ -148,11 +148,45 @@ metal.ui.AbstractView = metal.extend(metal.ui.Component, {
      * @param {[Array of] Titanium.UI.View or metal.ui.AbstractView} items
      */
     add: function(items) {
+    	var width = 0;
+    	var padding = 5; // Default padding value
+    	var spacerIndex;
+    	var views = [];
+    	var view;
+    	var left;
+    	var right;
+    	
         if (metal.isArray(items)) {
-            for (var i in items) {
-                if (items.hasOwnProperty(i)) {
-                    this.titaniumComponent.add(metal.getView(items[i]));
-                }
+            for (var i = 0, iln = items.length; i < iln; i++) {
+                if (items[i].type == 'spacer') {
+                	spacerIndex = i;
+                	if (!items[i].dir) {
+                		views.push(new metal.ui.View({id: 'spacer'}).getView());	
+                	} 
+            	} else {
+                	view = metal.getView(items[i]);
+                	// Calculate the true width of this view
+                	left = view.left ? new Number(view.left) : 0;
+                	right = view.right ? new Number(view.right) : 0;
+                	width += view.width + left + right;
+                	
+                	views.push(view);
+                } 
+            }
+            
+            if (metal.isUndefined(spacerIndex)) {
+            	this.titaniumComponent.add(views);
+            } else {
+            	// Append spacer
+            	var dir = items[spacerIndex].dir;
+            	padding = items[spacerIndex].padding || padding;
+            	if (!!dir) {
+            		views[spacerIndex][dir] = width + padding;
+            	} else {
+            		views[spacerIndex].width = metal.width - width - padding;
+            	}
+
+            	this.titaniumComponent.add(views);
             }
         } else {
             this.titaniumComponent.add(metal.getView(items));

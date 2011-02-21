@@ -11,15 +11,7 @@ metal.ui.TableRow = metal.extend(metal.ui.AbstractView, {
     type: 'MetalTableRow',
 
     properties: {
-        /*
-         hasCheck: false,
-         hasChild: false,
-         hasDetail: false,
-         indentionLevel: 0,
-         leftImage: '',
-         rightImage: '',
-         selectedBackgroundColor: '#8696FD'
-         */
+ 
     },
 
     /**
@@ -36,7 +28,7 @@ metal.ui.TableRow = metal.extend(metal.ui.AbstractView, {
     constructor: function(config) {
         metal.overrideClass(this, config);
         metal.debug.info('MetalTableRow::' + this.id, 'constructor');
-
+		
         // Set Titanium component
         this.titaniumComponent = Ti.UI.createTableViewRow(this.properties);
 
@@ -49,9 +41,6 @@ metal.ui.TableRow = metal.extend(metal.ui.AbstractView, {
      * @property {Object} titaniumProperties
      */
     titaniumProperties: {
-        className: {
-            type: 'string'
-        },
         color: {
             type: 'string'
         },

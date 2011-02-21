@@ -115,7 +115,7 @@ metal.debug = (function() {
 				 	(': ' + deepSearch(obj));  
 				msg += more;
 			}
-			Ti.API.info('[-----------Read me-----------] ' + msg);
+			Ti.API.info('[--------------Read me--------------] ' + msg);
 		},
 		
         /**

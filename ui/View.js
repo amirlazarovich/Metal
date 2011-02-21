@@ -46,7 +46,17 @@ metal.ui.View = metal.extend(metal.ui.AbstractView, {
         this.initEvents();
         // Call parent constructor
         metal.ui.View.superclass.constructor.call(this);
-    }
+    },
     
+    /**
+     * Titanium properties
+     * 
+     * @property {Object} titaniumProperties
+     */
+    titaniumProperties: {
+    	layout: {
+    		type: 'string'
+    	}
+    }
   
 });

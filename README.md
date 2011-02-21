@@ -46,7 +46,34 @@ Sample code (put this in app.js):
 				title: 'Fleet',
 				className: 'window-different',
 				icon: 'KS_nav_ui.png',
-				items: [new metal.ui.TableView()]
+				items: [
+					new metal.ui.TableView({
+						data: [
+							new metal.ui.TableRow({
+								layout: 'horizontal',
+								
+								initComponents: function() {
+									this.add([
+										new metal.ui.Label({
+											height: 'auto',
+											left: 5, 
+											width: 'auto',
+											text: 'left'
+										}),
+										
+										{type: 'spacer' /* padding: X (default: 5)*/ },
+										
+										new metal.ui.Label({
+											height: 'auto',
+											width: 'auto',
+											text: 'right'
+										})
+									])
+								}
+							})
+						]
+					})
+				]
 			}),
 			new metal.ui.Window({
 				id: 'mapscr',
