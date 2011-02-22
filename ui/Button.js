@@ -6,14 +6,6 @@ metal.ns('metal.ui.Button');
  */
 metal.ui.Button = metal.extend(metal.ui.AbstractView, {
   
-  /**
-     * The id of this window
-     *
-     * @private
-     * @property {String} id
-     */
-    id: 'MetalButton',
-	
 	type: 'MetalButton',
 	
     /**
@@ -22,7 +14,13 @@ metal.ui.Button = metal.extend(metal.ui.AbstractView, {
      * @property {Object} properties
      */
     properties : {
-        
+        /**
+	     * The id of this window
+	     *
+	     * @private
+	     * @property {String} id
+	     */
+	    id: 'MetalButton'
     },
 
     /**
@@ -37,7 +35,7 @@ metal.ui.Button = metal.extend(metal.ui.AbstractView, {
      */
     constructor: function(config) {
         metal.overrideClass(this, config);
-        metal.debug.info('Button::' + this.id, 'constructor');
+        metal.debug.info('Button::' + this.get('id'), 'constructor');
 
         // Set Titanium component
         this.titaniumComponent = Ti.UI.createButton(this.properties);

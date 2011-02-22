@@ -6,14 +6,6 @@ metal.ns('metal.ui.Window');
  */
 metal.ui.Window = metal.extend(metal.ui.AbstractView, {
 
-    /**
-     * The id of this window
-     *
-     * @private
-     * @property {String} id
-     */
-    id: 'MetalWindow',
-
     type: 'MetalWindow',
 
     /**
@@ -22,6 +14,13 @@ metal.ui.Window = metal.extend(metal.ui.AbstractView, {
      * @property {Object} properties
      */
     properties : {
+    	/**
+	     * The id of this window
+	     *
+	     * @private
+	     * @property {String} id
+	     */
+	    id: 'MetalWindow',
         title: 'window',
         fullscreen: true
     },
@@ -38,7 +37,7 @@ metal.ui.Window = metal.extend(metal.ui.AbstractView, {
      */
     constructor: function(config) {
         metal.overrideClass(this, config);
-        metal.debug.info('Window::' + this.id, 'constructor');
+        metal.debug.info('Window::' + this.get('id'), 'constructor');
 
         // Set Titanium component
         this.titaniumComponent = Ti.UI.createWindow(this.properties);

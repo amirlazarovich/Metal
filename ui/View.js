@@ -6,14 +6,6 @@ metal.ns('metal.ui.View');
  */
 metal.ui.View = metal.extend(metal.ui.AbstractView, {
   
-  /**
-     * The id of this window
-     *
-     * @private
-     * @property {String} id
-     */
-    id: 'MetalView',
-	
 	type: 'MetalView',
 	
     /**
@@ -22,7 +14,13 @@ metal.ui.View = metal.extend(metal.ui.AbstractView, {
      * @property {Object} properties
      */
     properties : {
-       
+       	/**
+	     * The id of this window
+	     *
+	     * @private
+	     * @property {String} id
+	     */
+	    id: 'MetalView'
     },
 
     /**
@@ -37,13 +35,11 @@ metal.ui.View = metal.extend(metal.ui.AbstractView, {
      */
     constructor: function(config) {
         metal.overrideClass(this, config);
-        metal.debug.info('View::' + this.id, 'constructor');
+        metal.debug.info('View::' + this.get('id'), 'constructor');
 
         // Set native component
         this.titaniumComponent = Ti.UI.createView(this.properties);
 
-        this.initComponents();
-        this.initEvents();
         // Call parent constructor
         metal.ui.View.superclass.constructor.call(this);
     },

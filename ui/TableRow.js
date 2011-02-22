@@ -6,12 +6,10 @@ metal.ns('metal.ui.TableRow');
  */
 metal.ui.TableRow = metal.extend(metal.ui.AbstractView, {
 
-    id: 'MetalTableRow',
-
     type: 'MetalTableRow',
 
     properties: {
- 
+ 		id: 'MetalTableRow'
     },
 
     /**
@@ -27,7 +25,7 @@ metal.ui.TableRow = metal.extend(metal.ui.AbstractView, {
      */
     constructor: function(config) {
         metal.overrideClass(this, config);
-        metal.debug.info('MetalTableRow::' + this.id, 'constructor');
+        metal.debug.info('MetalTableRow::' + this.get('id'), 'constructor');
 		
         // Set Titanium component
         this.titaniumComponent = Ti.UI.createTableViewRow(this.properties);

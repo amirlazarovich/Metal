@@ -5,14 +5,6 @@ metal.ns('metal.ui.Label');
  * @class View
  */
 metal.ui.Label = metal.extend(metal.ui.AbstractView, {
-  
-  /**
-     * The id of this window
-     *
-     * @private
-     * @property {String} id
-     */
-    id: 'MetalLabel',
 	
 	type: 'MetalLabel',
 	
@@ -22,7 +14,13 @@ metal.ui.Label = metal.extend(metal.ui.AbstractView, {
      * @property {Object} properties
      */
     properties : {
-        
+        /**
+	     * The id of this window
+	     *
+	     * @private
+	     * @property {String} id
+	     */
+	    id: 'MetalLabel'
     },
 
     /**
@@ -37,7 +35,7 @@ metal.ui.Label = metal.extend(metal.ui.AbstractView, {
      */
     constructor: function(config) {
         metal.overrideClass(this, config);
-        metal.debug.info('Label::' + this.id, 'constructor');
+        metal.debug.info('Label::' + this.get('id'), 'constructor');
 
         // Set Titanium component
         this.titaniumComponent = Ti.UI.createLabel(this.properties);

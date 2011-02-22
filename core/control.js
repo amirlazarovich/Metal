@@ -22,7 +22,8 @@ metal.control = (function() {
         var currentView = history.pop();
         if (!!currentView) {
             if (currentView.fire('beforeclose')) {
-                currentView.close();
+            	currentView.hide();
+                //currentView.close();
             }
         }
     };
@@ -36,6 +37,7 @@ metal.control = (function() {
     		history.pop();
     		if (currentView.fire('beforeclose')) {
     			// TODO [control] Do i trust the native TabGroup to close my view?
+    			currentView.hide();
     			//currentView.close();
     		}
     	}
@@ -58,6 +60,15 @@ metal.control = (function() {
         remove: function(id) {
             return delete views[id];
         },
+        
+        get: function(id) {
+        	return views[id];
+        },
+        
+        getViews: function() {
+        	return views;
+        },
+        
         getActive: function() {
             var myPosition = history.length - 1;
             if (myPosition >= 0) {
@@ -151,6 +162,33 @@ metal.control = (function() {
             }
 
             metal.debug.info('control', 'history length: ' + history.length);
+        },
+        
+        /**
+         * Opens a child view for current active tab
+         * 
+         * @method openChild
+         * @param {Titanium.UI.View / metal.ui.AbstractView} view
+         * @param {Object / metal.ui.Animation} animation 
+         */
+        openChild: function(view, animation) {
+        	var nextView = view;
+        	
+        	// If the id of the view was passed,
+            // try to find this view by given id
+            if (typeof nextView == 'string') {
+                nextView = views[view];
+            }
+
+            // If no view was found or passed, then return
+            if (nextView === undefined || nextView == null) {
+                metal.debug.info('control', 'Couldn\'t open a view since it wasn\'t found/passed');
+                return;
+            }
+            
+            // Open child view
+            // TODO [control::openChild] Handle tab child views in a better way (save in history, etc.)
+            this.getActive().open(metal.getView(nextView), animation);
         },
         /**
          * Register an event to all views

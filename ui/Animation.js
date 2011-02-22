@@ -39,14 +39,6 @@ metal.ns('metal.ui.Animation');
 metal.ui.Animation = metal.extend(metal.ui.Component, {
 	
 	/**
-     * The id of this component
-     *
-     * @private
-     * @property {String} id
-     */
-	id: 'MetalAnimation',
-	
-	/**
 	 * The type of this component
 	 * 
 	 * @private
@@ -60,26 +52,13 @@ metal.ui.Animation = metal.extend(metal.ui.Component, {
 	 * @property {Object} properties
 	 */
 	properties: {
-		//autoreverse
-		//backgroundColor
-		//bottom
-		//center
-		//color
-		//curve
-		//delay
-		//duration
-		//height
-		//left
-		//opacity
-		//opaque
-		//repeat
-		//right
-		//top
-		//transform
-		//transition
-		//visible
-		//width
-		//zIndex
+		/**
+	     * The id of this component
+	     *
+	     * @private
+	     * @property {String} id
+	     */
+		id: 'MetalAnimation'
 	},
 	
 	/**
@@ -103,7 +82,7 @@ metal.ui.Animation = metal.extend(metal.ui.Component, {
 	 */
 	constructor: function(config) {
 		metal.overrideClass(this, config);
-        metal.debug.info('Animation::' + this.id, 'constructor');
+        metal.debug.info('Animation::' + this.get('id'), 'constructor');
 
 		// Set Titanium component
 		this.titaniumComponent = Ti.UI.createAnimation(this.properties);
@@ -118,7 +97,7 @@ metal.ui.Animation = metal.extend(metal.ui.Component, {
      * @method initEvents
      */
     initEvents: function() {
-        metal.debug.info('Animation::' + this.id, 'initEvents');
+        metal.debug.info('Animation::' + this.get('id'), 'initEvents');
     },
     
     /**

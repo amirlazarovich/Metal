@@ -5,14 +5,6 @@
 metal.ui.Marker = metal.extend(metal.ui.Component, (function() {
 
     return {
-        /**
-         * The id of this window
-         *
-         * @private
-         * @property {String} id
-         */
-        id: 'MetalMarker',
-
         type: 'MetalMarker',
 
         /**
@@ -21,6 +13,14 @@ metal.ui.Marker = metal.extend(metal.ui.Component, (function() {
          * @property {Object} properties
          */
         properties : {
+        	/**
+	         * The id of this window
+	         *
+	         * @private
+	         * @property {String} id
+	         */
+	        id: 'MetalMarker',
+	        
             title: 'test',
             animate: true
         },
@@ -39,7 +39,7 @@ metal.ui.Marker = metal.extend(metal.ui.Component, (function() {
          */
         constructor: function(config) {
             metal.overrideClass(this, config);
-            metal.debug.info('Map::' + this.id, 'constructor');
+            metal.debug.info('Map::' + this.get('id'), 'constructor');
 
             // Set Titanium component
             this.titaniumComponent = Ti.Map.createAnnotation(this.properties);

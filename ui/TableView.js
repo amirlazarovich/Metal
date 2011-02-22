@@ -26,8 +26,6 @@ metal.ui.TableView = metal.extend(metal.ui.AbstractView, (function() {
 
     return {
 
-        id: 'MetalTableView',
-
         type: 'MetalTableView',
 
         /**
@@ -79,6 +77,7 @@ metal.ui.TableView = metal.extend(metal.ui.AbstractView, (function() {
          * @property {Object} properties
          */
         properties: {
+        	id: 'MetalTableView',
             searchHidden: true
         },
 
@@ -88,7 +87,7 @@ metal.ui.TableView = metal.extend(metal.ui.AbstractView, (function() {
          */
         constructor: function(config) {
             metal.overrideClass(this, config);
-            metal.debug.info('MetalTableView::' + this.id, 'constructor');
+            metal.debug.info('MetalTableView::' + this.get('id'), 'constructor');
 
             // Set Titanium component
             this.titaniumComponent = Ti.UI.createTableView(this.properties);

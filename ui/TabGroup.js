@@ -6,14 +6,6 @@ metal.ns('metal.ui.TabGroup');
  */
 metal.ui.TabGroup = metal.extend(metal.ui.AbstractView, {
 
-    /**
-     * The id of this window
-     *
-     * @private
-     * @property {String} id
-     */
-    id: 'MetalTabGroup',
-
     type: 'MetalTabGroup',
 
     /**
@@ -28,7 +20,13 @@ metal.ui.TabGroup = metal.extend(metal.ui.AbstractView, {
      * @property {Object} properties
      */
     properties: {
-
+		/**
+	     * The id of this window
+	     *
+	     * @private
+	     * @property {String} id
+	     */
+	    id: 'MetalTabGroup'
     },
 
     /**
@@ -50,7 +48,7 @@ metal.ui.TabGroup = metal.extend(metal.ui.AbstractView, {
      */
     constructor: function(config) {
         metal.overrideClass(this, config);
-        metal.debug.info('TabGroup::' + this.id, 'constructor');
+        metal.debug.info('TabGroup::' + this.get('id'), 'constructor');
 
         // Set Titanium component
         this.titaniumComponent = Ti.UI.createTabGroup(this.properties);

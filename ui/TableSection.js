@@ -6,12 +6,10 @@ metal.ns('metal.ui.TableSection');
  */
 metal.ui.TableSection = metal.extend(metal.ui.AbstractView, {
 
-    id: 'MetalTableSection',
-
 	type: 'MetalTableSection',
 	
     properties: {
-        
+        id: 'MetalTableSection'
     },
 
 	/**
@@ -28,7 +26,7 @@ metal.ui.TableSection = metal.extend(metal.ui.AbstractView, {
      */
     constructor: function(config) {
         metal.overrideClass(this, config);
-        metal.debug.info('MetalTableSection::' + this.id, 'constructor');
+        metal.debug.info('MetalTableSection::' + this.get('id'), 'constructor');
 
         // Set Titanium component
         this.titaniumComponent = Ti.UI.createTableViewSection(this.properties);

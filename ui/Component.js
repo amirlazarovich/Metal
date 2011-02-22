@@ -10,14 +10,6 @@ metal.ns('metal.ui.Component');
 metal.ui.Component = metal.extend(metal.util.Observable, {
 	
 	/**
-     * The id of this component
-     *
-     * @private
-     * @property {String} id
-     */
-    id: 'MetalComponent',
-	
-	/**
 	 * @property {String} framework
 	 */
     framework: 'metal',
@@ -32,7 +24,15 @@ metal.ui.Component = metal.extend(metal.util.Observable, {
      *
      * @property {Object} properties
      */
-    properties : {},
+    properties : {
+    	/**
+	     * The id of this component
+	     *
+	     * @private
+	     * @property {String} id
+	     */
+	    id: 'MetalComponent'
+    },
     
     /**
      * A list of all available Titanium properties
@@ -63,7 +63,7 @@ metal.ui.Component = metal.extend(metal.util.Observable, {
 	 */
 	constructor: function(config) {
 		metal.overrideClass(this, config);
-        metal.debug.info('Component::' + this.id, 'constructor');
+        metal.debug.info('Component::' + this.get('id'), 'constructor');
         
         // Call parent
         metal.ui.Component.superclass.constructor.call(this);

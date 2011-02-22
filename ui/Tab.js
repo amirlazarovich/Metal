@@ -6,14 +6,6 @@ metal.ns('metal.ui.Tab');
  */
 metal.ui.Tab = metal.extend(metal.ui.AbstractView, {
 
-    /**
-     * The id of this window
-     *
-     * @private
-     * @property {String} id
-     */
-    id: 'MetalTab',
-
     type: 'MetalTab',
 
     /**
@@ -22,6 +14,14 @@ metal.ui.Tab = metal.extend(metal.ui.AbstractView, {
      * @property {Object} properties
      */
     properties : {
+    	/**
+	     * The id of this window
+	     *
+	     * @private
+	     * @property {String} id
+	     */
+	    id: 'MetalTab',
+	    
         title:'Metal Tab'
     },
 
@@ -44,7 +44,7 @@ metal.ui.Tab = metal.extend(metal.ui.AbstractView, {
      */
     constructor: function(config) {
         metal.overrideClass(this, config);
-        metal.debug.info('Tab::' + this.id, 'constructor');
+        metal.debug.info('Tab::' + this.get('id'), 'constructor');
 
         // Set Titanium component
         this.titaniumComponent = Ti.UI.createTab(this.properties);
@@ -55,13 +55,24 @@ metal.ui.Tab = metal.extend(metal.ui.AbstractView, {
         // Call parent constructor
         metal.ui.Tab.superclass.constructor.call(this);
     },
+    
+    /**
+     * @override
+     * @method open
+     * @param {Titanium.UI.Window/metal.ui.Window} win
+     * @param [optional] {Object/metal.ui.Animation} animation 
+     */
+    open: function(win, animation) {
+    	this.titaniumComponent.open(metal.getView(win), animation);
+    },
+    
     /**
      * @override
      * @event beforeopen
      * @param {Object} obj
      */
     beforeopen: function(obj) {
-        metal.debug.info('Tab::' + this.id, 'before open event');
+        metal.debug.info('Tab::' + this.get('id'), 'before open event');
         // Fire event on enclosing window
         var rtnValue = this.window.fire('beforeopen');
         return rtnValue || metal.ui.Tab.superclass.beforeopen(obj);
@@ -72,7 +83,7 @@ metal.ui.Tab = metal.extend(metal.ui.AbstractView, {
      * @param {Object} obj
      */
     beforeclose: function(obj) {
-        metal.debug.info('Tab::' + this.id, 'before close event');
+        metal.debug.info('Tab::' + this.get('id'), 'before close event');
         // Fire event on enclosing window
         var rtnValue = this.window.fire('beforeclose');
         return rtnValue || metal.ui.Tab.superclass.beforeclose(obj);
