@@ -37,7 +37,7 @@ metal.control = (function() {
     		history.pop();
     		if (currentView.fire('beforeclose')) {
     			// TODO [control] Do i trust the native TabGroup to close my view?
-    			currentView.hide();
+    			//currentView.hide();
     			//currentView.close();
     		}
     	}
