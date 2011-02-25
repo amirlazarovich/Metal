@@ -26,7 +26,7 @@ metal.ui.TableSection = metal.extend(metal.ui.AbstractView, {
      */
     constructor: function(config) {
         metal.overrideClass(this, config);
-        metal.debug.info('MetalTableSection::' + this.get('id'), 'constructor');
+        dlog('MetalTableSection::' + this.get('id'), 'constructor');
 
         // Set Titanium component
         this.titaniumComponent = Ti.UI.createTableViewSection(this.properties);

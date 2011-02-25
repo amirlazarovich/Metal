@@ -100,6 +100,26 @@ this.metal = (function() {
                 Ti.include(arguments[i]);
             }
         },
+        
+        /**
+         * @method isString
+         * @param {Object} subject
+         */
+        isString: function(subject) {
+        	return typeof subject == 'string';
+        },
+        
+        /**
+         * Check if the subject is infact a boolean variable
+         * with the value of True 
+         * 
+         * @method isTrue
+         * @param {Object} subject
+         */
+        isTrue: function(subject) {
+        	return !!subject;
+        },
+        
         /**
          *
          * @method isUndefined
@@ -138,7 +158,7 @@ this.metal = (function() {
             // If no configuration is given, set default
             if (this.isNothing(config)) {
                 this.config = {
-                    debugState: 3, // DEBUG
+                    debugState: 4, // DEBUG
                     cloudebug: false // Set Cloud debugging mode
                 };
             }

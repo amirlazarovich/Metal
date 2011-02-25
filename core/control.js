@@ -48,7 +48,7 @@ metal.control = (function() {
         apply: function(action, event, message) {
             for (var key in history) {
             	if (history.hasOwnProperty(key)) {
-            		metal.debug.info('control', 'firing event: ' + action + ' on view: ' + history[key]);
+            		dlog('control', 'firing event: ' + action + ' on view: ' + history[key]);
                 	history[key][action](event, message);	
             	}
             }
@@ -72,7 +72,7 @@ metal.control = (function() {
         getActive: function() {
             var myPosition = history.length - 1;
             if (myPosition >= 0) {
-                metal.debug.info('control', 'Get active at position: ' + myPosition);
+                dlog('control', 'Get active at position: ' + myPosition);
                 return history[myPosition];
             } else {
                 return null;
@@ -144,24 +144,24 @@ metal.control = (function() {
 
             // If no view was found or passed, then return
             if (nextView === undefined || nextView == null) {
-                metal.debug.info('control', 'Couldn\'t open a view since it wasn\'t found/passed');
+                wlog('control', 'Couldn\'t open a view since it wasn\'t found/passed');
                 return;
             }
 
             // Find next view's position (back or new)
             switch (getViewPosition(nextView)) {
                 case 'new':
-                    metal.debug.info('control', 'case new');
+                    dlog('control', 'case new');
                     this.setActive(nextView, animation);
                     break;
 
                 case 'back':
-                    metal.debug.info('control', 'case back');
+                    dlog('control', 'case back');
                     this.back(animation);
                     break;
             }
 
-            metal.debug.info('control', 'history length: ' + history.length);
+            dlog('control', 'history length: ' + history.length);
         },
         
         /**
@@ -182,7 +182,7 @@ metal.control = (function() {
 
             // If no view was found or passed, then return
             if (nextView === undefined || nextView == null) {
-                metal.debug.info('control', 'Couldn\'t open a view since it wasn\'t found/passed');
+                wlog('control', 'Couldn\'t open a view since it wasn\'t found/passed');
                 return;
             }
             

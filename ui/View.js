@@ -35,7 +35,7 @@ metal.ui.View = metal.extend(metal.ui.AbstractView, {
      */
     constructor: function(config) {
         metal.overrideClass(this, config);
-        metal.debug.info('View::' + this.get('id'), 'constructor');
+        dlog('View::' + this.get('id'), 'constructor');
 
         // Set native component
         this.titaniumComponent = Ti.UI.createView(this.properties);

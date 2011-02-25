@@ -80,13 +80,18 @@ metal.debug = (function() {
         /**
          * @const {Integer} DEBUG
          */
-        DEBUG : 3,
+        DEBUG : 4,
 
         /**
          * @const {Integer} INFO
          */
-        INFO : 2,
-
+        INFO : 3,
+		
+		/**
+         * @const {Integer} WARN
+         */
+        WARN : 2,
+		
         /**
          * @const {Integer} ERROR
          */
@@ -107,6 +112,43 @@ metal.debug = (function() {
          * @default false
          */
         cloudebug: false,
+        
+        /**
+         * Get the code behind required threshold
+         * 
+         * @method get
+         * @param {String} threshold
+         */
+        get: function(threshold) {
+        	var me = metal.debug;
+        	var result;
+        	switch (threshold) {
+        		case 'none':
+        			result = me.NONE;
+        			break;
+    			
+    			case 'debug': 
+    				result = me.DEBUG;
+    				break;
+    				
+				case 'info': 
+					result = me.INFO;
+					break;
+					
+				case 'warn':
+					result = me.WARN;
+					break;
+					
+				case 'error':
+					result = me.ERROR;
+					break;
+					
+				default: 
+					result = me.NONE;
+        	}
+        	
+        	return result;
+        },
 		
 		forceLog: function(msg, obj, stringify) {
 			if (obj != undefined) {
@@ -118,33 +160,119 @@ metal.debug = (function() {
 			Ti.API.info('[--------------Read me--------------] ' + msg);
 		},
 		
-        /**
-         * Debug INFO
-         *
-         * @param {String} win
-         * @param {String} msg
-         * @param [optional] {Object} obj Any obj that passed here will be stringify
-         *        and added to the msg
-         */
-        info : function(win, msg, obj) {
-        	var me = metal.debug; // Using this to enable an alias
-            if (me.state >= me.INFO) {
-                msg = (obj != undefined) ? (msg + deepSearch(obj)) : msg;
-                Ti.API.info('[' + win + '] ' + msg);
-                if (me.cloudebug == true) {
-                    cloud.write('[info] ' + '[' + win + '] ' + msg);
+		/**
+		 * General log write
+		 * 
+		 * Sample uses:
+		 * metal.debug.log('debug', 'hello'); // Plain message
+		 * metal.debug.log('debug', 'hello', {test: 'hi'}); // Stringify the object
+		 * metal.debug.log('debug', 'hello', new metal.ui.Window(), true); // Perform a deep search
+		 * metal.debug.log('debug', 'my window', 'hello'); // Result: [my window] hello
+		 * metal.debug.log('debug', 'my window', {test: 'hi'}); // Result: [my window] {test: 'hi'}
+		 * metal.debug.log('debug', 'my window', new metal.ui.Window(), true); // Result: [my window] ...
+		 * 
+		 * 
+		 * @method log
+		 * @param {String} threshold The log threshold level
+		 * @param {String/Object} 
+		 * 		String: A plain message or if any other parameters
+		 * 				are sent, then it will be the location (meaning,
+		 * 				it will be surrounded by [brackets]
+		 * 		Object: an object that needs to be stringified or deep searched 
+		 * @param {String/Object/Boolean} 
+		 * 		String: A plain message
+		 * 		Object: An object that needs to be stringified or deep searched
+		 * 		Boolean: Whether or not to perform deep search on given object
+		 * @param {Boolean} Whether or not to perform deep search on given object
+		 * 
+		 * @see metal.debug.info
+		 * @see metal.debug.debug
+		 * @see metal.debug.warn
+		 * @see metal.debug.error
+		 */
+		log: function(threshold) {
+            if (this.state >= this.get(threshold)) {
+				var msg = '';
+				var arg;
+				var nextArg;
+				for (var i = 1, iln = arguments.length; i < iln; i++) {
+					arg = arguments[i];
+					nextArg = arguments[i + 1];
+					if (i == 1 && metal.isString(arg) && !metal.isNothing(nextArg)) {
+						// Wrap first argument inside [brackets]
+						msg += '[' + arg + '] ';
+					} else if (metal.isObject(arg) && metal.isTrue(nextArg)) {
+						// Deep search inside given object
+						msg += deepSearch(arg);
+						// Increment the counter since we already handled the next value
+						i++;
+					} else if (metal.isObject(arg)) {
+						// Stringify object
+						msg += JSON.stringify(arg);
+					} else {
+						// String
+						msg += arg + ' ';
+					}
+				}
+				
+				// Send to log
+				Ti.API[threshold](msg);
+				
+				if (this.cloudebug == true) {
+					// Send to cloud log
+                    cloud.write('[' + threshold + '] ' + msg);
                 }
-            }
-        },
-        debug: function(msg) {
-        	var me = metal.debug; // Using this to enable an alias
-            if (me.state >= me.DEBUG) {
-                Ti.API.debug(msg);
-                if (me.cloudbug == true) {
-                    cloud.write('[debug] ' + msg);
-                }
-            }
-        },
+			}
+		},
+		
+		/**
+		 * @method debug
+		 * @see metal.debug.log
+		 */
+		debug: function() {
+			var args = ['debug'];
+			for (var i = 0, iln = arguments.length; i < iln; i++) {
+				args.push(arguments[i]);
+			}
+			metal.debug.log.apply(metal.debug, args);
+		},
+		
+		/**
+		 * @method info
+		 * @see metal.debug.log
+		 */
+		info: function() {
+			var args = ['info'];
+			for (var i = 0, iln = arguments.length; i < iln; i++) {
+				args.push(arguments[i]);
+			}
+			metal.debug.log.apply(metal.debug, args);
+		},
+		
+		/**
+		 * @method warn
+		 * @see metal.debug.log
+		 */
+		warn: function() {
+			var args = ['warn'];
+			for (var i = 0, iln = arguments.length; i < iln; i++) {
+				args.push(arguments[i]);
+			}
+			metal.debug.log.apply(metal.debug, args);
+		},
+		
+		/**
+		 * @method error
+		 * @see metal.debug.log
+		 */
+		error: function() {
+			var args = ['error'];
+			for (var i = 0, iln = arguments.length; i < iln; i++) {
+				args.push(arguments[i]);
+			}
+			metal.debug.log.apply(metal.debug, args);
+		},
+		
         /**
          * Initialize cloud debugging
          */
@@ -173,4 +301,7 @@ if (metal.CLOUD_DEBUG == true) {
 
 // Create alias for less key stokes :)
 this.flog = metal.debug.forceLog;
+this.dlog = metal.debug.debug;
 this.ilog = metal.debug.info;
+this.wlog = metal.debug.warn;
+this.elog = metal.debug.error;

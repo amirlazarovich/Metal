@@ -67,7 +67,7 @@ metal.ui.AbstractView = metal.extend(metal.ui.Component, {
      */
     constructor: function(config) {
         metal.overrideClass(this, config);
-        metal.debug.info('AbstractView::' + this.get('id'), 'constructor');
+        dlog('AbstractView::' + this.get('id'), 'constructor');
 
         // Add bidirectional association
         this.controller = metal.control.add(this.get('id'), this);
@@ -244,21 +244,21 @@ metal.ui.AbstractView = metal.extend(metal.ui.Component, {
      * @method initComponents
      */
     initComponents: function() {
-        metal.debug.info('AbstractView::' + this.get('id'), 'initComponents');
+        dlog('AbstractView::' + this.get('id'), 'initComponents');
     },
     /**
      *
      * @method initEvents
      */
     initEvents: function() {
-        metal.debug.info('AbstractView::' + this.get('id'), 'initEvents');
+        dlog('AbstractView::' + this.get('id'), 'initEvents');
     },
     /**
      *
      * @method initAnimation
      */
     initAnimation: function() {
-        metal.debug.info('AbstractView::' + this.get('id'), 'initAnimation');
+        dlog('AbstractView::' + this.get('id'), 'initAnimation');
         var animation = this.getAnimation();
         if (animation != null) {
             // Animation is set on this view
@@ -271,7 +271,7 @@ metal.ui.AbstractView = metal.extend(metal.ui.Component, {
      * @param {Object} obj
      */
     beforeopen: function(obj) {
-        metal.debug.info('AbstractView::' + this.get('id'), 'before open event');
+        dlog('AbstractView::' + this.get('id'), 'before open event');
         return true;
     },
     /**
@@ -280,7 +280,7 @@ metal.ui.AbstractView = metal.extend(metal.ui.Component, {
      * @param {Object} obj
      */
     beforeclose: function(obj) {
-        metal.debug.info('AbstractView::' + this.get('id'), 'before close event');
+        dlog('AbstractView::' + this.get('id'), 'before close event');
         return true;
     },
     

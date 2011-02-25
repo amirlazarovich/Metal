@@ -48,7 +48,7 @@ metal.ui.TabGroup = metal.extend(metal.ui.AbstractView, {
      */
     constructor: function(config) {
         metal.overrideClass(this, config);
-        metal.debug.info('TabGroup::' + this.get('id'), 'constructor');
+        dlog('TabGroup::' + this.get('id'), 'constructor');
 
         // Set Titanium component
         this.titaniumComponent = Ti.UI.createTabGroup(this.properties);
@@ -112,17 +112,17 @@ metal.ui.TabGroup = metal.extend(metal.ui.AbstractView, {
     addTab: function(tab) {
         // Check if it is a TiUITab
         if (tab == '[object TiUITab]') {
-            metal.debug.info('Instance of this');
+            dlog('Instance of this');
             this.titaniumComponent.addTab(tab);
 
             // See if it is a Metal.ui.Tab
         } else if (tab instanceof metal.ui.Tab) {
-            metal.debug.info('Instance of tab');
+            dlog('Instance of tab');
             this.titaniumComponent.addTab(tab.getView());
 
             // Create a new tab component
         } else {
-            metal.debug.info('Create tab');
+            dlog('Create tab');
             var ntab = new metal.ui.Tab({
                 id: tab.id + 'tab',
                 window: tab.getView(),

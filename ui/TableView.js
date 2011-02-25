@@ -87,7 +87,7 @@ metal.ui.TableView = metal.extend(metal.ui.AbstractView, (function() {
          */
         constructor: function(config) {
             metal.overrideClass(this, config);
-            metal.debug.info('MetalTableView::' + this.get('id'), 'constructor');
+            dlog('MetalTableView::' + this.get('id'), 'constructor');
 
             // Set Titanium component
             this.titaniumComponent = Ti.UI.createTableView(this.properties);
@@ -102,35 +102,114 @@ metal.ui.TableView = metal.extend(metal.ui.AbstractView, (function() {
             // Call parent constructor
             metal.ui.TableView.superclass.constructor.call(this);
         },
+        
+        /**
+         * @method appendRow
+         * @param {metal.ui.TableRow/Titanium.UI.TableRow/Object} row
+         * @param [optional] {metal.ui.Animation/Titanium.UI.Animation/Object} animation
+         */
         appendRow: function(row, animation) {
-            this.titaniumComponent.appendRow(row, animation);
+            this.titaniumComponent.appendRow(metal.getView(row), animation);
+            this.data.push(row);
         },
-        deleteRow: function(row, animation) {
-            this.titaniumComponent.deleteRow(row, animation);
+        
+        /**
+         * @method deleteRow
+         * @param {metal.ui.TableRow/Titanium.UI.TableRow/Object/Integer} rowOrIndex
+         * @param [optional] {metal.ui.Animation/Titanium.UI.Animation/Object} animation
+         */
+        deleteRow: function(rowOrIndex, animation) {
+        	if (metal.isObject(rowOrIndex)) {
+        		for (var i = 0, iln = this.data.length; i < iln; i++) {
+        			if (this.data[i] === rowOrIndex) {
+        				// Remove this row from both titanium component and self
+        				this.titaniumComponent.deleteRow(i, animation);
+        				this.data.splice(i, 1);
+        				break;
+        			}
+        		}
+        	} else {
+        		// Remove this row from both titanium component and self
+        		this.titaniumComponent.deleteRow(rowOrIndex, animation);
+        		this.data.splice(rowOrIndex, 1);	
+        	}
         },
+        
+        /**
+         * @method insertRowAfter
+         * @param {String} index
+         * @param {metal.ui.TableRow/Titanium.UI.TableRow/Object} row
+         * @param [optional] {metal.ui.Animation/Titanium.UI.Animation/Object} animation
+         */
         insertRowAfter: function(index, row, animation) {
-            this.titaniumComponent.insertRowAfter(index, row, animation);
+            this.titaniumComponent.insertRowAfter(index, metal.getView(row), animation);
+            this.data.splice(index, 0, row);
         },
+        
+        /**
+         * @method insertRowBefore
+         * @param {String} index
+         * @param {metal.ui.TableRow/Titanium.UI.TableRow/Object} row
+         * @param [optional] {metal.ui.Animation/Titanium.UI.Animation/Object} animation
+         */
         insertRowBefore: function(index, row, animation) {
-            this.titaniumComponent.insertRowBefore(index, row, animation);
+            this.titaniumComponent.insertRowBefore(index, metal.getView(row), animation);
+            index = (index == 0) ? 0 : index - 1;
+            this.data.splice(index, 0, row);
         },
+        
+        /**
+         * @method scrollToIndex
+         * @param {String} index
+         * @param [optional] {metal.ui.Animation/Titanium.UI.Animation/Object} animation
+         */
         scrollToIndex: function(index, animation) {
             this.titaniumComponent.scrollToIndex(index, animation);
         },
+        
+        /**
+         * @method scrollToTop
+         * @param {Float} top
+         * @param {Boolean} isAnimated
+         */
         scrollToTop: function(top, isAnimated) {
             this.titaniumComponent.scrollToTop(top, {animated: isAnimated || false});
         },
-        selectRow: function(rowIndex) {
-            this.titaniumComponent.selectRow(rowIndex);
+        
+        /*
+         * @method selectRow
+         * @param {String} index
+         */
+        selectRow: function(index) {
+            this.titaniumComponent.selectRow(index);
         },
-        deselectRow: function(rowIndex) {
-            this.titaniumComponent.deselectRow(rowIndex);
+        
+        /**
+         * @method deselectRow
+         * @param {String} index
+         */
+        deselectRow: function(index) {
+            this.titaniumComponent.deselectRow(index);
         },
+        
+        /**
+         * @method setData
+         * @param {Array} data
+         * @param [optional] {metal.ui.Animation/Titanium.UI.Animation/Object} animation
+         */
         setData: function(data, animation) {
             this.titaniumComponent.setData(data, animation);
+            // TODO [TableView::setData] need to dispose of all rows, if there are any
+            this.data = data;
         },
+        
+        /**
+         * @method updateRow
+         * @param {metal.ui.TableRow/Titanium.UI.TableRow/Object} row
+         * @param [optional] {metal.ui.Animation/Titanium.UI.Animation/Object} animation
+         */
         updateRow: function(row, animation) {
-            this.titaniumComponent.updateRow(row, animation);
+            this.titaniumComponent.updateRow(metal.getView(row), animation);
         },
         /**
          * Titanium properties

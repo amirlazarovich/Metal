@@ -23,6 +23,7 @@ metal.util.Observable = metal.extend(Object, {
 	constructor: function(config) {
 		// Apply overrides
 		metal.apply(this, config);
+		dlog('Observable::' + this.get('id'), 'constructor');
 		
 		// Call parent
 		metal.util.Observable.superclass.constructor.call(this);
@@ -52,7 +53,7 @@ metal.util.Observable = metal.extend(Object, {
      * @param {Function} obj The event parameter sent to listener
      */
     fire: function(event, obj) {
-        metal.debug.info('Observable::' + this.id, 'event fired: ' + event);
+        dlog('Observable::' + this.get('id'), 'event fired: ' + event);
         if (typeof this[event] != "undefined") {
             return this[event](obj);
         } else {

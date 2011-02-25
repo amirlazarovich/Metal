@@ -40,7 +40,7 @@ metal.ui.Map = metal.extend(metal.ui.AbstractView, (function() {
          */
         constructor: function(config) {
             metal.overrideClass(this, config);
-            metal.debug.info('Map::' + this.get('id'), 'constructor');
+          	dlog('Map::' + this.get('id'), 'constructor');
 
             // Set Titanium component
             this.titaniumComponent = Ti.Map.createView(this.properties);

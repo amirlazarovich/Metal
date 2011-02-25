@@ -63,7 +63,7 @@ metal.ui.Component = metal.extend(metal.util.Observable, {
 	 */
 	constructor: function(config) {
 		metal.overrideClass(this, config);
-        metal.debug.info('Component::' + this.get('id'), 'constructor');
+        dlog('Component::' + this.get('id'), 'constructor');
         
         // Call parent
         metal.ui.Component.superclass.constructor.call(this);

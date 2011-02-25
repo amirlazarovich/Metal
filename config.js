@@ -5,7 +5,7 @@
 	var config = {
 		serverDomain : 'myDomain.com',
         serverPath: '/myServerPath',
-        debugState: 3, // DEBUG
+        debugState: 4, // DEBUG
         cloudebug: false // Set Cloud debugging mode
     };
 	

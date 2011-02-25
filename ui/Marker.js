@@ -39,7 +39,7 @@ metal.ui.Marker = metal.extend(metal.ui.Component, (function() {
          */
         constructor: function(config) {
             metal.overrideClass(this, config);
-            metal.debug.info('Map::' + this.get('id'), 'constructor');
+            dlog('Map::' + this.get('id'), 'constructor');
 
             // Set Titanium component
             this.titaniumComponent = Ti.Map.createAnnotation(this.properties);

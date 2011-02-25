@@ -39,7 +39,7 @@ metal.net = (function() {
         get: function(url, params, cb, mockup) {
             // If mockup flag was sent, send dummy values
             if (typeof mockup != 'undefined') {
-              metal.debug.info('net', 'mockup: ' + mockup);
+              dlog('net', 'mockup: ' + mockup);
               if (mockup == 'all') {
                 cb(true, test.net.get('success'));
                 cb(true, test.net.get('new'));
@@ -59,13 +59,13 @@ metal.net = (function() {
             
             // Callback on successful request
             xhr.onload = function() {
-               metal.debug.info('net', 'Load data success. url: ' + url);
+               dlog('net', 'Load data success. url: ' + url);
                cb(/* isSuccess? */ true, xhr.responseText);
             };
             
             // Callback on failed request
             xhr.onerror = function(e) {
-                metal.debug.info('net', 'Load data failed!. url: ' + url + '. Error: ' + e.error);
+                dlog('net', 'Load data failed!. url: ' + url + '. Error: ' + e.error);
                 cb(/* isSuccess? */ false, {message: xhr.status});
             };
             

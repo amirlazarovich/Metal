@@ -33,7 +33,7 @@ metal.model.GeoLocation = metal.extend(Object, {
 	 */
 	constructor: function(config) {
 		metal.apply(this, config);
-		metal.debug.info('GeoLocation: (' + this.lat + ', ' + this.lng + ')', 'constructor');
+		dlog('GeoLocation: (' + this.lat + ', ' + this.lng + ')', 'constructor');
 		
 		// Call parent
 		metal.model.GeoLocation.superclass.constructor.call(this);
