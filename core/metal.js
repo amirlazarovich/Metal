@@ -344,7 +344,12 @@ this.metal = (function() {
          * @property emptyObject
          */
         emptyObject: {},
-
+		
+		/**
+		 * @property emptyFn
+		 */
+		emtpyFn: function() {},
+		
         /**
          * Copies all fields in "props" to "obj"
          *
@@ -613,6 +618,9 @@ metal.include(
 	'/Metal/ui/Animation.js',
 	'/Metal/ui/Map.js',
  	'/Metal/ui/Marker.js',
+	
+	// Widgets
+	'/Metal/widget/ImageButton.js',
 	
 	// Model
 	'/Metal/model/GeoLocation.js',
