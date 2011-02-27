@@ -3,44 +3,45 @@
  * This framework enables a Titanium developer to write code in a Object Oriented way
  *
  * @class metal
+ * @author Amir Lazarovich
+ * @version 0.1
  */
 this.metal = (function() {
-
+	
+	// Define an alias for the global scope
+	var global = this;
+	
     /**
-     * @param {String}
-     *            namespace1
-     * @param {String}
-     *            namespace2
-     * @param {String}
-     *            etc
-     * @return {Object} The namespace object. (If multiple arguments are passed,
-     *         this will be the last namespace created)
-     * @method createNameSpace
-     */
-    function createNameSpace() {
-        var ln = arguments.length, i, value, split, x, xln, parts, object;
-
-        for (i = 0; i < ln; i++) {
-            value = arguments[i];
-            parts = value.split(".");
-            /*
-             if (typeof this[parts[0]] == 'undefined') {
-             Ti.API.info('[metal] ' + parts[0] + ' was undefined');
-             this[parts[0]] = Object(parts[0]);
-             }
-             */
-            object = metal;
-
-            //Ti.API.info('[metal] value: ' + value);
-            for (x = 1, xln = parts.length; x < xln; x++) {
-                object = object[parts[x]] = Object(object[parts[x]]);
-                //Ti.API.info('[metal] object: ' + JSON.stringify(object));
-            }
-        }
-
-        //Ti.API.info('[metal] object: ' + JSON.stringify(object));
-        return object;
-    };
+	 * Registers namespaces
+	 * 
+	 * @method createNamespace
+	 * @param {String} namespace The namespace that needs to be created
+	 * @param {String} [additional namespaces] ...
+	 */
+	function createNamespace() {
+		var nsParts = [];
+		var part;
+		var namespace;
+		
+		// Go over all given namespaces
+		for (var i = 0, iln = arguments.length; i < iln; i++) {
+			
+			// Get the first namespace
+			nsParts = arguments[i].split('.');
+			
+			// Get the first part of that namespace
+			part = nsParts[0];
+			
+			// Save the base of the namespace in the global scope
+			// In case the namespace already exists, create a reference
+			namespace = global[part] = global[part] || {};
+			for (var j = 1, jln = nsParts.length; j < jln; j++) {
+				// Go over all the parts of the namespace
+				part = nsParts[j];
+				namespace = namespace[part] = namespace[part] || {};
+			}	
+		}
+	}
 
     /**
      * Extend an object with the properties from another
@@ -63,7 +64,35 @@ this.metal = (function() {
     };
 
     return {
-
+		
+		////////////////////////////////////////////////////////////
+        // CONSTANTS
+        ////////////////////////////////////////////////////////////
+		
+		/**
+         * @const {Integer} PORTRAIT
+         */
+        PORTRAIT: Ti.UI.PORTRAIT,
+        
+        /**
+         * @const {Integer} UPSIDE_PORTRAIT
+         */
+        UPSIDE_PORTRAIT: Ti.UI.UPSIDE_PORTRAIT,
+        
+        /**
+         * @const {Integer} LANDSCAPE_LEFT
+         */
+        LANDSCAPE_LEFT: Ti.UI.LANDSCAPE_LEFT,
+        
+        /**
+         * @const {Integer} LANDSCAPE_RIGHT
+         */
+        LANDSCAPE_RIGHT: Ti.UI.LANDSCAPE_RIGHT,
+		
+		////////////////////////////////////////////////////////////
+        // PROPERTIES
+        ////////////////////////////////////////////////////////////
+		
         /**
          * Metal Configuration
          * 
@@ -88,18 +117,32 @@ this.metal = (function() {
          * @property {Boolean} CLOUD_DEBUG
          */
         CLOUD_DEBUG: undefined,
+		
+        /**
+         * @property emptyObject
+         */
+        emptyObject: {},
+		
+		/**
+		 * @property emptyFn
+		 */
+		emtpyFn: function() {},
+
+		/**
+         * Screen height dimension
+         * @property {Integer} height
+         */
+        height: Ti.Platform.displayCaps.platformHeight,
 
         /**
-         * Include scripts
-         *
-         * @method include
-         * @param {String} scripts...
+         * Screen width dimension
+         * @property {Integer} width
          */
-        include: function(/* scripts */) {
-         	for (var i = 0, iln = arguments.length; i < iln; i++) {
-                Ti.include(arguments[i]);
-            }
-        },
+        width: Ti.Platform.displayCaps.platformWidth,
+
+        ////////////////////////////////////////////////////////////
+        // CHECKERS
+        ////////////////////////////////////////////////////////////
         
         /**
          * @method isString
@@ -129,6 +172,7 @@ this.metal = (function() {
         isUndefined: function(obj) {
             return typeof obj == 'undefined';
         },
+        
         /**
          * Check if obj is null.
          * In case obj is undefined, it will return false
@@ -140,6 +184,7 @@ this.metal = (function() {
         isNull: function(obj) {
             return !this.isUndefined(obj) && obj === null;
         },
+        
         /**
          *
          * @method isNothing
@@ -149,6 +194,60 @@ this.metal = (function() {
         isNothing: function(obj) {
             return this.isUndefined(obj) || this.isNull(obj);
         },
+        
+        /**
+         * @method isLandscape 
+         * @param {Integer} orientation
+         */
+        isLandscape: function(orientation) {
+        	return orientation == this.LANDSCAPE_RIGHT || orientation == this.LANDSCAPE_LEFT;
+        },
+        
+        /**
+         * @method isPortrait
+         * @param {Integer} orientation
+         */
+        isPortrait: function(orientation) {
+        	return orientation == this.PORTRAIT || orientation == this.UPSIDE_PORTRAIT;
+        },
+        
+        /**
+         * isArray
+         * Checks if the object is an array
+         * @method isArray
+         * @param {Object} The object to check if it is an array
+         */
+        isArray: function(obj) {
+            // TODO [metal] :: isArray function is not working
+            if (typeof obj.pop == 'undefined' || typeof obj.push == 'undefined') {
+                return false;
+            } else {
+                return true;
+            }
+        },
+        
+        /**
+         * @method isNumber
+         * Checks if n is a number
+         * @param {Object} n The object to sjek.
+         */
+        isNumber: function(n) {
+            return !isNaN(parseFloat(n)) && isFinite(n);
+        },
+        
+        /**
+         * @method isObject
+         * Check if an object is an object *_* fun.
+         * @param {Object} v Something to sjek.
+         */
+        isObject: function(v) {
+            return !!v && Object.prototype.toString.call(v) === '[object Object]';
+        },
+        
+        ////////////////////////////////////////////////////////////
+        // INITIALIZES
+        ////////////////////////////////////////////////////////////
+        
         /**
          *
          * @method initConfig
@@ -167,6 +266,7 @@ this.metal = (function() {
             this.DEBUG_STATE = this.config.debugState;
             this.CLOUD_DEBUG = this.config.cloudebug;
         },
+        
         /**
          * @method initGlobalEvents
          */
@@ -176,31 +276,62 @@ this.metal = (function() {
              * Detect orientation change and update screen dimensions
              */
             Ti.Gesture.addEventListener('orientationchange', function(e) {
-                // TODO [metal::orientationchange event] Check if this is correct
-                me.height = Ti.Platform.displayCaps.platformHeight;
-                me.width = Ti.Platform.displayCaps.platformWidth;
-                metal.debug.info('[metal] Device height: ' + metal.height + ', width: ' + metal.width);
+                if (me.isPortrait(e.orientation)) {
+                	me.height = Ti.Platform.displayCaps.platformHeight;
+                	me.width = Ti.Platform.displayCaps.platformWidth;
+                } else {
+                	me.width = Ti.Platform.displayCaps.platformHeight;
+                	me.height = Ti.Platform.displayCaps.platformWidth;
+                }
+                
+                ilog('metal', 'Device height: ' + metal.height + ', width: ' + metal.width);
             });
         },
+        
         /**
-         * @param {String}
-         *            namespace1
-         * @param {String}
-         *            namespace2
-         * @param {String}
-         *            etc
-         * @return {Object} The namespace object. (If multiple arguments are passed,
-         *         this will be the last namespace created)
-         * @method createNameSpace
+         * Initialize metal default configuration and events
+         * 
+         * @method init
          */
-        createNameSpace: createNameSpace,
+        init: function() {
+        	// Initialize metal configuration
+			metal.initConfig();
+			
+			// Initialize metal global events
+			metal.initGlobalEvents();
+        },
+        
+        ////////////////////////////////////////////////////////////
+        // PUBLIC METHODS
+        ////////////////////////////////////////////////////////////
+        
+        /**
+         * Include scripts
+         *
+         * @method include
+         * @param {String} scripts...
+         */
+        include: function(/* scripts */) {
+         	for (var i = 0, iln = arguments.length; i < iln; i++) {
+                Ti.include(arguments[i]);
+            }
+        },
+        
+        /**
+		 * Registers namespaces
+		 * 
+		 * @method createNamespace
+		 * @param {String} namespace The namespace that needs to be created
+		 * @param {String} ... [additional namespaces]
+		 */
+        createNamespace: createNamespace,
 
         /**
          * Alias for createNameSpace
          *
          * @method ns
          */
-        ns: createNameSpace,
+        ns: createNamespace,
 
         /**
          * Copies all the properties of config to obj.
@@ -322,6 +453,7 @@ this.metal = (function() {
             	}
             }
         },
+        
         /**
          * Safe Apply
          * Acts the same as apply with only one difference:
@@ -340,16 +472,7 @@ this.metal = (function() {
                 };
             }
         },
-        /**
-         * @property emptyObject
-         */
-        emptyObject: {},
-		
-		/**
-		 * @property emptyFn
-		 */
-		emtpyFn: function() {},
-		
+        
         /**
          * Copies all fields in "props" to "obj"
          *
@@ -365,6 +488,7 @@ this.metal = (function() {
             }
             return obj; // Object
         },
+        
         /**
          * create a new object, combining the properties of the passed objects with the last arguments having
          * priority over the first ones
@@ -379,6 +503,7 @@ this.metal = (function() {
             }
             return newObj;
         },
+       
         /**
          * Override functions in a class
          *
@@ -392,6 +517,7 @@ this.metal = (function() {
             this.apply(origclass.prototype, overrides);
             return;
         },
+        
         /**
          * @method urlEncode
          * @param {Object} object Creates an object that is
@@ -407,36 +533,7 @@ this.metal = (function() {
             }
             return val;
         },
-        /**
-         * isArray
-         * Checks if the object is an array
-         * @method isArray
-         * @param {Object} The object to check if it is an array
-         */
-        isArray: function(obj) {
-            // TODO [metal] :: isArray function is not working
-            if (typeof obj.pop == 'undefined' || typeof obj.push == 'undefined') {
-                return false;
-            } else {
-                return true;
-            }
-        },
-        /**
-         * @method isNumber
-         * Checks if n is a number
-         * @param {Object} n The object to sjek.
-         */
-        isNumber: function(n) {
-            return !isNaN(parseFloat(n)) && isFinite(n);
-        },
-        /**
-         * @method isObject
-         * Check if an object is an object *_* fun.
-         * @param {Object} v Something to sjek.
-         */
-        isObject: function(v) {
-            return !!v && Object.prototype.toString.call(v) === '[object Object]';
-        },
+        
         /**
          * Extend class
          * @method extend
@@ -498,30 +595,58 @@ this.metal = (function() {
                 return subclass;
             };
         }(),
+        
         /**
-         * Screen height dimension
-         * @property {Integer} height
+         * Register a global event
+         *
+         * @method on
+         * @param {String} event
+         * @param {Function} cb The callback function
          */
-        height: Ti.Platform.displayCaps.platformHeight,
-
+        on: function(event, cb) {
+            Ti.App.addEventListener(event, cb);
+        },
+        
         /**
-         * Screen width dimension
-         * @property {Integer} width
+         * Dismisses a global event
+         *
+         * @method dismiss
+         * @param {String} event
+         * @param {Function} cb The callback function
          */
-        width: Ti.Platform.displayCaps.platformWidth,
-
+        dismiss: function(event, cb) {
+            Ti.App.removeEventListener(event, cb);
+        },
+        
+        /**
+         * Fires a global event
+         *
+         * @method fire
+         * @param {String} event The event name
+         * @param {Function} obj The event parameter sent to listener
+         */
+        fire: function(event, obj) {
+            Ti.App.fireEvent(event, obj);
+        },
+        
+        ////////////////////////////////////////////////////////////
+        // GETTERS
+        ////////////////////////////////////////////////////////////
+        
         /**
          * @method getHeight
          */
         getHeight: function() {
             return this.height;
         },
+        
         /**
          * @method getWidth
          */
         getWidth: function() {
             return this.width;
         },
+        
         /**
          * Get the values needed to align the component to the right
          *
@@ -533,36 +658,7 @@ this.metal = (function() {
             var padding = optPadding || 5;
             return this.width - substract - padding - padding * numOfComponents;
         },
-        /**
-         * Register a global event
-         *
-         * @method on
-         * @param {String} event
-         * @param {Function} cb The callback function
-         */
-        on: function(event, cb) {
-            Ti.App.addEventListener(event, cb);
-        },
-        /**
-         * Dismisses a global event
-         *
-         * @method dismiss
-         * @param {String} event
-         * @param {Function} cb The callback function
-         */
-        dismiss: function(event, cb) {
-            Ti.App.removeEventListener(event, cb);
-        },
-        /**
-         * Fires a global event
-         *
-         * @method fire
-         * @param {String} event The event name
-         * @param {Function} obj The event parameter sent to listener
-         */
-        fire: function(event, obj) {
-            Ti.App.fireEvent(event, obj);
-        },
+        
         /**
          * Get the native UI view
          *
@@ -580,11 +676,9 @@ this.metal = (function() {
     };
 
 }());
-// Initialize metal configuration
-metal.initConfig();
 
-// Initialize metal global events
-metal.initGlobalEvents();
+// Initialize metal default configuration and events
+metal.init();
 
 // Include all scripts
 metal.include(
@@ -631,5 +725,5 @@ metal.include(
 );
 
 // Notify device dimensions
-metal.debug.info('metal', 'Device height: ' + metal.height + ', width: ' + metal.width);
+ilog('metal', 'Device height: ' + metal.height + ', width: ' + metal.width);
 

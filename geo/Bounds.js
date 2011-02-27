@@ -1,5 +1,7 @@
 /**
  * @class metal.geo.Bounds
+ * @author Daniel Kloosterman
+ * @version 0.1
  */
 metal.geo.Bounds = metal.extend(Object, (function(){
 	

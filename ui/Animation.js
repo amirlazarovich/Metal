@@ -34,7 +34,9 @@ metal.ns('metal.ui.Animation');
  * });
  * 
  * 
- * @class Animation
+ * @class metal.ui.Animation
+ * @author Amir Lazarovich
+ * @version 0.1
  */
 metal.ui.Animation = metal.extend(metal.ui.Component, {
 	

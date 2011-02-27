@@ -4,7 +4,9 @@ metal.ns('metal.ui.AbstractView');
  * Base class for all Metal views
  *
  * @abstract
- * @class AbstractView
+ * @class metal.ui.AbstractView
+ * @author Amir Lazarovich
+ * @version 0.1
  */
 metal.ui.AbstractView = metal.extend(metal.ui.Component, {
 	

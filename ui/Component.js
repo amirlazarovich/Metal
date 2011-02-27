@@ -6,6 +6,8 @@ metal.ns('metal.ui.Component');
  * for all metal UI components
  * 
  * @class metal.ui.Component
+ * @author Amir Lazarovich
+ * @version 0.1
  */
 metal.ui.Component = metal.extend(metal.util.Observable, {
 	

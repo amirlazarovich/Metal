@@ -1,5 +1,7 @@
 /**
  * Metal Configuration file
+ * @author Amir Lazarovich
+ * @version 0.1
  */
 (function() {
 	var config = {

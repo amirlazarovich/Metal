@@ -2,7 +2,9 @@ metal.ns('metal.ui.Tab');
 
 /**
  *
- * @class Tab
+ * @class metal.ui.Tab
+ * @author Amir Lazarovich
+ * @version 0.1
  */
 metal.ui.Tab = metal.extend(metal.ui.AbstractView, {
 

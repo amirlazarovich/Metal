@@ -2,7 +2,9 @@ metal.ns('metal.ui.TableRow');
 
 /**
  *
- * @class TableRow
+ * @class metal.ui.TableRow
+ * @author Amir Lazarovich
+ * @version 0.1
  */
 metal.ui.TableRow = metal.extend(metal.ui.AbstractView, {
 

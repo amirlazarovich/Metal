@@ -6,7 +6,9 @@ metal.ns('metal.util.Observable');
  * point during the application will be invoked  
  * 
  * @abstract
- * @class Observable
+ * @class metal.util.Observable
+ * @author Amir Lazarovich
+ * @version 0.1
  */
 metal.util.Observable = metal.extend(Object, {
 	

@@ -1,10 +1,14 @@
+metal.ns('metal.util.net');
+
 /**
  * This class handles all HTTP requests
  *
  * @singleton
- * @class net
+ * @class metal.util.net
+ * @author Amir Lazarovich
+ * @version 0.1
  */
-metal.net = (function() {
+metal.util.net = (function() {
 
     /**
      * Format parameters to send in a GET request

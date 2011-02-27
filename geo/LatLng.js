@@ -1,3 +1,9 @@
+/**
+ * 
+ * @class metal.geo.Latlng
+ * @author Daniel Kloosterman
+ * @version 0.1
+ */
 metal.geo.LatLng = metal.extend(Object, (function(){
 	
 	/**

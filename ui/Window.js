@@ -2,7 +2,9 @@ metal.ns('metal.ui.Window');
 
 /**
  *
- * @class window
+ * @class metal.ui.Window
+ * @author Amir Lazarovich
+ * @version 0.1
  */
 metal.ui.Window = metal.extend(metal.ui.AbstractView, {
 

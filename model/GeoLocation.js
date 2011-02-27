@@ -2,7 +2,9 @@ metal.ns('metal.model.GeoLocation');
 
 /**
  * 
- * @class Location
+ * @class metal.model.GeoLocation
+ * @author Amir Lazarovich
+ * @version 0.1
  */
 metal.model.GeoLocation = metal.extend(Object, {
 	

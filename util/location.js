@@ -1,10 +1,14 @@
+metal.ns('metal.util.location');
+
 /**
  * This class handles all location related functions
  * 
  * @singleton
- * @class location
+ * @class metal.util.location
+ * @author Amir Lazarovich
+ * @version 0.1
  */
-metal.location = (function() {
+metal.util.location = (function() {
 
     /**
      * The last known location

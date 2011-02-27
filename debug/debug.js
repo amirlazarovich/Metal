@@ -13,6 +13,8 @@ metal.ns('metal.debug');
  *
  * @class debug
  * @singleton
+ * @author Amir Lazarovich
+ * @version 0.1
  */
 metal.debug = (function() {
 

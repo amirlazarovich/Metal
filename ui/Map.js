@@ -1,6 +1,9 @@
+metal.ns('metal.ui.Map');
 /**
  *
  * @class metal.ui.Map
+ * @author Daniel Kloosterman
+ * @version 0.1
  */
 metal.ui.Map = metal.extend(metal.ui.AbstractView, (function() {
 

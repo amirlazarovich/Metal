@@ -2,7 +2,9 @@ metal.ns('metal.ui.Button');
 
 /**
  * 
- * @class View
+ * @class metal.ui.Button
+ * @author Amir Lazarovich
+ * @version 0.1
  */
 metal.ui.Button = metal.extend(metal.ui.AbstractView, {
   

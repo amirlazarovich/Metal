@@ -2,7 +2,9 @@ metal.ns('metal.ui.TabGroup');
 
 /**
  *
- * @class TabGroup
+ * @class metal.ui.TabGroup
+ * @author Amir Lazarovich
+ * @version 0.1
  */
 metal.ui.TabGroup = metal.extend(metal.ui.AbstractView, {
 

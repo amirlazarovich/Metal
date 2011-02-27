@@ -1,13 +1,38 @@
 /**
- * Controls all views
+ * This class represents a UI Controller.
+ * It controls over all views in the application.
+ * 
+ * This controller keeps a stack of views history named 'history' which
+ * enables it to control the view's life cycle (fires events such as: beforeopen, 
+ * afteropen, beforeclose, afterclose, etc.)
  *
  * @class control
+ * @author Amir Lazarovich
+ * @version 0.1
  */
 metal.control = (function() {
-
+	
+	/**
+	 * The views controlled by this controller
+	 * 
+	 * @private
+	 * @property {Array} views
+	 */
     var views = [];
+    
+    /**
+     * The views history stack 
+     * 
+     * @private
+     * @property {Array} history
+     */
     var history = [];
-
+	
+	/**
+	 * @private 
+	 * @method getViewPosition
+	 * @param {metal.ui.AbstractView/Titanium.UI.View} view
+	 */
     function getViewPosition(view) {
         var position = 'new';
         var myPosition = history.length - 1;
@@ -18,6 +43,12 @@ metal.control = (function() {
         return position;
     };
 
+	/**
+     * Closes the current view
+     * 
+     * @private
+     * @method closeCurrentView
+     */
     function closeCurrentView() {
         var currentView = history.pop();
         if (!!currentView) {
@@ -28,6 +59,12 @@ metal.control = (function() {
         }
     };
     
+    /**
+     * Closes the current tab view
+     * 
+     * @private
+     * @method closeCurrentTabView
+     */
     function closeCurrentTabView() {
     	var currentView = history[history.length - 1];
     	// If current view is the parent Tab Group
@@ -44,7 +81,14 @@ metal.control = (function() {
     };
     
     return {
-
+		
+		/**
+		 * @method apply
+		 * @param {String} action The selected action to perform on all views in the history stack
+		 * 			I.e. 'on' or 'dismiss'
+		 * @param {String} event The selected event to perform on all views in the history stack  
+		 * @param {Object/Function} message The message desired to pass for the selected event
+		 */
         apply: function(action, event, message) {
             for (var key in history) {
             	if (history.hasOwnProperty(key)) {
@@ -53,22 +97,53 @@ metal.control = (function() {
             	}
             }
         },
+        
+        /**
+         * Add a specific view to this controller
+         * 
+         * @method add
+         * @param {String} id
+         * @param {metal.ui.AbstractView/Titanium.UI.View} view
+         */
         add: function(id, view) {
             views[id] = view;
             return this;
         },
+        
+        /**
+         * Remove a specific view from this controller
+         * 
+         * @method remove
+         * @param {String} id
+         */
         remove: function(id) {
             return delete views[id];
         },
         
+        /**
+         * Get a specific view
+         * 
+         * @method get
+         * @param {String} id
+         */
         get: function(id) {
         	return views[id];
         },
         
+        /**
+         * Get all controlled views
+         * 
+         * @method getViews
+         */
         getViews: function() {
         	return views;
         },
         
+        /**
+         * Get active view (currently displayed)
+         * 
+         * @method getActive
+         */
         getActive: function() {
             var myPosition = history.length - 1;
             if (myPosition >= 0) {
@@ -78,6 +153,14 @@ metal.control = (function() {
                 return null;
             }
         },
+        
+        /**
+         * Set active view
+         * 
+         * @method setActiveTab
+         * @param {metal.ui.AbstractView/Titanium.UI.View} view
+         * @param {metal.ui.Animation/Titanium.UI.Animation/Object} animation 
+         */
         setActive: function(view, animation) {
             // Don't open the same view twice
 			if (this.getActive() === view) {
@@ -96,6 +179,13 @@ metal.control = (function() {
             }
         },
         
+        /**
+         * Set active tab view
+         * 
+         * @method setActiveTab
+         * @param {metal.ui.AbstractView/Titanium.UI.View} view
+         * @param {metal.ui.Animation/Titanium.UI.Animation/Object} animation 
+         */
         setActiveTab: function(view, animation) {
         	// Don't open the same view twice
 			if (this.getActive() === view) {
@@ -115,6 +205,12 @@ metal.control = (function() {
             }
         },
         
+        /**
+         * Hide active view or selected view
+         * 
+         * @method hide
+         * @param {string} id The id of the view to hide
+         */
         hide: function(id) {
           if (typeof id == 'undefined') {
             getActive().hide();
@@ -123,6 +219,12 @@ metal.control = (function() {
           }
         },
         
+        /**
+         * Go back one step in the history
+         * 
+         * @method back
+         * @param {metal.ui.Animation/Titanium.UI.Animation/Object} animation
+         */
         back: function(animation) {
             // Close current view
             closeCurrentView();
@@ -133,6 +235,14 @@ metal.control = (function() {
                 view.open(animation);
             }
         },
+        
+        /**
+         * Open a new window
+         * 
+         * @method open
+         * @param {metal.ui.AbstractView/Titanium.UI.View} view
+         * @param {metal.ui.Animation/Titanium.UI.Animation/Object} animation
+         */
         open: function(view, animation) {
             var nextView = view;
 
@@ -199,7 +309,7 @@ metal.control = (function() {
          * @param [optional] {Boolean} post If this value is true,
          *              then will post this event on all its views
          */
-        on : function(event, cb, post) {
+        on: function(event, cb, post) {
             if (post === true) {
                 this.apply('on', event, cb);
             } else {
@@ -216,7 +326,7 @@ metal.control = (function() {
          * @param [optional] {Boolean} post If this value is true,
          *              then will post this event on all its views
          */
-        dismiss : function(event, cb, post) {
+        dismiss: function(event, cb, post) {
             if (post === true) {
                 this.apply('dismiss', event, cb);
             } else {
@@ -233,7 +343,7 @@ metal.control = (function() {
          * @param [optional] {Boolean} post If this value is true,
          *              then will post this event on all its views
          */
-        fire : function(event, obj, post) {
+        fire: function(event, obj, post) {
             if (post === true) {
                 this.apply('fire', event, obj);
             } else {

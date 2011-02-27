@@ -1,6 +1,9 @@
+metal.ns('metal.ui.Marker');
 /**
  *
  * @class metal.ui.Marker
+ * @author Daniel Kloosterman
+ * @version 0.1
  */
 metal.ui.Marker = metal.extend(metal.ui.Component, (function() {
 

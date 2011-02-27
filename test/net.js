@@ -3,6 +3,8 @@ metal.ns('metal.test.net');
 /**
  *
  * @class test.net
+ * @author Amir Lazarovich
+ * @version 0.1
  */
 metal.test.net = (function() {
 

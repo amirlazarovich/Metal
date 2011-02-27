@@ -1,5 +1,10 @@
 metal.ns('metal.widget.ImageButton');
 
+/**
+ * @class metal.widget.ImageButton
+ * @author Amir Lazarovich
+ * @version 0.1
+ */
 metal.widget.ImageButton = metal.extend(metal.ui.View, {
 
     /**
