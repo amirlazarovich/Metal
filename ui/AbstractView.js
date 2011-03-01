@@ -74,7 +74,7 @@ metal.ui.AbstractView = metal.extend(metal.ui.Component, {
         // Add bidirectional association
         this.controller = metal.control.add(this.get('id'), this);
 
-        // If any tabs were sent, add them now
+        // If any items were sent, add them now
         this.add(this.items);
 
         this.initComponents();
@@ -385,7 +385,8 @@ metal.ui.AbstractView = metal.extend(metal.ui.Component, {
             type: 'object'
         },
         softKeyboardOnFocus: {
-            type: 'int'
+            type: 'int',
+            androidOnly: true
         },
         top: {
             type: 'float,string'

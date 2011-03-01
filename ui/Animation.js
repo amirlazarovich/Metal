@@ -84,7 +84,7 @@ metal.ui.Animation = metal.extend(metal.ui.Component, {
 	 */
 	constructor: function(config) {
 		metal.overrideClass(this, config);
-       dlog('Animation::' + this.get('id'), 'constructor');
+       	dlog('Animation::' + this.get('id'), 'constructor');
 
 		// Set Titanium component
 		this.titaniumComponent = Ti.UI.createAnimation(this.properties);

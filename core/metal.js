@@ -715,6 +715,7 @@ metal.include(
 	
 	// Widgets
 	'/Metal/widget/ImageButton.js',
+	'/Metal/widget/Search.js',
 	
 	// Model
 	'/Metal/model/GeoLocation.js',

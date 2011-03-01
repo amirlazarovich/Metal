@@ -95,6 +95,7 @@ metal.ui.TableView = metal.extend(metal.ui.AbstractView, (function() {
             this.titaniumComponent = Ti.UI.createTableView(this.properties);
 
             // Set data/serach bar if passed
+            // TODO [TableView::constructor] Handle table header in a better way
             this.titaniumComponent.data = parseData(this.data, this.header);
             this.titaniumComponent.search = this.search;
             if (!metal.isNothing(this.footer)) {
@@ -204,6 +205,56 @@ metal.ui.TableView = metal.extend(metal.ui.AbstractView, (function() {
             // TODO [TableView::setData] need to dispose of all rows, if there are any
             this.data = data;
         },
+        
+        /**
+         * @method setHeader
+         * @param {metal.ui.AbstractView/Titanium.UI.View} header
+         */
+        setHeader: function(header) {
+        	if (metal.isNothing(header)) {
+        		return;
+        	}
+        	
+        	var data = this.get('data');
+        	var store = [];
+	        var section = new metal.ui.TableSection();
+			section.setHeader(header);
+	        
+	        if (data.length > 0) {
+	        	section.add(data);
+	        	store.push(section.getView());
+	        }
+			
+			this.setData(store);
+        },
+        
+        /**
+	     * @override
+	     * @method set
+	     * @param {String or Object} nameOrObject
+	     * @param {Object} value
+	     */
+	    set: function(nameOrObject, value) {
+	    	if (nameOrObject == 'header') {
+	    		// Special case: Setting the header
+	    		this.setHeader(value);
+	    	} else if (metal.isObject(nameOrObject)) {
+	    		// Object
+	    		metal.overrideClass(this, nameOrObject);
+	    	} else {
+	    		// Name
+	    		if (this.isTitaniumProperty(nameOrObject)) {
+					this.titaniumComponent[nameOrObject] = metal.getView(value);
+				} 
+				
+				if (this.isDiscarded(nameOrObject)) {
+					this[nameOrObject] = value;
+				}
+				else {
+					this.properties[nameOrObject] = value;
+				}
+	    	}
+	    },
         
         /**
          * @method updateRow

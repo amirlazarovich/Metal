@@ -114,7 +114,7 @@ metal.ui.Component = metal.extend(metal.util.Observable, {
      * @param {String} name
      */
     get: function(name) {
-        if (this.isTitaniumProperty(name)) {
+        if (this.isTitaniumProperty(name) && !this.isDiscarded(name)) {
             // Titanium property
             return this.properties[name];
         } else {
@@ -147,7 +147,13 @@ metal.ui.Component = metal.extend(metal.util.Observable, {
     		if (this.isTitaniumProperty(nameOrObject)) {
 				this.titaniumComponent[nameOrObject] = metal.getView(value);
 			} 
-			this.properties[nameOrObject] = value;
+			
+			if (this.isDiscarded(nameOrObject)) {
+				this[nameOrObject] = value;
+			}
+			else {
+				this.properties[nameOrObject] = value;
+			}
     	}
     }
 });

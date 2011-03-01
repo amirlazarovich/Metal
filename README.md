@@ -1,7 +1,20 @@
 Metal - Rock
 ============
-Sample code (put this in app.js):
-	/**
+Metal framework was created for an easier, cleaner, object oriented and happier use of Titanium framework.
+Please clone me and check out the EXAMPLE folder so you could start getting your hands dirty with metal.
+
+This is a work in progress and not yet ready for a mass release, so if you have some free time - give us a hand and help
+us perfect this framework. 
+
+### Usage ###
+This is really easy! and it only requires two small steps :) (well, after of course you download Titanium (http://developer.appcelerator.com/get_started))
+
+1. Download Metal (https://github.com/amirlazarovich/Metal/archives/master) and place it in a folder named "Metal"
+inside your "Resources" directory
+
+2. Now replace the contents of "app.js" with the following:
+
+    /**
 	 * 
 	 * @include metal
 	 */
@@ -14,11 +27,14 @@ Sample code (put this in app.js):
 			new metal.ui.Window({
 				id: 'homescr',
 				title: 'Home',
-				className: 'window-simple',
+				barColor: '#000',
+                backgroundColor: 'white',
 				icon: 'KS_nav_ui.png',
 				items: [
 					new metal.ui.View({
-						className: 'view-simple',
+						width: 100,
+                        height: 100,
+                        backgroundColor: 'black',
 						animation: new metal.ui.Animation({
 							properties: {
 								duration: 1000,
@@ -44,7 +60,8 @@ Sample code (put this in app.js):
 			new metal.ui.Window({
 				id: 'fleetscr',
 				title: 'Fleet',
-				className: 'window-different',
+				barColor: 'blue',
+                backgroundColor: 'white',
 				icon: 'KS_nav_ui.png',
 				items: [
 					new metal.ui.TableView({
@@ -78,7 +95,8 @@ Sample code (put this in app.js):
 			new metal.ui.Window({
 				id: 'mapscr',
 				title: 'Map',
-				className: 'window-simple',
+				barColor: 'blue',
+                backgroundColor: 'white',
 				icon: 'KS_nav_ui.png',
 				items: [new metal.ui.Map({
 					animate: true,
@@ -118,3 +136,11 @@ Sample code (put this in app.js):
 		]
 	});
 	main.open();
+
+3. Promised only two steps right? well, step three is just me saying, go ahead and run it! 
+
+### Important notes ###
+1. Metal was not tested on Android! why? simply because the simulator sux and we don't have devices to play with :(
+2. I'm sure i had more notes to add...
+
+	
