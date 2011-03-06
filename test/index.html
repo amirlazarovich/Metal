@@ -1,32 +1,52 @@
-Metal - Rock
-============
-Metal framework was created for an easier, cleaner, object oriented and happier use of Titanium framework.
-Please clone me and check out the EXAMPLE folder so you could start getting your hands dirty with metal.
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
+   "http://www.w3.org/TR/html4/strict.dtd">
 
-This is a work in progress and not yet ready for a mass release, so if you have some free time - give us a hand and help
-us perfect this framework. 
-
-### Usage ###
-This is really easy! and it only requires two small steps :) (well, after of course you download [Titanium](http://developer.appcelerator.com/get_started))
-
-1. Download [Metal](https://github.com/amirlazarovich/Metal/archives/master) and place it in a folder named "Metal"
-inside your "Resources" directory
-
-2. Now replace the contents of "app.js" with the following:
-
-	    /**
-		 * 
-		 * @include metal
-		 */
-		Ti.include(
-			'/Metal/core/metal.js');	
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<title>metall</title>
+	<meta name="generator" content="Studio 3 http://aptana.com/">
+	<meta name="author" content="Mac Bob">
+	
+	<!-- HTML Titanium adapter -->
+	<script type="text/javascript" src="../adapter/html.js"></script>
+	
+	<!-- Metal framework -->
+	<script type="text/javascript" src="../core/metal.js"></script>
 		
+	
+		
+</head>
+<body>
+	
+	<!-- Tests -->
+	<script type="text/javascript">
+		
+		// Test all components
+		var animation = new metal.ui.Animation();
+		var button = new metal.ui.Button();
+		var label = new metal.ui.Label();
+		var map = new metal.ui.Map();
+		var marker = new metal.ui.Marker();
+		var picker = new metal.ui.Picker();
+		var pickerRow = new metal.ui.PickerRow();
+		var tab = new metal.ui.Tab();
+		var tabGroup = new metal.ui.TabGroup();
+		var tableRow = new metal.ui.TableRow();
+		var tableSection = new metal.ui.TableSection();
+		var tableView = new metal.ui.TableView();
+		var textArea = new metal.ui.TextArea();
+		var textField = new metal.ui.TextField();
+		var view = new metal.ui.View();
+		var win = new metal.ui.Window();
+		
+		// Debug this for better understanding Metal framework
 		var main = new metal.ui.TabGroup({
 			id: 'mainTab',
 			items: [
 				new metal.ui.Window({
-					id: 'anim',
-					title: 'Animation',
+					id: 'homescr',
+					title: 'Home',
 					barColor: '#000',
 	                backgroundColor: 'white',
 					icon: 'KS_nav_ui.png',
@@ -58,8 +78,8 @@ inside your "Resources" directory
 					]
 				}),
 				new metal.ui.Window({
-					id: 'table',
-					title: 'Table',
+					id: 'fleetscr',
+					title: 'Fleet',
 					barColor: 'blue',
 	                backgroundColor: 'white',
 					icon: 'KS_nav_ui.png',
@@ -93,7 +113,7 @@ inside your "Resources" directory
 					]
 				}),
 				new metal.ui.Window({
-					id: 'map',
+					id: 'mapscr',
 					title: 'Map',
 					barColor: 'blue',
 	                backgroundColor: 'white',
@@ -120,61 +140,38 @@ inside your "Resources" directory
 					})]
 				}),
 				new metal.ui.Window({
-					id: 'text',
-					title: 'Text',
+					id: 'alertssrc',
+					title: 'Alerts',
 					className: 'window-different',
 					backgroundColor: 'white',
 					icon: 'KS_nav_ui.png',
-					layout: 'vertical',
+					layout: 'horizontal',
 					items:[
-						new metal.ui.View({
-							layout: 'horizontal',
-							top: 5, 
+						new metal.ui.Label({
+							text: 'label: ',
+							top: 5,
 							left: 5,
-							items: [
-								new metal.ui.Label({
-									text: 'label: ',
-									width: 50
-								}),
-								new metal.ui.TextField({
-									left: 5
-								})
-							]
+							width: 50
 						}),
-						
-						new metal.widget.ImageButton({
-							image: 'KS_nav_ui.png',
-							top: 50,
-							label: {
-								text: 'Image button',
-								color: 'red',
-								font: {fontSize: 10}
-							},
-						
-							onclick: function() {
-					     		flog('ImageButton - onclick!');
-					        }
+						new metal.ui.TextField({
+							top: 5,
+							left: 5
 						})
 					]
 				}),
 				new metal.ui.Window({
-					id: 'picker',
-					title: 'Picker',
+					id: 'driversrc',
+					title: 'Drivers',
 					className: 'window-simple',
 					icon: 'KS_nav_ui.png',
-					items:[
-						new metal.ui.Picker({
-							type: Titanium.UI.PICKER_TYPE_DATE_AND_TIME
+					items:[new metal.ui.Picker({
+						type: Titanium.UI.PICKER_TYPE_DATE_AND_TIME
 					})]
 				})
 			]
 		});
-		main.open();
-
-3. Promised only two steps right? well, step three is just me saying, go ahead and run it! 
-
-### Important notes ###
-1. Metal was not tested on Android! why? simply because the simulator sux and we don't have devices to play with :(
-2. I'm sure i had more notes to add...
-
+		
+	</script>
 	
+</body>
+</html>

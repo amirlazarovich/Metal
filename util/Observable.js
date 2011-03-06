@@ -15,9 +15,9 @@ metal.util.Observable = metal.extend(Object, {
 	/**
 	 * The Titanium component this Observable controls over
 	 * 
-	 * @property {Titanium.UI.View} titaniumComponent
+	 * @property {Titanium.UI.View} component
 	 */
-	titaniumComponent: undefined,
+	component: undefined,
 	
 	/**
 	 * @constructor
@@ -27,9 +27,19 @@ metal.util.Observable = metal.extend(Object, {
 		metal.apply(this, config);
 		dlog('Observable::' + this.get('id'), 'constructor');
 		
+		this.initEvents();
+		
 		// Call parent
 		metal.util.Observable.superclass.constructor.call(this);
 	},
+    
+    /**
+     *
+     * @method initEvents
+     */
+    initEvents: function() {
+       dlog('Observable::' + this.get('id'), 'initEvents');
+    },
     
     /**
      * Register an event
@@ -37,7 +47,7 @@ metal.util.Observable = metal.extend(Object, {
      * @method on
      */
     on: function(event, cb) {
-        this.titaniumComponent.addEventListener(event, cb);
+        this.component.addEventListener(event, cb);
     },
     /**
      * Dismisses an event
@@ -45,7 +55,7 @@ metal.util.Observable = metal.extend(Object, {
      * @method dismiss
      */
     dismiss: function(event, cb) {
-        this.titaniumComponent.removeEventListener(event, cb);
+        this.component.removeEventListener(event, cb);
     },
     /**
      * Fires an event
@@ -59,7 +69,7 @@ metal.util.Observable = metal.extend(Object, {
         if (typeof this[event] != "undefined") {
             return this[event](obj);
         } else {
-            this.titaniumComponent.fireEvent(event, obj);
+            this.component.fireEvent(event, obj);
         }
     }
 });

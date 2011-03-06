@@ -36,29 +36,12 @@ metal.ui.Component = metal.extend(metal.util.Observable, {
 	    id: 'MetalComponent'
     },
     
-    /**
-     * A list of all available Titanium properties
-     *
-     * @property {Object} titaniumProperties
-     */
-    titaniumProperties: {
-    	id: {
-    		type: 'string'
-    	},
-    	className: {
-    		type: 'string'
-    	},
-    	classNames: {
-    		type: 'array'
-    	}
-    },
-	
 	/**
-     * The Titanium view this class wraps
+     * The Titanium component this class wraps
      *
-     * @property {Titanium.UI.View} titaniumComponent
+     * @property {Object} component
      */
-    titaniumComponent: undefined,
+    component: undefined,
 	
 	/*
 	 * @constructor 
@@ -93,7 +76,7 @@ metal.ui.Component = metal.extend(metal.util.Observable, {
      * @param {String} name
      */
     isTitaniumProperty: function(name) {
-        return !!this.titaniumProperties[name];
+        return !!this.properties.hasOwnProperty(name);
     },
     
     /**
@@ -104,7 +87,7 @@ metal.ui.Component = metal.extend(metal.util.Observable, {
      * @param {String} name
      */
     isDiscarded: function(name) {
-    	var prop = this.titaniumProperties[name] || {};
+    	var prop = this.properties[name] || { discard: false };
     	return !!prop.discard;
     },
     
@@ -129,7 +112,7 @@ metal.ui.Component = metal.extend(metal.util.Observable, {
      * @method getComponent
      */
     getComponent: function() {
-    	return this.titaniumComponent;
+    	return this.component;
     },
     
     /**
@@ -145,7 +128,7 @@ metal.ui.Component = metal.extend(metal.util.Observable, {
     	} else {
     		// Name
     		if (this.isTitaniumProperty(nameOrObject)) {
-				this.titaniumComponent[nameOrObject] = metal.getView(value);
+				this.component[nameOrObject] = metal.getView(value);
 			} 
 			
 			if (this.isDiscarded(nameOrObject)) {

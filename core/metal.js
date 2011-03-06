@@ -89,6 +89,100 @@ this.metal = (function() {
          */
         LANDSCAPE_RIGHT: Ti.UI.LANDSCAPE_RIGHT,
 		
+		/**
+		 * UI based constants
+		 * 
+		 * @property {Object} ui
+		 */
+		ui: {
+			/**
+			 * Android constants
+			 * 
+			 * @property {Object} android
+			 */
+			android: (function() {
+				
+				if (!Titanium.UI.Android) {
+					return {};
+				} else {
+					return {
+						/**
+			 			 * @const {Integer} SOFT_KEYBOARD_DEFAULT_ON_FOCUS
+			         	 */
+						SOFT_KEYBOARD_DEFAULT_ON_FOCUS: Titanium.UI.Android.SOFT_KEYBOARD_DEFAULT_ON_FOCUS, 
+						
+						/**
+			 			 * @const {Integer} SOFT_KEYBOARD_HIDE_ON_FOCUS
+			         	 */ 
+						SOFT_KEYBOARD_HIDE_ON_FOCUS: Titanium.UI.Android.SOFT_KEYBOARD_HIDE_ON_FOCUS, 
+						
+						/**
+			 			 * @const {Integer} SOFT_KEYBOARD_SHOW_ON_FOCUS
+			         	 */
+						SOFT_KEYBOARD_SHOW_ON_FOCUS: Titanium.UI.Android.SOFT_KEYBOARD_SHOW_ON_FOCUS
+					};
+				}
+			})(),
+			
+			/**
+			 * iPhone constants
+			 * @property {Object} iphone
+			 */
+			iphone: {
+				
+			},
+			
+			/**
+ 			 * @const {Integer} INPUT_BORDERSTYLE_ROUNDED
+         	 */
+			INPUT_BORDERSTYLE_ROUNDED: Ti.UI.INPUT_BORDERSTYLE_ROUNDED,
+			
+			/**
+ 			 * @const {Integer} PICKER_TYPE_DATE_AND_TIME
+         	 */
+			PICKER_TYPE_DATE_AND_TIME: Ti.UI.PICKER_TYPE_DATE_AND_TIME,
+			
+			/**
+	         * @const {Integer} PICKER_TYPE_PLAIN
+	         */
+			PICKER_TYPE_PLAIN: Ti.PICKER_TYPE_PLAIN,
+			
+			/**
+	         * @const {Integer} PICKER_TYPE_DATE
+	         */
+			PICKER_TYPE_DATE: Ti.UI.PICKER_TYPE_DATE, 
+			
+			/**
+	         * @const {Integer} PICKER_TYPE_TIME
+	         */
+			PICKER_TYPE_TIME: Ti.UI.PICKER_TYPE_TIME,
+			
+			/**
+	         * @const {Integer} PICKER_TYPE_COUNT_DOWN_TIMER
+	         */
+			PICKER_TYPE_COUNT_DOWN_TIMER: Ti.UI.PICKER_TYPE_COUNT_DOWN_TIMER,
+			
+			/**
+	         * @const {Integer} TEXT_AUTOCAPITALIZATION_NONEL
+	         */
+			TEXT_AUTOCAPITALIZATION_NONEL: Ti.UI.TEXT_AUTOCAPITALIZATION_NONE,
+			 
+			/**
+	         * @const {Integer} TEXT_AUTOCAPITALIZATION_WORDS
+	         */ 
+			TEXT_AUTOCAPITALIZATION_WORDS: Ti.UI.TEXT_AUTOCAPITALIZATION_WORDS,
+			
+			/**
+	         * @const {Integer} TEXT_AUTOCAPITALIZATION_SENTENCES
+	         */ 
+			TEXT_AUTOCAPITALIZATION_SENTENCES: Ti.UI.TEXT_AUTOCAPITALIZATION_SENTENCES,
+			
+			/**
+	         * @const {Integer} TEXT_AUTOCAPITALIZATION_ALL
+	         */ 
+			TEXT_AUTOCAPITALIZATION_ALL: Ti.UI.TEXT_AUTOCAPITALIZATION_ALL
+		},
+		
 		////////////////////////////////////////////////////////////
         // PROPERTIES
         ////////////////////////////////////////////////////////////
@@ -139,6 +233,12 @@ this.metal = (function() {
          * @property {Integer} width
          */
         width: Ti.Platform.displayCaps.platformWidth,
+        
+        /**
+         * The operating system name
+         * @property {String} osname
+         */
+        osname: Ti.Platform.osname,
 
         ////////////////////////////////////////////////////////////
         // CHECKERS
@@ -153,14 +253,25 @@ this.metal = (function() {
         },
         
         /**
-         * Check if the subject is infact a boolean variable
+         * Check if the subject is in fact a boolean variable
          * with the value of True 
          * 
          * @method isTrue
          * @param {Object} subject
          */
         isTrue: function(subject) {
-        	return !!subject;
+        	return !this.isNothing(subject) && !!subject && subject === true;
+        },
+        
+        /**
+         * Check if the subject is in fact a boolean variable
+         * with the value of False 
+         * 
+         * @method isFalse
+         * @param {Object} subject
+         */
+        isFalse: function(subject) {
+        	return !this.isNothing(subject) && !!subject === false && subject === false;
         },
         
         /**
@@ -423,7 +534,6 @@ this.metal = (function() {
         	var supr = object.superclass();
         	while(!metal.isNothing(supr)) {
         		this.deepApply(object, {
-	        		titaniumProperties: supr.titaniumProperties,
 	        		properties: supr.properties
 	    		}, true, true);
 	    		supr = metal.isNothing(supr.superclass) ? null : supr.superclass();
@@ -459,11 +569,11 @@ this.metal = (function() {
          * Acts the same as apply with only one difference:
          * it doesn't overrides any keys in <object>
          *
-         * @method sApply
+         * @method sapply
          * @param {Object} object
          * @param {Object} config
          */
-        sApply: function(object, config) {
+        sapply: function(object, config) {
             if (object && config && typeof config == 'object') {
                 for (var key in config) {
                     if (!(key in object)) {
@@ -595,6 +705,66 @@ this.metal = (function() {
                 return subclass;
             };
         }(),
+		
+		 /**
+         * @method formatProperties
+         * @param {Object} prop
+         */
+        formatProperties: function(prop) {
+        	var me = this;
+        	var result = {};
+        	var p;
+        	
+        	function isIncluded(subject) {
+        		return !me.isNothing(subject) &&
+        			((me.isObject(subject) && !me.isNothing(subject.value)) || !me.isObject(subject)) && 
+        			me.isFalse(subject.discard || false) && 
+        			!me.isFalse(subject[me.osname]);
+        	}
+        	
+        	// Go over all properties
+        	for (var key in prop) {
+    			if (isIncluded(prop[key])) {
+    				if (prop[key].value) {
+    					// Format the property if needed
+    					p = prop[key].format ? prop[key].format() : prop[key].value;
+    				} else {
+    					p = prop[key];
+    				}
+    				result[key] = p;
+    			}
+        	}
+        	return result;
+        },
+		
+		/**
+		 * @method formatDate
+		 * @param {String} value
+		 * @param [optional] {String} option Can be one of the following: 'short', 'medium', 'long'
+		 */        
+        formatDate: function(value, option) {
+        	return String.formatDate(value, option);
+        },
+        
+        /**
+         * @method formatTime
+         * @param {String} value
+         * @param [optional] {String} option Can be one of the following: 'short', 'medium', 'long'
+         */
+        formatTime: function(value, option) {
+        	return String.formatTime(value, option);
+        },
+        
+        /**
+         * @method formatDateAndTime
+         * @param {String} value
+         * @param [optional] {String} option Can be one of the following: 'short', 'medium', 'long'
+         */
+        formatDateAndTime: function(value, option) {
+        	var date = this.formatDate(value, option);
+        	var time = this.formatTime(value, option);
+        	return date + ' ' + time;
+        },
         
         /**
          * Register a global event
@@ -634,6 +804,13 @@ this.metal = (function() {
         ////////////////////////////////////////////////////////////
         
         /**
+         * @method getEmptyFn
+         */
+        getEmptyFn: function() {
+        	return function() {};
+        },
+        
+        /**
          * @method getHeight
          */
         getHeight: function() {
@@ -645,6 +822,20 @@ this.metal = (function() {
          */
         getWidth: function() {
             return this.width;
+        },
+        
+        /**
+         * @method getDefaultCenter
+         */
+        getDefaultCenter: function() {
+        	return {x: this.width / 2, y: this.height / 2};
+        },
+        
+        /**
+         * @method getDefaultSize
+         */
+        getDefaultSize: function() {
+        	return {width: this.width, height: this.height};
         },
         
         /**
@@ -712,6 +903,10 @@ metal.include(
 	'/Metal/ui/Animation.js',
 	'/Metal/ui/Map.js',
  	'/Metal/ui/Marker.js',
+ 	'/Metal/ui/Picker.js',
+ 	'/Metal/ui/PickerRow.js',
+ 	'/Metal/ui/TextField.js',
+ 	'/Metal/ui/TextArea.js',
 	
 	// Widgets
 	'/Metal/widget/ImageButton.js',
