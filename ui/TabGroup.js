@@ -173,8 +173,8 @@ metal.ui.TabGroup = metal.extend(metal.ui.AbstractView, {
 		} else {
 			dlog('Create tab');
 			var ntab = new metal.ui.Tab({
-				id: tab.id + 'tab',
-				window: tab.getView(),
+				id: tab.get('id') + '_tab',
+				window: tab,
 				properties: {
 					title: tab.get('title') || '',
 					icon: tab.get('icon') || null

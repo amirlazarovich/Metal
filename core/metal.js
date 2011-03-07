@@ -539,13 +539,27 @@ this.metal = (function() {
 	    		supr = metal.isNothing(supr.superclass) ? null : supr.superclass();
         	}
         	
+        	var prop;
+        	
         	// Copy all overrides from config
         	for (var x in config) {
             	if (config.hasOwnProperty(x)) {
             		if (object.isTitaniumProperty(x) && !object.isDiscarded(x)) {
             			// Titanium property - apply on object.property
             			object.properties = object.properties || {};
-            			object.properties[x] = config[x];
+            			if (!metal.isNothing(object.properties[x]) && 
+								object.properties[x].hasOwnProperty('value')) {
+							// Overriding a complex object
+							prop = {};
+            				if (!config[x].hasOwnProperty('value')) {
+            					config[x] = { value: config[x] };
+ 							}
+           					this.apply(prop, config[x], object.properties[x]);
+            				object.properties[x] = prop;
+            			} else {
+            				// Simple override
+            				object.properties[x] = config[x];	
+            			}
             		} else if (this.isObject(config[x]) && config[x].framework != 'metal') {
             			// Simple Object
             			if (this.isNothing(object[x])) {
@@ -716,16 +730,41 @@ this.metal = (function() {
         	var p;
         	
         	function isIncluded(subject) {
+        		/*
+        		 * What is not included:
+        		 * 1. undefined/null (also if the subject is an object and its value is one of them)
+        		 * 2. discarded property
+        		 * 3. not supported by the OS
+        		 */ 
+				var pass1 = true;
+        	 	var pass2 = true;
+        		var pass3 = true;
+        		 
+        		 
+        		if (me.isObject(subject)) {
+        		 	// Object
+        		 	pass1 = subject.hasOwnProperty('value') ? !me.isNothing(subject.value) : true;
+        		 	pass2 = me.isFalse(subject.discard || false);
+        		 	pass3 = !me.isFalse(subject[me.osname]);
+        		} else {
+        		 	// Not an Object
+        		 	pass1 = !me.isNothing(subject);
+        		}
+				
+				return pass1 && pass2 && pass3;       		
+        		
+        		/*
         		return !me.isNothing(subject) &&
         			((me.isObject(subject) && !me.isNothing(subject.value)) || !me.isObject(subject)) && 
         			me.isFalse(subject.discard || false) && 
         			!me.isFalse(subject[me.osname]);
+    			*/
         	}
         	
         	// Go over all properties
         	for (var key in prop) {
     			if (isIncluded(prop[key])) {
-    				if (prop[key].value) {
+    				if (prop[key].hasOwnProperty('value')) {
     					// Format the property if needed
     					p = prop[key].format ? prop[key].format() : prop[key].value;
     				} else {

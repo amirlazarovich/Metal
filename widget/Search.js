@@ -82,7 +82,14 @@ metal.widget.Search = metal.extend(metal.ui.AbstractView, {
  		* @property {string} promptid
  		*/
 		promptid: undefined,
-
+		
+		/**
+ 		* the size of the view as a dictionary of width and height properties
+ 		*
+ 		* @property {object} size
+ 		*/
+		size: metal.getDefaultSize(),
+		
 		/**
  		* <p>boolean indicates whether the cancel button is displayed</p>
  		*

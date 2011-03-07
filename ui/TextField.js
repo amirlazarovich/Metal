@@ -69,7 +69,14 @@ metal.ui.TextField = metal.extend(metal.ui.AbstractView, {
  		* @property {boolean} enabled
  		*/
 		enabled: true,
-
+		
+		/**
+ 		* <p>the font properties of the button</p>
+ 		*
+ 		* @property {object} font
+ 		*/
+		font: undefined,
+		
 		/**
  		* <p>the hint text to display when the field is unfocused</p>
  		*

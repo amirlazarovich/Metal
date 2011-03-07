@@ -155,7 +155,7 @@ metal.ui.AbstractView = metal.extend(metal.ui.Component, {
  		*
  		* @property {object} center
  		*/
-		center: metal.getDefaultCenter(),//[object TiPoint],
+		center: undefined,// metal.getDefaultCenter(),//[object TiPoint],
 		
 		/**
 		 * Define the JSS style name
@@ -235,7 +235,7 @@ metal.ui.AbstractView = metal.extend(metal.ui.Component, {
  		*
  		* @property {object} size
  		*/
-		size: metal.getDefaultSize(),//[object TiRect],
+		size: undefined, //metal.getDefaultSize(),//[object TiRect],
 		/**
  		* One of Titanium.UI.Android.SOFT_KEYBOARD_DEFAULT_ON_FOCUS, Titanium.UI.Android.SOFT_KEYBOARD_HIDE_ON_FOCUS, or Titanium.UI.Android.SOFT_KEYBOARD_SHOW_ON_FOCUS. (Android only)
  		*
@@ -274,16 +274,7 @@ metal.ui.AbstractView = metal.extend(metal.ui.Component, {
  		*
  		* @property {float,string} width
  		*/
-		width: {
-			value: '100%',
-			format: function() {
-				if (metal.osname == 'android') {
-					return 'auto';
-				} else {
-					return this.value;
-				}
-			}
-		},
+		width: metal.width,
 		/**
  		* the z index position relative to other sibling views
  		*
@@ -443,7 +434,8 @@ metal.ui.AbstractView = metal.extend(metal.ui.Component, {
 					views[spacerIndex][dir] = width + padding;
 				} else {
 					var entireWidth = parseFloat(this.get('width')) || parseFloat(this.component.width) || metal.width;
-					views[spacerIndex].width = entireWidth - width - padding;
+					views[spacerIndex].width = entireWidth - width - 2 * padding;
+					views[0].left = padding;
 				}
 
 				this.component.add(views);

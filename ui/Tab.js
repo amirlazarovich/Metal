@@ -52,16 +52,11 @@ metal.ui.Tab = metal.extend(metal.ui.AbstractView, {
  		*/
 		window: {
 			value: undefined,
-			discard: true // Don't copy this property to metal property
+			format: function() {
+				return metal.getView(this.value);
+			}
 		}
 	},
-
-	/**
- 	* The window this tab will show
- 	*
- 	* @property {metal.ui.AbstractView} window
- 	*/
-	window: undefined,
 
 	/**
  	* The Titanium view this class wraps
@@ -79,9 +74,6 @@ metal.ui.Tab = metal.extend(metal.ui.AbstractView, {
 
 		// Set Titanium component
 		this.component = Ti.UI.createTab(metal.formatProperties(this.properties));
-
-		// Set enclosing window
-		this.component.window = metal.getView(this.window);
 
 		// Call parent constructor
 		metal.ui.Tab.superclass.constructor.call(this);
@@ -103,7 +95,7 @@ metal.ui.Tab = metal.extend(metal.ui.AbstractView, {
 	beforeopen: function(obj) {
 		dlog('Tab::' + this.get('id'), 'before open event');
 		// Fire event on enclosing window
-		var rtnValue = this.window.fire('beforeopen');
+		var rtnValue = this.get('window').fire('beforeopen');
 		return rtnValue || metal.ui.Tab.superclass.beforeopen(obj);
 	},
 	/**
@@ -114,7 +106,7 @@ metal.ui.Tab = metal.extend(metal.ui.AbstractView, {
 	beforeclose: function(obj) {
 		dlog('Tab::' + this.get('id'), 'before close event');
 		// Fire event on enclosing window
-		var rtnValue = this.window.fire('beforeclose');
+		var rtnValue = this.get('window').fire('beforeclose');
 		return rtnValue || metal.ui.Tab.superclass.beforeclose(obj);
 	}
 });

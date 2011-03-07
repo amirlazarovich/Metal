@@ -8,11 +8,17 @@ function(win, msg) {
  */
 if (typeof Titanium == 'undefined') {
 	this.Titanium = this.Ti = {};
-
+	
+	this.L = function(value) {
+		return value;
+	};
+	
 	Ti.include = function() {
 		var ln = arguments.length, i, src;
 		for (i = 0; i < ln; i++) {
-			src = arguments[i].substring(1, arguments[i].length).replace('Metal', '..');
+			
+			//src = arguments[i].substring(1, arguments[i].length).replace('Metal', '..');
+			src = '../..' + arguments[i];
 			document.write('<script type="text/javascript" src="'+src+'"><\/script>');
 		}
 	};

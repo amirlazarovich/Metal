@@ -59,7 +59,14 @@ metal.ui.TextArea = metal.extend(metal.ui.AbstractView, {
  		* @property {boolean} enabled
  		*/
 		enabled: undefined,
-
+		
+		/**
+ 		* <p>the font properties of the button</p>
+ 		*
+ 		* @property {object} font
+ 		*/
+		font: undefined,
+		
 		/**
  		* <p>array of toolbar button objects to be used when the keyboard is displayed</p>
  		*

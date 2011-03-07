@@ -13,6 +13,9 @@
 	
 	<!-- Metal framework -->
 	<script type="text/javascript" src="../core/metal.js"></script>
+	
+	<!-- Your framework -->
+	<!-- <script type="text/javascript" src=""></script> -->
 		
 	
 		
@@ -23,6 +26,7 @@
 	<script type="text/javascript">
 		
 		// Test all components
+		/*
 		var animation = new metal.ui.Animation();
 		var button = new metal.ui.Button();
 		var label = new metal.ui.Label();
@@ -39,14 +43,15 @@
 		var textField = new metal.ui.TextField();
 		var view = new metal.ui.View();
 		var win = new metal.ui.Window();
+		*/
 		
 		// Debug this for better understanding Metal framework
 		var main = new metal.ui.TabGroup({
 			id: 'mainTab',
 			items: [
 				new metal.ui.Window({
-					id: 'homescr',
-					title: 'Home',
+					id: 'anim',
+					title: 'Animation',
 					barColor: '#000',
 	                backgroundColor: 'white',
 					icon: 'KS_nav_ui.png',
@@ -78,8 +83,8 @@
 					]
 				}),
 				new metal.ui.Window({
-					id: 'fleetscr',
-					title: 'Fleet',
+					id: 'table',
+					title: 'Table',
 					barColor: 'blue',
 	                backgroundColor: 'white',
 					icon: 'KS_nav_ui.png',
@@ -93,12 +98,11 @@
 										this.add([
 											new metal.ui.Label({
 												height: 'auto',
-												left: 5, 
 												width: 'auto',
 												text: 'left'
 											}),
 											
-											{type: 'spacer' /* padding: X (default: 0)*/ },
+											{type: 'spacer', padding: 5 /* default padding is 0 */ },
 											
 											new metal.ui.Label({
 												height: 'auto',
@@ -113,7 +117,7 @@
 					]
 				}),
 				new metal.ui.Window({
-					id: 'mapscr',
+					id: 'map',
 					title: 'Map',
 					barColor: 'blue',
 	                backgroundColor: 'white',
@@ -140,32 +144,51 @@
 					})]
 				}),
 				new metal.ui.Window({
-					id: 'alertssrc',
-					title: 'Alerts',
+					id: 'text',
+					title: 'Text',
 					className: 'window-different',
 					backgroundColor: 'white',
 					icon: 'KS_nav_ui.png',
-					layout: 'horizontal',
+					layout: 'vertical',
 					items:[
-						new metal.ui.Label({
-							text: 'label: ',
-							top: 5,
+						new metal.ui.View({
+							layout: 'horizontal',
+							top: 5, 
 							left: 5,
-							width: 50
+							items: [
+								new metal.ui.Label({
+									text: 'label: ',
+									width: 50
+								}),
+								new metal.ui.TextField({
+									left: 5
+								})
+							]
 						}),
-						new metal.ui.TextField({
-							top: 5,
-							left: 5
+						
+						new metal.widget.ImageButton({
+							image: 'KS_nav_ui.png',
+							top: 50,
+							label: {
+								text: 'Image button',
+								color: 'red',
+								font: {fontSize: 10}
+							},
+						
+							onclick: function() {
+					     		flog('ImageButton - onclick!');
+					        }
 						})
 					]
 				}),
 				new metal.ui.Window({
-					id: 'driversrc',
-					title: 'Drivers',
+					id: 'picker',
+					title: 'Picker',
 					className: 'window-simple',
 					icon: 'KS_nav_ui.png',
-					items:[new metal.ui.Picker({
-						type: Titanium.UI.PICKER_TYPE_DATE_AND_TIME
+					items:[
+						new metal.ui.Picker({
+							type: Titanium.UI.PICKER_TYPE_DATE_AND_TIME
 					})]
 				})
 			]

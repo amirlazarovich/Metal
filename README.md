@@ -73,12 +73,11 @@ inside your "Resources" directory
 										this.add([
 											new metal.ui.Label({
 												height: 'auto',
-												left: 5, 
 												width: 'auto',
 												text: 'left'
 											}),
 											
-											{type: 'spacer' /* padding: X (default: 0)*/ },
+											{type: 'spacer', padding: 5 /* default padding is 0 */ },
 											
 											new metal.ui.Label({
 												height: 'auto',
