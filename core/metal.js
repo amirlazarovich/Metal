@@ -882,7 +882,7 @@ this.metal = (function() {
         },
         
         /**
-         * Get the native UI view
+         * Get native UI view
          *
          * @method getView
          * @param {Titanium.UI.View or metal.ui.AbstractView} view
@@ -894,6 +894,21 @@ this.metal = (function() {
             } else {
                 return view;
             }
+        },
+        
+        /**
+         * Get native UI component
+         * 
+         * @method getComponent
+         * @param {object|metal.ui.Component} comp
+         */
+        getComponent: function(comp) {
+        	comp = comp || {};
+        	if (comp.framework == 'metal') {
+        		return comp.getComponent();
+        	} else {
+        		return comp;
+        	}
         }
     };
 

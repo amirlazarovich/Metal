@@ -326,7 +326,7 @@ metal.ui.AbstractView = metal.extend(metal.ui.Component, (function() {
 
 			// If any items were sent, add them now
 			var items = this.items;
-			this.items = []
+			this.items = [];
 			this.add(items);
 
 			this.initComponents();
@@ -342,7 +342,7 @@ metal.ui.AbstractView = metal.extend(metal.ui.Component, (function() {
  		* @param {Function} cb
  		*/
 		animate: function(obj, cb) {
-			this.component.animate(obj, cb ||
+			this.component.animate(metal.getComponent(obj), cb ||
 			function() {
 			});
 

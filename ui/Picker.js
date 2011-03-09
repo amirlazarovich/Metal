@@ -137,12 +137,12 @@ metal.ui.Picker = metal.extend(metal.ui.AbstractView, {
 			// Array
 			for (var i = 0, iln = items.length; i < iln; i++) {
 				this.component.add(metal.getView(items[i]));
-                this.items.push(items[i]);
+				this.items.push(items[i]);
 			}
 		} else if (metal.isObject(items)){
 			// Object
 			this.component.add(metal.getView(items));
-            this.items.push(items);
+			this.items.push(items);
 		}
 	},
 	/**

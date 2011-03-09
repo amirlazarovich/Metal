@@ -197,7 +197,7 @@ metal.ui.Animation = metal.extend(metal.ui.Component, {
  	* @property [optional] {Function} callback
  	*/
 	callback: function() {
-	}, // TODO [Animation] Need to support this :)
+	}, 
 	/**
  	* @constructor
  	* @param {Object} config
@@ -218,6 +218,7 @@ metal.ui.Animation = metal.extend(metal.ui.Component, {
  	*/
 	initEvents: function() {
 		dlog('Animation::' + this.get('id'), 'initEvents');
+		this.on('complete', this.callback);
 	}
 });
 
