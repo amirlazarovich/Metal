@@ -1,7 +1,8 @@
 Metal - Rock
 ============
 Metal framework was created for an easier, cleaner, object oriented and happier use of Titanium framework.
-Please clone me and check out the EXAMPLE folder so you could start getting your hands dirty with metal.
+Please clone me and check out the [EXAMPLEs](https://github.com/amirlazarovich/Metal/tree/master/EXAMPLEs) folder so 
+you could start getting your hands dirty with metal.
 
 This is a work in progress and not yet ready for a mass release, so if you have some free time - give us a hand and help
 us perfect this framework. 
@@ -21,159 +22,45 @@ inside your "Resources" directory
 		Ti.include(
 			'/Metal/core/metal.js');	
 		
-		var main = new metal.ui.TabGroup({
-			id: 'mainTab',
+		// Create my tab group
+		var myTabGroup = new metal.ui.TabGroup({
+			// Give my tab group an id - later you can use it
+			// with both JSS and metal.control class (see below)
+			// [this is optional, but highly recommended]
+			id: 'mytabs',
+			
+			// Add tabs
 			items: [
-				new metal.ui.Window({
-					id: 'anim',
-					title: 'Animation',
-					barColor: '#000',
-	                backgroundColor: 'white',
-					icon: 'KS_nav_ui.png',
+				// First tab window
+				new metal.ui.Window({ 
+					title: 'Metal',
+					backgroundColor: 'white',			
 					items: [
-						new metal.ui.View({
-							width: 100,
-	                        height: 100,
-	                        backgroundColor: 'black',
-							animation: new metal.ui.Animation({
-								properties: {
-									duration: 1000,
-									backgroundColor: 'red',
-									top: 10,
-									autoreverse: true,
-									repeat: 100
-								},
-								
-								initEvents: function() {
-									this.on('start', function() {
-										flog('animation has started');
-									});
-									
-									this.on('complete', function() {
-										flog('animation is over');
-									});
-								}
-							})
+						// Nested items inside my window
+						new metal.ui.Label({
+							text: 'Hello World'
 						})
 					]
-				}),
-				new metal.ui.Window({
-					id: 'table',
-					title: 'Table',
-					barColor: 'blue',
-	                backgroundColor: 'white',
-					icon: 'KS_nav_ui.png',
-					items: [
-						new metal.ui.TableView({
-							data: [
-								new metal.ui.TableRow({
-									layout: 'horizontal',
-									
-									initComponents: function() {
-										this.add([
-											new metal.ui.Label({
-												height: 'auto',
-												width: 'auto',
-												text: 'left'
-											}),
-											
-											{type: 'spacer', padding: 5 /* default padding is 0 */ },
-											
-											new metal.ui.Label({
-												height: 'auto',
-												width: 'auto',
-												text: 'right'
-											})
-										]);
-									}
-								})
-							]
-						})
-					]
-				}),
-				new metal.ui.Window({
-					id: 'map',
-					title: 'Map',
-					barColor: 'blue',
-	                backgroundColor: 'white',
-					icon: 'KS_nav_ui.png',
-					items: [new metal.ui.Map({
-						animate: true,
-						region: {
-							latitude:37.33168900, 
-							longitude:-122.03073100, 
-	           				latitudeDelta:0.1, 
-	           				longitudeDelta:0.1
-	       				},
-						regionFit: true,
-						markers: [
-							new metal.ui.Marker({
-								latitude:37.33168900,
-								longitude:-122.03073100,
-								title:"Steve Jobs",
-								subtitle:'Cupertino, CA',
-								pincolor:Titanium.Map.ANNOTATION_GREEN,
-								animate:true
-							})
-						]
-					})]
-				}),
-				new metal.ui.Window({
-					id: 'text',
-					title: 'Text',
-					className: 'window-different',
-					backgroundColor: 'white',
-					icon: 'KS_nav_ui.png',
-					layout: 'vertical',
-					items:[
-						new metal.ui.View({
-							layout: 'horizontal',
-							top: 5, 
-							left: 5,
-							items: [
-								new metal.ui.Label({
-									text: 'label: ',
-									width: 50
-								}),
-								new metal.ui.TextField({
-									left: 5
-								})
-							]
-						}),
-						
-						new metal.widget.ImageButton({
-							image: 'KS_nav_ui.png',
-							top: 50,
-							label: {
-								text: 'Image button',
-								color: 'red',
-								font: {fontSize: 10}
-							},
-						
-							onclick: function() {
-					     		flog('ImageButton - onclick!');
-					        }
-						})
-					]
-				}),
-				new metal.ui.Window({
-					id: 'picker',
-					title: 'Picker',
-					className: 'window-simple',
-					icon: 'KS_nav_ui.png',
-					items:[
-						new metal.ui.Picker({
-							type: Titanium.UI.PICKER_TYPE_DATE_AND_TIME
-					})]
 				})
+				
+				// ... add more tabs here (@see metal.ui.Tab for more capabilities)
 			]
 		});
-		main.open();
+		
+		// Display my tab group
+		// --------------------
+		// myTabGroup.open() will work just fine but isn't recommended since
+		// metal controller will also fire helpful events along the way such as: beforeopen,
+		// beforeclose, etc. 
+		metal.control.open('mytabs'); // passing the entire object myTabGroup will work also!
 
 3. Promised only two steps right? well, step three is just me saying, go ahead and run it! 
 
 ### Important notes ###
 1. Metal was not tested on Android! why? simply because the simulator sux and we don't have devices to play with :(
+   Altough i did try it once and it required me to increase the stack size. How did i do that? simple insert the following
+   line into the tiapp.xml file directly under the <ti:app> tag:
+   <property name="ti.android.threadstacksize" type="int">65536</property>
 2. I'm sure i had more notes to add...
 
 	

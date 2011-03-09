@@ -116,25 +116,6 @@ metal.ui.TabGroup = metal.extend(metal.ui.AbstractView, {
 	setActiveTab: function(indexOrObject) {
 		this.component.setActiveTab(indexOrObject);
 	},
-	/**
- 	*
- 	* @ovverride
- 	* @method add
- 	* @param {[Array of] Titanium.UI.Tab} tabs
- 	*/
-	/*
-	add: function(tabs) {
-	if  (metal.isArray(tabs)) {
-	for (var i in tabs) {
-	if (tabs.hasOwnProperty(i)) {
-	this.component.addTab(metal.getView(tabs[i]));
-	}
-	}
-	} else {
-	this.component.addTab(metal.getView(tabs));
-	}
-	},
-	*/
 
 	/**
  	*
@@ -163,11 +144,13 @@ metal.ui.TabGroup = metal.extend(metal.ui.AbstractView, {
 		if (tab == '[object TiUITab]') {
 			dlog('Instance of this');
 			this.component.addTab(tab);
+			this.items.push(tab);
 
 			// See if it is a Metal.ui.Tab
 		} else if (tab instanceof metal.ui.Tab) {
 			dlog('Instance of tab');
 			this.component.addTab(tab.getView());
+			this.items.push(tab);
 
 			// Create a new tab component
 		} else {
@@ -180,8 +163,9 @@ metal.ui.TabGroup = metal.extend(metal.ui.AbstractView, {
 					icon: tab.get('icon') || null
 				}
 			});
-			//tab.tab = ntab;
+			
 			this.component.addTab(ntab.getView());
+			this.items.push(ntab);
 		}
 	},
 	/**

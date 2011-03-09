@@ -740,7 +740,6 @@ this.metal = (function() {
         	 	var pass2 = true;
         		var pass3 = true;
         		 
-        		 
         		if (me.isObject(subject)) {
         		 	// Object
         		 	pass1 = subject.hasOwnProperty('value') ? !me.isNothing(subject.value) : true;
@@ -752,13 +751,6 @@ this.metal = (function() {
         		}
 				
 				return pass1 && pass2 && pass3;       		
-        		
-        		/*
-        		return !me.isNothing(subject) &&
-        			((me.isObject(subject) && !me.isNothing(subject.value)) || !me.isObject(subject)) && 
-        			me.isFalse(subject.discard || false) && 
-        			!me.isFalse(subject[me.osname]);
-    			*/
         	}
         	
         	// Go over all properties

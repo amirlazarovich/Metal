@@ -36,6 +36,12 @@ metal.ui.Marker = metal.extend(metal.ui.Component, (function() {
  			* @property {string} image
  			*/
 			image: undefined,
+			
+			/**
+			 * @property {Float} latitude
+			 */
+			latitude: undefined,
+			
 			/**
  			* <p>the left button image on the annotation. must either be a button type constant or url</p>
  			*
@@ -48,6 +54,12 @@ metal.ui.Marker = metal.extend(metal.ui.Component, (function() {
  			* @property {object} leftView
  			*/
 			leftView: undefined,
+			
+			/**
+			 * @property {Float} longitude
+			 */
+			longitude: undefined,
+			
 			/**
  			* <p>the pin color as one of <a href="Titanium.Map.ANNOTATION_RED.html">Titanium.Map.ANNOTATION_RED</a>, <a href="Titanium.Map.ANNOTATION_GREEN.html">Titanium.Map.ANNOTATION_GREEN</a> or <a href="Titanium.Map.ANNOTATION_PURPLE.html">Titanium.Map.ANNOTATION_PURPLE</a>.</p>
  			*

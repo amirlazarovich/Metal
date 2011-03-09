@@ -71,7 +71,13 @@ metal.ui.Picker = metal.extend(metal.ui.AbstractView, {
  		*/
 		selectionIndicator: undefined,
 		/**
- 		* <p>the type constant for the picker. One of <a href="Titanium.UI.PICKER_TYPE_PLAIN-property.html">Titanium.UI.PICKER_TYPE_PLAIN</a> (default), <a href="Titanium.UI.PICKER_TYPE_DATE_AND_TIME-property.html">Titanium.UI.PICKER_TYPE_DATE_AND_TIME</a>, <a href="Titanium.UI.PICKER_TYPE_DATE-property.html">Titanium.UI.PICKER_TYPE_DATE</a>, <a href="Titanium.UI.PICKER_TYPE_TIME-property.html">Titanium.UI.PICKER_TYPE_TIME</a> or <a href="Titanium.UI.PICKER_TYPE_COUNT_DOWN_TIMER-property.html">Titanium.UI.PICKER_TYPE_COUNT_DOWN_TIMER</a>. (Note that Titanium's Android implementation does not support the countdown timer or date+time varieties.)</p>
+ 		* <p>the type constant for the picker. One of 
+ 		* <a href="Titanium.UI.PICKER_TYPE_PLAIN-property.html">Titanium.UI.PICKER_TYPE_PLAIN</a> (default), 
+ 		* <a href="Titanium.UI.PICKER_TYPE_DATE_AND_TIME-property.html">Titanium.UI.PICKER_TYPE_DATE_AND_TIME</a>, 
+ 		* <a href="Titanium.UI.PICKER_TYPE_DATE-property.html">Titanium.UI.PICKER_TYPE_DATE</a>, 
+ 		* <a href="Titanium.UI.PICKER_TYPE_TIME-property.html">Titanium.UI.PICKER_TYPE_TIME</a> or 
+ 		* <a href="Titanium.UI.PICKER_TYPE_COUNT_DOWN_TIMER-property.html">Titanium.UI.PICKER_TYPE_COUNT_DOWN_TIMER</a>. 
+ 		* (Note that Titanium's Android implementation does not support the countdown timer or date+time varieties.)</p>
  		*
  		* @property {int} type
  		*/
@@ -124,19 +130,19 @@ metal.ui.Picker = metal.extend(metal.ui.AbstractView, {
  	* Add an array of rows, a single row or a column to the picker
  	*
  	* @method add
- 	* @param {Array/Object} data
+ 	* @param {Array/Object} items
  	*/
-	add: function(data) {
-		if (metal.isArray(data)) {
+	add: function(items) {
+		if (metal.isArray(items)) {
 			// Array
-			for (var i = 0, iln = data.length; i < iln; i++) {
-				this.data.push(data[i]);
-				this.component.add(metal.getView(data[i]));
+			for (var i = 0, iln = items.length; i < iln; i++) {
+				this.component.add(metal.getView(items[i]));
+                this.items.push(items[i]);
 			}
-		} else {
+		} else if (metal.isObject(items)){
 			// Object
-			this.data.push(data);
-			this.component.add(metal.getView(data));
+			this.component.add(metal.getView(items));
+            this.items.push(items);
 		}
 	},
 	/**
