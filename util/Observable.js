@@ -69,6 +69,7 @@ metal.util.Observable = metal.extend(Object, {
         if (typeof this[event] != "undefined") {
             return this[event](obj);
         } else {
+        	obj = metal.isObject(obj) ? obj : { value: obj };
             this.component.fireEvent(event, obj);
         }
     }
