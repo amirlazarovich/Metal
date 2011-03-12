@@ -22,7 +22,7 @@ metal.ui.Tab = metal.extend(metal.ui.AbstractView, {
  		* @private
  		* @property {String} id
  		*/
-		id: 'MetalTab',
+		id: 'MetalTab_' + metal.generateId(),
 
 		/**
  		* <p>the badge value for the tab group for this tab. null indicates no badge is value</p>
@@ -78,6 +78,14 @@ metal.ui.Tab = metal.extend(metal.ui.AbstractView, {
 		// Call parent constructor
 		metal.ui.Tab.superclass.constructor.call(this);
 	},
+	
+	initEvents: function() {
+		// Call parent
+		metal.ui.Tab.superclass.initEvents.call(this);
+		var me = this;
+		
+	},
+	
 	/**
  	* @override
  	* @method open
@@ -85,8 +93,23 @@ metal.ui.Tab = metal.extend(metal.ui.AbstractView, {
  	* @param [optional] {Object/metal.ui.Animation} animation
  	*/
 	open: function(win, animation) {
-		this.component.open(metal.getView(win), animation);
+		this.controller.openChild(this, win, animation);
 	},
+	
+	/**
+	 * Update data sent by other windows
+	 * 
+	 * @event update
+	 * @param {Object} data
+	 */
+	update: function(data) {
+		dlog('Tab:: ' + this.get('id'), 'updating data');
+		// TODO [Tab::update] After creating Metal-events, change this to normal "this.on('update'...)"
+		
+		// pass the event to its wrapped window
+		this.get('window').update(data);
+	},
+	
 	/**
  	* @override
  	* @event beforeopen

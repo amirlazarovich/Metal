@@ -22,7 +22,7 @@ metal.ui.Button = metal.extend(metal.ui.AbstractView, {
  		* @private
  		* @property {String} id
  		*/
-		id: 'MetalButton',
+		id: 'MetalButton_' + metal.generateId(),
 
 		/**
  		* <p>the foreground color of the button text</p>
@@ -77,7 +77,12 @@ metal.ui.Button = metal.extend(metal.ui.AbstractView, {
  	* @property {Titanium.UI.View} component
  	*/
 	component: undefined,
-
+	
+	/**
+	 * @property {Function} onclick
+	 */
+	onclick: function() {},
+	
 	/**
  	* @constructor
  	*/
@@ -90,5 +95,12 @@ metal.ui.Button = metal.extend(metal.ui.AbstractView, {
 
 		// Call parent constructor
 		metal.ui.Button.superclass.constructor.call(this);
+	},
+	
+	initEvents: function() {
+		// Call parent
+		metal.ui.Button.superclass.initEvents.call(this);
+		
+		this.on('click', this.onclick);
 	}
 });

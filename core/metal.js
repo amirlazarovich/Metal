@@ -128,9 +128,32 @@ this.metal = (function() {
 			 * iPhone constants
 			 * @property {Object} iphone
 			 */
-			iphone: {
-				
-			},
+			iphone: (function() {
+				if (!Titanium.UI.iPhone) {
+					return {};
+				} else {
+					return {
+						animation: {
+							/**
+							 * @const {Integer} CURL_DOWN
+							 */
+							CURL_DOWN: Titanium.UI.iPhone.AnimationStyle.CURL_DOWN,
+							/**
+							 * @const {Integer} CURL_UP
+							 */
+							CURL_UP: Titanium.UI.iPhone.AnimationStyle.CURL_UP,
+							/**
+							 * @const {Integer} FLIP_FROM_LEFT
+							 */
+							FLIP_FROM_LEFT: Titanium.UI.iPhone.AnimationStyle.FLIP_FROM_LEFT,
+							/**
+							 * @const {Integer} FLIP_FROM_RIGHT
+							 */
+							FLIP_FROM_RIGHT: Titanium.UI.iPhone.AnimationStyle.FLIP_FROM_RIGHT
+						}
+					};
+				}
+			})(),
 			
 			/**
  			 * @const {Integer} INPUT_BORDERSTYLE_ROUNDED
@@ -767,6 +790,13 @@ this.metal = (function() {
         	}
         	return result;
         },
+		
+		/**
+		 * @method generateId
+		 */
+		generateId: function() {
+			return Math.floor(Math.random() * 1000000000); 
+		},
 		
 		/**
 		 * @method formatDate

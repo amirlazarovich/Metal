@@ -11,7 +11,7 @@ metal.ui.TableRow = metal.extend(metal.ui.AbstractView, {
 	type: 'MetalTableRow',
 
 	properties: {
-		id: 'MetalTableRow',
+		id: 'MetalTableRow_' + metal.generateId(),
 		/**
  		* <p>default color of the row when not selected</p>
  		*

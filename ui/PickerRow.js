@@ -29,7 +29,7 @@ metal.ui.PickerRow = metal.extend(metal.ui.AbstractView, {
  		* @private
  		* @property {String} id
  		*/
-		id: 'MetalPickerRow',
+		id: 'MetalPickerRow_' + metal.generateId(),
 		/**
  		* <p>when used in the constructor, set the row to selected on initial display</p>
  		*

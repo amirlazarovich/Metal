@@ -22,7 +22,7 @@ metal.ui.Window = metal.extend(metal.ui.AbstractView, {
  		* @private
  		* @property {String} id
  		*/
-		id: 'MetalWindow',
+		id: 'MetalWindow_' + metal.generateId(),
 
 		/**
  		* <p>title for the back button. only available in iPhone. this is only valid when the window is a child of a tab.</p>
@@ -196,6 +196,47 @@ metal.ui.Window = metal.extend(metal.ui.AbstractView, {
 
 		// Call parent constructor
 		metal.ui.Window.superclass.constructor.call(this);
+	},
+	
+	/**
+	*
+	* @method setToolbar
+	* @param {[Array of] Titanium.UI.View or metal.ui.AbstractView} items
+	*/
+	setToolbar: function(items) {
+		if (metal.isArray(items)) {
+			var toolbar = [];
+			for (var i in items) {
+				if (items.hasOwnProperty(i)) {
+					toolbar.push(metal.getView(items[i]));
+				}
+			}
+			this.component.setToolbar(toolbar);
+		} else {
+			this.component.setToolbar(metal.getView(items));
+		}
+	},
+	
+	/**
+	 * Close this window and return data to previous screen
+	 * 
+	 * @method closeAndReturn
+	 * @param {Object} data
+	 * @param {Object | Titanium.UI.Animation | metal.ui.Animation} animation
+	 */
+	closeAndReturn: function(data, animation) {
+		metal.control.send(data);
+		this.close(animation);
+	},
+	
+	/**
+	 * Send data to different window
+	 * 
+	 * @param {Object} data
+	 * @param {Titanium.UI.Window | metal.ui.Window} win
+	 */
+	send: function(data, win) {
+		metal.control.send(data, win);	
 	}
 });
 

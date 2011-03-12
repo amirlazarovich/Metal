@@ -60,7 +60,7 @@ metal.ui.Animation = metal.extend(metal.ui.Component, {
  		* @private
  		* @property {String} id
  		*/
-		id: 'MetalAnimation',
+		id: 'MetalAnimation_' + metal.generateId(),
 		/**
  		* <p>the property specifies if the animation should be replayed in reverse upon completion</p>
  		*

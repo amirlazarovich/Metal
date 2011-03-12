@@ -22,7 +22,7 @@ metal.ui.Label = metal.extend(metal.ui.AbstractView, {
  		* @private
  		* @property {String} id
  		*/
-		id: 'MetalLabel',
+		id: 'MetalLabel_' + metal.generateId(),
 
 		/**
  		* <p>One of Ti.UI.Android.LINKIFY constants. Automatically create clickable links for the specified type. (Android Only)</p>

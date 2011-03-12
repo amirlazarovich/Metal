@@ -22,7 +22,7 @@ metal.ui.Marker = metal.extend(metal.ui.Component, (function() {
  			* @private
  			* @property {String} id
  			*/
-			id: 'MetalMarker',
+			id: 'MetalMarker_' + metal.generateId(),
 
 			/**
  			* <p>boolean to indicate whether the pin should animate when dropped</p>

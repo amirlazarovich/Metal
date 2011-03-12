@@ -23,7 +23,7 @@ metal.ui.Map = metal.extend(metal.ui.AbstractView, (function() {
  			* @private
  			* @property {String} id
  			*/
-			id: 'MetalMap',
+			id: 'MetalMap_' + metal.generateId(),
 
 			/**
  			* <p>boolean is mapping actions should be animated</p>

@@ -29,7 +29,7 @@ metal.ui.Picker = metal.extend(metal.ui.AbstractView, {
  		* @private
  		* @property {String} id
  		*/
-		id: 'MetalPicker',
+		id: 'MetalPicker_' + metal.generateId(),
 
 		/**
  		* <p>array of column values</p>

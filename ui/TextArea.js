@@ -29,7 +29,7 @@ metal.ui.TextArea = metal.extend(metal.ui.AbstractView, {
  		* @private
  		* @property {String} id
  		*/
-		id: 'MetalTextArea',
+		id: 'MetalTextArea_' + metal.generateId(),
 
 		/**
  		* <p>whether or not to convert text within this area to clickable links. iOS only.</p>

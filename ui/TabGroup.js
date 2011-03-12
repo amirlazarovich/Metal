@@ -28,7 +28,7 @@ metal.ui.TabGroup = metal.extend(metal.ui.AbstractView, {
  		* @private
  		* @property {String} id
  		*/
-		id: 'MetalTabGroup',
+		id: 'MetalTabGroup_' + metal.generateId(),
 
 		/**
  		* <p>the active tab</p>
@@ -190,7 +190,6 @@ metal.ui.TabGroup = metal.extend(metal.ui.AbstractView, {
 
 			// Set tab group focus event
 			me.on('focus', function(e) {
-
 				// Get next view
 				nextView = me.getItem(e.index);
 

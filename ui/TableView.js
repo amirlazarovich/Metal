@@ -28,7 +28,7 @@ metal.ui.TableView = metal.extend(metal.ui.AbstractView, (function() {
 
 	return {
 
-		type: 'MetalTableView',
+		type: 'MetalTableView_' + metal.generateId(),
 
 		/**
  		* The Titanium view this class wraps

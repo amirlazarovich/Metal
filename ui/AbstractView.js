@@ -34,7 +34,7 @@ metal.ui.AbstractView = metal.extend(metal.ui.Component, (function() {
  			* @private
  			* @property {String} id
  			*/
-			id: 'AbstractMetalView',
+			id: 'AbstractMetalView_' + metal.generateId(),
 			/**
  			* a dictionary with properties x and y to indicate the anchor point value. anchor specifies the position by which animation should occur. center is 0.5, 0.5
  			*
@@ -482,30 +482,13 @@ metal.ui.AbstractView = metal.extend(metal.ui.Component, (function() {
 				this.items.push(items);
 			}
 		},
-		/**
- 		*
- 		* @method setToolbar
- 		* @param {[Array of] Titanium.UI.View or metal.ui.AbstractView} items
- 		*/
-		setToolbar: function(items) {
-			if (metal.isArray(items)) {
-				var toolbar = [];
-				for (var i in items) {
-					if (items.hasOwnProperty(i)) {
-						toolbar.push(metal.getView(items[i]));
-					}
-				}
-				this.component.setToolbar(toolbar);
-			} else {
-				this.component.setToolbar(metal.getView(items));
-			}
-		},
+		
 		/**
  		*
  		* @method open
  		*/
 		open: function() {
-			this.component.open();
+			this.controller.open(this);
 		},
 		/**
  		*
@@ -527,9 +510,10 @@ metal.ui.AbstractView = metal.extend(metal.ui.Component, (function() {
  		* Close this window
  		*
  		* @method close
+ 		* @param {Object|metal.ui.Animation} animation
  		*/
-		close: function() {
-			this.component.close();
+		close: function(animation) {
+			this.component.close(animation);
 		},
 		/**
  		* Retrun a Blob image of the rendered view
@@ -554,6 +538,12 @@ metal.ui.AbstractView = metal.extend(metal.ui.Component, (function() {
 			dlog('AbstractView::' + this.get('id'), 'initEvents');
 			// Call parent
 			metal.ui.AbstractView.superclass.initEvents.call(this);
+			var me = this;
+		
+			me.on('close', function() {
+				dlog('AbstractView::' + me.get('id'), 'closing...');
+				me.controller.close(me);
+			});
 		},
 		/**
  		*
@@ -567,20 +557,33 @@ metal.ui.AbstractView = metal.extend(metal.ui.Component, (function() {
 				this.animate(animation.getComponent());
 			}
 		},
+		
 		/**
- 		*
- 		* @event beforeopen
- 		* @param {Object} obj
- 		*/
+		 * Update data sent by other windows
+		 * 
+		 * @event update
+		 * @param {Object} data
+		 */
+		update: function(data) {
+			dlog('AbstractView:: ' + this.get('id'), 'updating data');
+			// TODO [AbstractView::update] After creating Metal-events, change this to normal "this.on('update'...)"
+		},
+		
+		/**
+		*
+		* @event beforeopen
+		* @param {Object} obj
+		*/
 		beforeopen: function(obj) {
 			dlog('AbstractView::' + this.get('id'), 'before open event');
 			return true;
 		},
+		
 		/**
- 		*
- 		* @event beforeclose
- 		* @param {Object} obj
- 		*/
+		*
+		* @event beforeclose
+		* @param {Object} obj
+		*/
 		beforeclose: function(obj) {
 			dlog('AbstractView::' + this.get('id'), 'before close event');
 			return true;

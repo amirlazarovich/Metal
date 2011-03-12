@@ -29,7 +29,7 @@ metal.widget.Search = metal.extend(metal.ui.AbstractView, {
  		* @private
  		* @property {String} id
  		*/
-		id: 'metalSearch',
+		id: 'metalSearch_' + metal.generateId(),
 
 		/**
  		* <p>One of <a href="Titanium.UI.TEXT_AUTOCAPITALIZATION_NONE-property.html">Titanium.UI.TEXT_AUTOCAPITALIZATION_NONE</a>, <a href="Titanium.UI.TEXT_AUTOCAPITALIZATION_WORDS-property.html">Titanium.UI.TEXT_AUTOCAPITALIZATION_WORDS</a>, <a href="Titanium.UI.TEXT_AUTOCAPITALIZATION_SENTENCES-property.html">Titanium.UI.TEXT_AUTOCAPITALIZATION_SENTENCES</a>, or <a href="Titanium.UI.TEXT_AUTOCAPITALIZATION_ALL-property.html">Titanium.UI.TEXT_AUTOCAPITALIZATION_ALL</a> to indicate how the field should be capitalized during typing.</p>

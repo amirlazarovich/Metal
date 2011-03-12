@@ -118,6 +118,7 @@ geo.ui.EventDateAndTimeSelection = metal.extend(metal.ui.Window, {
 					var me = this;
 					
 					me.on('change', function(e) {
+						wlog('EventDateAndTypeSelection::on picker change', 'Change the logic here...');
 						var dateAndTime = metal.formatDateAndTime(e.value, 'short');
 						metal.control.get('startDate').set('text', dateAndTime);
 					});

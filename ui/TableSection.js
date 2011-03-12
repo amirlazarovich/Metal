@@ -11,7 +11,7 @@ metal.ui.TableSection = metal.extend(metal.ui.AbstractView, {
 	type: 'MetalTableSection',
 
 	properties: {
-		id: 'MetalTableSection',
+		id: 'MetalTableSection_' + metal.generateId(),
 		/**
  		* <p>the title of the section footer</p>
  		*

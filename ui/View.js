@@ -22,7 +22,7 @@ metal.ui.View = metal.extend(metal.ui.AbstractView, {
  		* @private
  		* @property {String} id
  		*/
-		id: 'MetalView',
+		id: 'MetalView_' + metal.generateId(),
 
 		/**
  		* <p>the layout algorithm to use for the layout. either absolute (default), vertical or Horiznotal</p>

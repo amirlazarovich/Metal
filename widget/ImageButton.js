@@ -11,7 +11,7 @@ metal.widget.ImageButton = metal.extend(metal.ui.View, {
  	* @override
  	*/
 	properties: {
-		id: 'imagebutton',
+		id: 'imagebutton_' + metal.generateId(),
 		layout: 'vertical',
 		height: 'auto',
 		width: 'auto'
@@ -25,7 +25,15 @@ metal.widget.ImageButton = metal.extend(metal.ui.View, {
  	* @default true
  	*/
 	renderImageFirst: true,
-
+	
+	/**
+	 * Whether or not to center the label when using
+	 * horizontal layout
+	 * 
+	 * @property {Boolean} center
+	 */
+	centered: false,
+	
 	/**
  	* Whether or not to add a spacer between the image and
  	* label
@@ -106,14 +114,29 @@ metal.widget.ImageButton = metal.extend(metal.ui.View, {
 			if (maxHeight != 0) {
 				// Exapnd the entire ImageButton view's height
 				// and center its components vertically
-				this.set('height', maxHeight + 6);
-				label.set('top', 3);
+				var newHeight = maxHeight + 6;
+				var labelPadding = (newHeight - labelHeight) / 2;
+				var firstImagePadding = (newHeight - firstImageHeight) / 2;
+				var secondImagePadding = (newHeight - secondImageHeight) / 2;
+				
+				this.set('height', newHeight);
+				label.set('top', labelPadding);
 				if (images.first) {
-					images.first.set('top', 3);
+					images.first.set('top', firstImagePadding);
 				}
 				if (images.second) {
-					images.second.set('top', 3);
+					images.second.set('top', secondImagePadding);
 				}
+			}
+			
+			// Center label if needed
+			if (this.centered) {
+				var firstImageWidth = images.first ? parseFloat(images.first.get('width')) || 0 : 0;
+				var secondImageWidth = images.second ? parseFloat(images.second.get('width')) || 0 : 0;
+				var myWidth = parseFloat(this.get('width')) || 0;
+				var totalWidth = myWidth - firstImageWidth - secondImageWidth;
+				label.set('width', totalWidth);
+				label.set('textAlign', 'center');
 			}
 		}
 

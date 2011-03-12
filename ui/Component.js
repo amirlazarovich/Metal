@@ -33,7 +33,7 @@ metal.ui.Component = metal.extend(metal.util.Observable, {
 	     * @private
 	     * @property {String} id
 	     */
-	    id: 'MetalComponent'
+	    id: 'MetalComponent_' + metal.generateId()
     },
     
 	/**
