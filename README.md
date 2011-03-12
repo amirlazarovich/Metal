@@ -48,11 +48,7 @@ inside your "Resources" directory
 		});
 		
 		// Display my tab group
-		// --------------------
-		// myTabGroup.open() will work just fine but isn't recommended since
-		// metal controller will also fire helpful events along the way such as: beforeopen,
-		// beforeclose, etc. 
-		metal.control.open('mytabs'); // passing the entire object myTabGroup will work also!
+		myTabGroup.open();
 
 3. Promised only two steps right? well, step three is just me saying, go ahead and run it! 
 
