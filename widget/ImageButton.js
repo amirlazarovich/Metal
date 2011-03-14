@@ -77,11 +77,13 @@ metal.widget.ImageButton = metal.extend(metal.ui.View, {
 		var isHorizontal = this.get('layout') == 'horizontal';
 		images.first = isHorizontal ? this.get('leftImage') : this.get('topImage');
 		images.second = isHorizontal ? this.get('rightImage') : this.get('bottomImage');
+		
 		// Set default image
 		if (this.get('image')) {
 			images[this.renderImageFirst ? 'first' : 'second'] = this.get('image');
 		}
-
+		
+		// Parse images
 		for (var key in images) {
 			if (images[key]) {
 				if (metal.isString(images[key])) {

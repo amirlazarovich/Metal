@@ -67,14 +67,14 @@ geo.ui.Events = metal.extend(metal.ui.Window, {
 						},
 					
 						onclick: function() {
-                            ilog('Events::Globus', ' - onclick');
-                            /*
+							ilog('Events::Globus', ' - onclick');
+				     		/*
 				     		if (metal.control.get('locateevents')) {
 				     			metal.control.openChild('locateevents');
 				     		} else {
 				     			metal.control.openChild(new geo.ui.LocateEvents());
 				     		}
-                            */
+				     		*/
 				        }
 					})
 					

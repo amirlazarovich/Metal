@@ -150,6 +150,28 @@ this.metal = (function() {
 							 * @const {Integer} FLIP_FROM_RIGHT
 							 */
 							FLIP_FROM_RIGHT: Titanium.UI.iPhone.AnimationStyle.FLIP_FROM_RIGHT
+						},
+						
+						buttonStyle: {
+							/**
+					         * @const {Integer} BAR
+					         */ 
+							BAR: Titanium.UI.iPhone.SystemButtonStyle.BAR,
+							
+							/**
+					         * @const {Integer} BORDERED
+					         */ 
+							BORDERED: Titanium.UI.iPhone.SystemButtonStyle.BORDERED,
+							
+							/**
+					         * @const {Integer} DONE
+					         */ 
+							DONE: Titanium.UI.iPhone.SystemButtonStyle.DONE,
+							
+							/**
+					         * @const {Integer} PLAIN
+					         */ 
+							PLAIN: Titanium.UI.iPhone.SystemButtonStyle.PLAIN 
 						}
 					};
 				}
@@ -966,6 +988,7 @@ metal.include(
 	
 	// UI
 	'/Metal/ui/Component.js',
+	'/Metal/ui/ControlledComponent.js',
 	'/Metal/ui/AbstractView.js',
 	'/Metal/ui/Window.js',
 	'/Metal/ui/TabGroup.js',
@@ -983,6 +1006,12 @@ metal.include(
  	'/Metal/ui/PickerRow.js',
  	'/Metal/ui/TextField.js',
  	'/Metal/ui/TextArea.js',
+ 	'/Metal/ui/ImageView.js',
+ 	'/Metal/ui/OptionDialog.js',
+	
+	// Media
+	'/Metal/media/PhotoGallery.js',
+	'/Metal/media/Camera.js',
 	
 	// Widgets
 	'/Metal/widget/ImageButton.js',
