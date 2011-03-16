@@ -1,6 +1,6 @@
 Metal - Rock
 ============
-Metal framework was created for an easier, cleaner, object oriented and happier use of Titanium framework.
+[Metal framework](https://github.com/amirlazarovich/Metal/tree/master/Resources/Metal) was created for an easier, cleaner, object oriented and happier use of Titanium framework.
 Fork me and check out the [EXAMPLEs](https://github.com/amirlazarovich/Metal/tree/master/Resources/EXAMPLEs) folder so 
 you could start getting your hands dirty with metal.
 
