@@ -20,6 +20,11 @@ metal.util.Observable = metal.extend(Object, {
 	component: undefined,
 	
 	/**
+	 * @event {Function} onclick
+	 */
+	onclick: undefined,
+	
+	/**
 	 * @constructor
 	 */
 	constructor: function(config) {
@@ -39,6 +44,11 @@ metal.util.Observable = metal.extend(Object, {
      */
     initEvents: function() {
        dlog('Observable::' + this.get('id'), 'initEvents');
+       
+       // Register an On Click event if given as a property
+       if (this.onclick) {
+       		this.on('click', this.onclick);
+       }
     },
     
     /**

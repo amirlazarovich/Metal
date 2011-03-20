@@ -133,10 +133,6 @@ metal.ui.OptionDialog = metal.extend(metal.ui.ControlledComponent, {
 		// Call parent
 		metal.ui.OptionDialog.superclass.initEvents.call(this);
 		dlog('OptionDialog::' + this.get('id'), 'initEvents');
-		
-		if (!metal.isNothing(this.onclick)) {
-			this.on('click', this.onclick);	
-		}
 	}
 });
 

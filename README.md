@@ -56,7 +56,7 @@ This is really easy! and it only requires two small steps :) (well, after of cou
 
 ### Important notes ###
 1. Metal was not tested on Android! why? simply because the simulator sux and we don't have devices to play with :(
-   Although i did try it once and it required me to increase the stack size. How did i do that? simple insert the following
+   Although i did try it once and it required me to increase the stack size. How did i do that? insert the following
    line into the tiapp.xml file directly under the `<ti:app>` tag:
    `<property name="ti.android.threadstacksize" type="int">65536</property>`
 2. I'm sure i had more notes to add...

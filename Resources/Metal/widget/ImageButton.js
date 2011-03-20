@@ -170,8 +170,6 @@ metal.widget.ImageButton = metal.extend(metal.ui.View, {
 		metal.widget.ImageButton.superclass.initEvents.call(this);
 		var me = this;
 
-		me.on('click', me.onclick || metal.getEmptyFn());
-
 		if (me.highlight.active) {
 			var baseColor = me.get('backgroundColor');
 			me.on('touchstart', function() {

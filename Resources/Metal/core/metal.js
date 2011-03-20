@@ -132,46 +132,47 @@ this.metal = (function() {
 				if (!Titanium.UI.iPhone) {
 					return {};
 				} else {
+					
 					return {
 						animation: {
 							/**
 							 * @const {Integer} CURL_DOWN
 							 */
-							CURL_DOWN: Titanium.UI.iPhone.AnimationStyle.CURL_DOWN,
+							//CURL_DOWN: Titanium.UI.iPhone.AnimationStyle.CURL_DOWN,
 							/**
 							 * @const {Integer} CURL_UP
 							 */
-							CURL_UP: Titanium.UI.iPhone.AnimationStyle.CURL_UP,
+							//CURL_UP: Titanium.UI.iPhone.AnimationStyle.CURL_UP,
 							/**
 							 * @const {Integer} FLIP_FROM_LEFT
 							 */
-							FLIP_FROM_LEFT: Titanium.UI.iPhone.AnimationStyle.FLIP_FROM_LEFT,
+							//FLIP_FROM_LEFT: Titanium.UI.iPhone.AnimationStyle.FLIP_FROM_LEFT,
 							/**
 							 * @const {Integer} FLIP_FROM_RIGHT
 							 */
-							FLIP_FROM_RIGHT: Titanium.UI.iPhone.AnimationStyle.FLIP_FROM_RIGHT
+							//FLIP_FROM_RIGHT: Titanium.UI.iPhone.AnimationStyle.FLIP_FROM_RIGHT
 						},
 						
 						buttonStyle: {
 							/**
 					         * @const {Integer} BAR
 					         */ 
-							BAR: Titanium.UI.iPhone.SystemButtonStyle.BAR,
+							//BAR: Titanium.UI.iPhone.SystemButtonStyle.BAR,
 							
 							/**
 					         * @const {Integer} BORDERED
 					         */ 
-							BORDERED: Titanium.UI.iPhone.SystemButtonStyle.BORDERED,
+							//BORDERED: Titanium.UI.iPhone.SystemButtonStyle.BORDERED,
 							
 							/**
 					         * @const {Integer} DONE
 					         */ 
-							DONE: Titanium.UI.iPhone.SystemButtonStyle.DONE,
+							//DONE: Titanium.UI.iPhone.SystemButtonStyle.DONE,
 							
 							/**
 					         * @const {Integer} PLAIN
 					         */ 
-							PLAIN: Titanium.UI.iPhone.SystemButtonStyle.PLAIN 
+							//PLAIN: Titanium.UI.iPhone.SystemButtonStyle.PLAIN 
 						}
 					};
 				}
@@ -290,12 +291,18 @@ this.metal = (function() {
         ////////////////////////////////////////////////////////////
         
         /**
-         * @method isString
-         * @param {Object} subject
+         * Check whether the Obj is typeof Type
+         * Since the built in function typeof works strangly it is 
+         * recommended to use this function instead
+         * 
+         * @method is
+         * @param {Object} obj
+         * @param {String} type
          */
-        isString: function(subject) {
-        	return typeof subject == 'string';
-        },
+        is: function(obj, type) {
+		    var objType = this.typeOf(obj);
+		    return !this.isNothing(obj) && objType === type;
+		},
         
         /**
          * Check if the subject is in fact a boolean variable
@@ -368,18 +375,21 @@ this.metal = (function() {
         },
         
         /**
+         * @method isString
+         * @param {Object} subject
+         */
+        isString: function(subject) {
+        	return this.is(subject, 'String');
+        },
+        
+        /**
          * isArray
          * Checks if the object is an array
          * @method isArray
          * @param {Object} The object to check if it is an array
          */
         isArray: function(obj) {
-            // TODO [metal] :: isArray function is not working
-            if (typeof obj.pop == 'undefined' || typeof obj.push == 'undefined') {
-                return false;
-            } else {
-                return true;
-            }
+            return this.is(obj, 'Array');
         },
         
         /**
@@ -394,10 +404,10 @@ this.metal = (function() {
         /**
          * @method isObject
          * Check if an object is an object *_* fun.
-         * @param {Object} v Something to sjek.
+         * @param {Object} obj 
          */
-        isObject: function(v) {
-            return !!v && Object.prototype.toString.call(v) === '[object Object]';
+        isObject: function(obj) {
+            return this.is(obj, 'Object');
         },
         
         ////////////////////////////////////////////////////////////
@@ -428,20 +438,22 @@ this.metal = (function() {
          */
         initGlobalEvents: function() {
             var me = this;
-            /**
-             * Detect orientation change and update screen dimensions
-             */
-            Ti.Gesture.addEventListener('orientationchange', function(e) {
-                if (me.isPortrait(e.orientation)) {
-                	me.height = Ti.Platform.displayCaps.platformHeight;
-                	me.width = Ti.Platform.displayCaps.platformWidth;
-                } else {
-                	me.width = Ti.Platform.displayCaps.platformHeight;
-                	me.height = Ti.Platform.displayCaps.platformWidth;
-                }
-                
-                ilog('metal', 'Device height: ' + metal.height + ', width: ' + metal.width);
-            });
+            if (Ti.Gesture) {
+            	/**
+	             * Detect orientation change and update screen dimensions
+	             */
+	            Ti.Gesture.addEventListener('orientationchange', function(e) {
+	                if (me.isPortrait(e.orientation)) {
+	                	me.height = Ti.Platform.displayCaps.platformHeight;
+	                	me.width = Ti.Platform.displayCaps.platformWidth;
+	                } else {
+	                	me.width = Ti.Platform.displayCaps.platformHeight;
+	                	me.height = Ti.Platform.displayCaps.platformWidth;
+	                }
+	                
+	                ilog('metal', 'Device height: ' + metal.height + ', width: ' + metal.width);
+	            });
+            }
         },
         
         /**
@@ -785,7 +797,7 @@ this.metal = (function() {
         	 	var pass2 = true;
         		var pass3 = true;
         		 
-        		if (me.isObject(subject)) {
+        		if (me.isObject(subject) && subject.hasOwnProperty) {
         		 	// Object
         		 	pass1 = subject.hasOwnProperty('value') ? !me.isNothing(subject.value) : true;
         		 	pass2 = me.isFalse(subject.discard || false);
@@ -801,7 +813,7 @@ this.metal = (function() {
         	// Go over all properties
         	for (var key in prop) {
     			if (isIncluded(prop[key])) {
-    				if (prop[key].hasOwnProperty('value')) {
+    				if (prop[key].hasOwnProperty && prop[key].hasOwnProperty('value')) {
     					// Format the property if needed
     					p = prop[key].format ? prop[key].format() : prop[key].value;
     				} else {
@@ -847,6 +859,16 @@ this.metal = (function() {
         	var date = this.formatDate(value, option);
         	var time = this.formatTime(value, option);
         	return date + ' ' + time;
+        },
+        
+        /**
+         * Get the true type of an object
+         * 
+         * @method typeOf
+         * @param {Object} obj
+         */
+     	typeOf: function(obj) {
+        	return Object.prototype.toString.call(obj).slice(8, -1);
         },
         
         /**
@@ -985,6 +1007,7 @@ metal.include(
 	'/Metal/util/Observable.js',
 	'/Metal/util/net.js',
 	'/Metal/util/location.js',
+	'/Metal/util/string.js',
 	
 	// UI
 	'/Metal/ui/Component.js',
@@ -1008,6 +1031,7 @@ metal.include(
  	'/Metal/ui/TextArea.js',
  	'/Metal/ui/ImageView.js',
  	'/Metal/ui/OptionDialog.js',
+	'/Metal/ui/ButtonBar.js',
 	
 	// Media
 	'/Metal/media/PhotoGallery.js',

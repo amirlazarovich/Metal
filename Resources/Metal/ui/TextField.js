@@ -203,7 +203,7 @@ metal.ui.TextField = metal.extend(metal.ui.AbstractView, {
  	*/
 	constructor: function(config) {
 		metal.overrideClass(this, config);
-		dlog('TextField::' + this.get('id'), 'constructor');
+		dlog('TextField::' + this.properties.id, 'constructor');
 
 		// Set Titanium component
 		this.component = Ti.UI.createTextField(metal.formatProperties(this.properties));
@@ -235,5 +235,23 @@ metal.ui.TextField = metal.extend(metal.ui.AbstractView, {
  	*/
 	hasText: function() {
 		return this.component.hasText();
-	}
+	},
+	
+	/**
+     * @override
+     */
+    get: function(name) {
+        if (this.isTitaniumProperty(name) && !this.isDiscarded(name)) {
+        	var prop = this.properties[name];
+        	if (prop.hasOwnProperty('value')) {
+        		// The value of this property is nested inside an object
+        		prop = prop.value;
+        	}
+            // Titanium property
+            return this.component? this.component[name] || prop : prop;
+        } else {
+            // Metal property
+            return this[name];
+        }
+    }
 });

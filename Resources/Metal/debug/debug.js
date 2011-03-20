@@ -33,40 +33,46 @@ metal.debug = (function() {
         var msg = '\n';
         gap = gap || '';
         for (var prop in thisControl) {
-            var value = thisControl[prop];
-            switch (typeof value) {
-                case "function":
-                    //msg +=  typeof value + ": " + prop + " = " + value + "\n";
-                    break;
-
-                case "object":
-                    for (var prop2 in value) {
-                        var value2 = value[prop2];
-                        if (prop2 == "supr") {
-                            var isGap = gap != '';
-                            msg += gap + "[Superclass]:: [" + deepSearch(value2(), (isGap? '+' + gap : '+   ')) + ']\n';
-                            continue;
-                        }
-
-                        switch (typeof value2) {
-                            case "function":
-                                msg += gap + '[Function] ' + prop2 + ' = ' + value2 + '\n';
-                                break;
-                            case 'object':
-                                msg += gap + '[Property] ' + prop + ': {' + typeof value2 + '} ' + prop2 + ' = ' + value2 + '\n';
-                                break;
-                            default:
-                                msg += gap + '[Inside-Property] ' + prop + ': {' + typeof value2 + '} ' + prop2 + ' = ' + value2 + '\n';
-                                break;
-                        }
-                    }
-                    break;
-
-                default:
-                    //msg += 'Property' + ': {' + typeof value + '} ' + prop + ' = ' + value + '\n';
-                    break;
-
-            }
+        	if (true) { // Suppress warning :)
+        		var value = thisControl[prop];
+	            switch (typeof value) {
+	                case "function":
+	                    //msg +=  typeof value + ": " + prop + " = " + value + "\n";
+	                    break;
+	
+	                case "object":
+	                    for (var prop2 in value) {
+	                    	if (true) { // Suppress warning :)
+	                    		var value2 = value[prop2];
+		                        if (prop2 == "supr") {
+		                            var isGap = gap != '';
+		                            msg += gap + "[Superclass]:: [" + deepSearch(value2(), (isGap? '+' + gap : '+   ')) + ']\n';
+		                            continue;
+		                        }
+		
+		                        switch (typeof value2) {
+		                            case "function":
+		                                msg += gap + '[Function] ' + prop2 + ' = ' + value2 + '\n';
+		                                break;
+		                            case 'object':
+		                                msg += gap + '[Property] ' + prop + ': {' + typeof value2 + '} ' + prop2 + ' = ' + value2 + '\n';
+		                                break;
+		                            default:
+		                                msg += gap + '[Inside-Property] ' + prop + ': {' + typeof value2 + '} ' + prop2 + ' = ' + value2 + '\n';
+		                                break;
+		                        }
+	                    	} 
+	                        
+	                    }
+	                    break;
+	
+	                default:
+	                    //msg += 'Property' + ': {' + typeof value + '} ' + prop + ' = ' + value + '\n';
+	                    break;
+	
+	            }
+        	} 
+            
         }
 
         return msg;

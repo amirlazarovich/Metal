@@ -590,3 +590,9 @@ metal.ui.AbstractView = metal.extend(metal.ui.Component, (function() {
 		}
 	};
 })());
+
+
+
+// TODO [AbstractView] GetItem doesn't work good: 
+// It somehow saves former items 
+
