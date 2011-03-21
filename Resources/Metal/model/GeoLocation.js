@@ -53,10 +53,23 @@ metal.model.GeoLocation = metal.extend(Object, {
 	
 	/**
 	 * @method get
-	 * @param {String} name
+	 * @param {String} key
 	 */
-	get: function(name) {
-		return this[name] ? this[name] : this.address[name];
+	get: function(key) {
+		return this[key] ? this[key] : this.address[key];
+	},
+	
+	/**
+	 * @method set
+	 * @param {String} key
+	 * @param {Object} value
+	 */
+	set: function(key, value) {
+		if (this[key]) {
+			this[key] = value;
+		} else {
+			this.address[key] = value;
+		}
 	}
 });
 

@@ -99,7 +99,7 @@ metal.ui.Component = metal.extend(metal.util.Observable, {
     get: function(name) {
         if (this.isTitaniumProperty(name) && !this.isDiscarded(name)) {
         	var prop = this.properties[name];
-        	if (prop.hasOwnProperty && prop.hasOwnProperty('value')) {
+        	if (prop && prop.hasOwnProperty && prop.hasOwnProperty('value')) {
         		// The value of this property is nested inside an object
         		prop = prop.value;
         	}

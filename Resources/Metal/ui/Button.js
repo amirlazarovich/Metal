@@ -79,11 +79,6 @@ metal.ui.Button = metal.extend(metal.ui.AbstractView, {
 	component: undefined,
 	
 	/**
-	 * @property {Function} onclick
-	 */
-	onclick: function() {},
-	
-	/**
  	* @constructor
  	*/
 	constructor: function(config) {
@@ -100,7 +95,5 @@ metal.ui.Button = metal.extend(metal.ui.AbstractView, {
 	initEvents: function() {
 		// Call parent
 		metal.ui.Button.superclass.initEvents.call(this);
-		
-		this.on('click', this.onclick);
 	}
 });

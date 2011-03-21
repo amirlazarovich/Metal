@@ -1032,6 +1032,7 @@ metal.include(
  	'/Metal/ui/ImageView.js',
  	'/Metal/ui/OptionDialog.js',
 	'/Metal/ui/ButtonBar.js',
+	'/Metal/ui/Toolbar.js',
 	
 	// Media
 	'/Metal/media/PhotoGallery.js',
@@ -1039,7 +1040,7 @@ metal.include(
 	
 	// Widgets
 	'/Metal/widget/ImageButton.js',
-	'/Metal/widget/Search.js',
+	'/Metal/widget/SearchBar.js',
 	
 	// Model
 	'/Metal/model/GeoLocation.js',

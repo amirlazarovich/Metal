@@ -1,4 +1,4 @@
-metal.ns('metal.widget.Serach');
+metal.ns('metal.widget.SearchBar');
 
 /**
  * This class represents a search bar
@@ -7,7 +7,7 @@ metal.ns('metal.widget.Serach');
  * @author Amir Lazarovich
  * @version 0.1
  */
-metal.widget.Search = metal.extend(metal.ui.AbstractView, {
+metal.widget.SearchBar = metal.extend(metal.ui.AbstractView, {
 
 	/**
  	* The type of this component
@@ -15,7 +15,7 @@ metal.widget.Search = metal.extend(metal.ui.AbstractView, {
  	* @private
  	* @property {String} type
  	*/
-	type: 'MetalSearch',
+	type: 'MetalSearchBar',
 
 	/**
  	* The search bar configuration properties
@@ -29,7 +29,7 @@ metal.widget.Search = metal.extend(metal.ui.AbstractView, {
  		* @private
  		* @property {String} id
  		*/
-		id: 'metalSearch_' + metal.generateId(),
+		id: 'metalSearchBar_' + metal.generateId(),
 
 		/**
  		* <p>One of <a href="Titanium.UI.TEXT_AUTOCAPITALIZATION_NONE-property.html">Titanium.UI.TEXT_AUTOCAPITALIZATION_NONE</a>, <a href="Titanium.UI.TEXT_AUTOCAPITALIZATION_WORDS-property.html">Titanium.UI.TEXT_AUTOCAPITALIZATION_WORDS</a>, <a href="Titanium.UI.TEXT_AUTOCAPITALIZATION_SENTENCES-property.html">Titanium.UI.TEXT_AUTOCAPITALIZATION_SENTENCES</a>, or <a href="Titanium.UI.TEXT_AUTOCAPITALIZATION_ALL-property.html">Titanium.UI.TEXT_AUTOCAPITALIZATION_ALL</a> to indicate how the field should be capitalized during typing.</p>
@@ -84,13 +84,6 @@ metal.widget.Search = metal.extend(metal.ui.AbstractView, {
 		promptid: undefined,
 		
 		/**
- 		* the size of the view as a dictionary of width and height properties
- 		*
- 		* @property {object} size
- 		*/
-		size: metal.getDefaultSize(),
-		
-		/**
  		* <p>boolean indicates whether the cancel button is displayed</p>
  		*
  		* @property {boolean} showCancel
@@ -118,13 +111,13 @@ metal.widget.Search = metal.extend(metal.ui.AbstractView, {
  	*/
 	constructor: function(config) {
 		metal.overrideClass(this, config);
-		dlog('Search:: ' + this.get('id'), 'constructor');
-
+		dlog('SearchBar:: ' + this.get('id'), 'constructor');
+		
 		// Set Titanium component
-		this.component = Ti.UI.createSearchBar(this.properties);
+		this.component = Ti.UI.createSearchBar(metal.formatProperties(this.properties));
 
 		// Call parent
-		metal.widget.Search.superclass.constructor.call(this);
+		metal.widget.SearchBar.superclass.constructor.call(this);
 	},
 	/**
  	* called to force the search bar to lose focus

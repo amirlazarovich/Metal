@@ -142,6 +142,29 @@ metal.control = (function() {
             }
         },
         
+        /**
+         * Get previous displayed screen
+         * 
+         * @method getPrevious
+         */
+        getPrevious: function() {
+        	var position = history.length - 2;
+        	var tHistory = this.getActiveTabHistory();
+        	var screen;
+        	
+        	if (tHistory) {
+        		position = tHistory.length - 2;
+        		if (position >= 0) {
+        			screen = tHistory[position];
+        		} else {
+        			screen = this.getActive();	
+        		}
+        	} else if (position >= 0) {
+        		screen = history[position];
+        	} 
+        	return screen;
+        },
+        
      	/**
          * Get tab history
          * 
@@ -274,30 +297,39 @@ metal.control = (function() {
         	type = type || 'main';
         	var view;
         	var historyLog;
+        	var position;
         	
         	switch (type) {
         		case 'main': 
-        			view = history.pop();
-        			historyLog = 'history length: ' + history.length;
+        			position = history.length - 1;
+        			if (position > 0) {
+        				view = history[position];
+	        			if (view.fire('beforeclose')) {
+	        				history.pop();
+	        			}
+	        			historyLog = 'history length: ' + history.length;	
+        			}
         			break;
         		
         		case 'tab':
         			var nestedHistory = this.getActiveTabHistory();
         			if (nestedHistory) {
-        				view = nestedHistory.pop();
-        				historyLog = 'Tab[' + metal.getView(this.getActive()).id + '] history length: ' + nestedHistory.length;
+        				position = nestedHistory.length - 1;
+        				if (position > 0) {
+        					view = nestedHistory[position];
+        					if (view.fire('beforeclose')) {
+        						nestedHistory.pop();
+        						historyLog = 'Tab[' + metal.getView(this.getActive()).id + '] history length: ' + nestedHistory.length;
+        					}
+        				}
+        				
         			} else {
         				wlog('control::release', 'Trying to release a nested tab view of an undefined Tab history');
         			}
-        			
         			break;
         	}
         	
         	if (view) {
-        		if (view.fire('beforeclose')) {
-        			//metal.getView(view).close(animation);
-        		}
-        		
         		// Log...
         		dlog('control::release', metal.getView(view).id);
         		dlog('control::release', historyLog);

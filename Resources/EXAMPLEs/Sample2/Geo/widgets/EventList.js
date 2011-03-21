@@ -58,7 +58,7 @@ geo.widget.EventList = metal.extend(metal.ui.TableView, (function() {
 			geo.widget.EventList.superclass.initComponents.call(this);
 			
 			// Set the search bar
-			this.set('search', new metal.widget.Search({
+			this.set('search', new metal.widget.SearchBar({
 				barColor: 'black',
 				showCancel: false,
 				hintText: 'Search...'

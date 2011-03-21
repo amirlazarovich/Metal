@@ -230,6 +230,16 @@ metal.ui.Window = metal.extend(metal.ui.AbstractView, {
 	},
 	
 	/**
+	 * Return data to previous screen
+	 * 
+	 * @method rtn
+	 * @param {Object} data
+	 */
+	rtn: function(data) {
+		metal.control.send(data);
+	},
+	
+	/**
 	 * Send data to different window
 	 * 
 	 * @param {Object} data

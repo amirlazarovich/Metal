@@ -147,24 +147,24 @@ metal.ui.Map = metal.extend(metal.ui.AbstractView, (function() {
 		removeMarker: function(markers) {
 			if (metal.isArray(markers)) {
 				for (var i=0;i<markers.lenght;i++) {
-					removeMarkerFromMap(markers[i]);
+					this.removeMarkerFromMap(markers[i]);
 				}
 			} else {
-				removeMarkerFromMap(markers);
+				this.removeMarkerFromMap(markers);
 			}
 		},
 		/**
  		* Remove a marker from the map
  		* @private
  		*/
-		removeMarkerFromMap: function (map, marker) {
-			if (isMarker(marker)) {
+		removeMarkerFromMap: function (marker) {
+			if (this.isMarker(marker)) {
 
 				// Remove from map
 				this.getView().removeAnnotation(marker.getComponent());
 
 				// Remove item from list
-				this.markers.splice(map.markers.indexOf(marker),1);
+				this.markers.splice(this.markers.indexOf(marker),1);
 
 				// Set map to null
 				marker.map = null;
