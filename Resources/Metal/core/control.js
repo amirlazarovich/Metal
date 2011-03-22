@@ -302,7 +302,7 @@ metal.control = (function() {
         	switch (type) {
         		case 'main': 
         			position = history.length - 1;
-        			if (position > 0) {
+        			if (position >= 0) {
         				view = history[position];
 	        			if (view.fire('beforeclose')) {
 	        				history.pop();
@@ -315,7 +315,7 @@ metal.control = (function() {
         			var nestedHistory = this.getActiveTabHistory();
         			if (nestedHistory) {
         				position = nestedHistory.length - 1;
-        				if (position > 0) {
+        				if (position >= 0) {
         					view = nestedHistory[position];
         					if (view.fire('beforeclose')) {
         						nestedHistory.pop();
@@ -467,8 +467,10 @@ metal.control = (function() {
             tabHistory[current.id].push(nextView);
             
             // Open child view
-            current.open(metal.getView(nextView), animation);
-            
+            if (nextView.fire('beforeopen')) {
+            	current.open(metal.getView(nextView), animation);	
+            }
+
             // Log...
             dlog('control::openChild', 'Tab[' + current.id + '] history length: ' + tabHistory[current.id].length);
         },

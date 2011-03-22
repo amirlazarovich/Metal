@@ -218,6 +218,16 @@ metal.ui.Window = metal.extend(metal.ui.AbstractView, {
 	},
 	
 	/**
+	 * 
+	 * @method setRightNavButton
+	 * @param {metal.ui.Component} button
+	 */
+	setRightNavButton: function(button) {
+		this.rightNavButton = button;
+		this.component.setRightNavButton(metal.getView(button));
+	},
+	
+	/**
 	 * Close this window and return data to previous screen
 	 * 
 	 * @method closeAndReturn

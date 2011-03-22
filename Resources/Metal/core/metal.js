@@ -1041,6 +1041,7 @@ metal.include(
 	// Widgets
 	'/Metal/widget/ImageButton.js',
 	'/Metal/widget/SearchBar.js',
+	'/Metal/widget/ActivityIndicator.js',
 	
 	// Model
 	'/Metal/model/GeoLocation.js',

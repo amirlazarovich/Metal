@@ -26,7 +26,7 @@ metal.ui.Toolbar = metal.extend(metal.ui.AbstractView, {
 	/**
  	* The Titanium view this class wraps
  	*
- 	* @property {Titanium.UI.View} component
+ 	* @property {Titanium.UI.Toolbar} component
  	*/
 	component: undefined,
 
