@@ -485,13 +485,6 @@ metal.ui.AbstractView = metal.extend(metal.ui.Component, (function() {
 		
 		/**
  		*
- 		* @method open
- 		*/
-		open: function() {
-			this.controller.open(this);
-		},
-		/**
- 		*
  		* @method remove
  		* @param {Titanium.UI.View or metal.ui.AbstractView} item
  		*/
@@ -499,22 +492,14 @@ metal.ui.AbstractView = metal.extend(metal.ui.Component, (function() {
 			this.component.remove(metal.getView(item));
 		},
 		/**
- 		* Hide this window
+ 		* Hide this view
  		*
  		* @method hide
  		*/
 		hide: function() {
 			this.component.hide();
 		},
-		/**
- 		* Close this window
- 		*
- 		* @method close
- 		* @param {Object|metal.ui.Animation} animation
- 		*/
-		close: function(animation) {
-			this.component.close(animation);
-		},
+		
 		/**
  		* Retrun a Blob image of the rendered view
  		*
@@ -538,12 +523,7 @@ metal.ui.AbstractView = metal.extend(metal.ui.Component, (function() {
 			dlog('AbstractView::' + this.get('id'), 'initEvents');
 			// Call parent
 			metal.ui.AbstractView.superclass.initEvents.call(this);
-			var me = this;
-		
-			me.on('close', function() {
-				dlog('AbstractView::' + me.get('id'), 'closing...');
-				me.controller.close(me);
-			});
+			
 		},
 		/**
  		*
@@ -556,38 +536,9 @@ metal.ui.AbstractView = metal.extend(metal.ui.Component, (function() {
 				// Animation is set on this view
 				this.animate(animation.getComponent());
 			}
-		},
-		
-		/**
-		 * Update data sent by other windows
-		 * 
-		 * @event update
-		 * @param {Object} data
-		 */
-		update: function(data) {
-			dlog('AbstractView:: ' + this.get('id'), 'updating data');
-			// TODO [AbstractView::update] After creating Metal-events, change this to normal "this.on('update'...)"
-		},
-		
-		/**
-		*
-		* @event beforeopen
-		* @param {Object} obj
-		*/
-		beforeopen: function(obj) {
-			dlog('AbstractView::' + this.get('id'), 'before open event');
-			return true;
-		},
-		
-		/**
-		*
-		* @event beforeclose
-		* @param {Object} obj
-		*/
-		beforeclose: function(obj) {
-			dlog('AbstractView::' + this.get('id'), 'before close event');
-			return true;
 		}
+		
+		
 	};
 })());
 

@@ -6,7 +6,7 @@ metal.ns('metal.ui.TabGroup');
  * @author Amir Lazarovich
  * @version 0.1
  */
-metal.ui.TabGroup = metal.extend(metal.ui.AbstractView, {
+metal.ui.TabGroup = metal.extend(metal.ui.AbstractWindow, {
 
 	type: 'MetalTabGroup',
 
@@ -65,17 +65,7 @@ metal.ui.TabGroup = metal.extend(metal.ui.AbstractView, {
  		*
  		* @property {array} tabs
  		*/
-		tabs: undefined,
-		
-		/**
-		 * @override
-		 */
-		width: metal.width,
-		
-		/**
-		 * @override
-		 */
-		height: metal.height - 20
+		tabs: undefined
 	},
 
 	/**

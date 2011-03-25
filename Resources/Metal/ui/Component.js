@@ -146,13 +146,14 @@ metal.ui.Component = metal.extend(metal.util.Observable, {
  	*
  	* @method get
  	* @param {String} name
+ 	* @param {Boolean} formatted
  	*/
-	get: function(name) {
+	get: function(name, formatted) {
 		if (this.isTitaniumProperty(name) && !this.isDiscarded(name)) {
 			var prop = this.properties[name];
 			if (prop && prop.hasOwnProperty && prop.hasOwnProperty('value')) {
 				// The value of this property is nested inside an object
-				prop = prop.value;
+				prop = (formatted && prop.format) ? prop.format() : prop.value;
 			}
 			// Titanium property
 			return prop;
@@ -161,6 +162,7 @@ metal.ui.Component = metal.extend(metal.util.Observable, {
 			return this[name];
 		}
 	},
+	
 	/**
  	* Get the titanium Component
  	*
@@ -179,6 +181,7 @@ metal.ui.Component = metal.extend(metal.util.Observable, {
 		if (metal.isObject(nameOrObject)) {
 			// Object
 			metal.overrideClass(this, nameOrObject);
+			// TODO [Component::set] Setting an object - need to override wrapped component
 		} else {
 			// Name
 			if (this.isTitaniumProperty(nameOrObject)) {

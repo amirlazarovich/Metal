@@ -6,7 +6,7 @@ metal.ns('metal.ui.Tab');
  * @author Amir Lazarovich
  * @version 0.1
  */
-metal.ui.Tab = metal.extend(metal.ui.AbstractView, {
+metal.ui.Tab = metal.extend(metal.ui.AbstractWindow, {
 
 	type: 'MetalTab',
 
@@ -71,7 +71,7 @@ metal.ui.Tab = metal.extend(metal.ui.AbstractView, {
 	constructor: function(config) {
 		metal.overrideClass(this, config);
 		dlog('Tab::' + this.get('id'), 'constructor');
-
+		
 		// Set Titanium component
 		this.component = Ti.UI.createTab(metal.formatProperties(this.properties));
 

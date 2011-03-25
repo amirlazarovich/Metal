@@ -23,6 +23,24 @@ if (typeof Titanium == 'undefined') {
 		}
 	};
 	Ti.UI = {
+		
+		iPhone: {
+			ActivityIndicatorStyle: {
+				/**
+				 * @const {Integer} BIG
+				 */
+				BIG: 0,
+				/**
+				 * @const {Integer} PLAIN
+				 */
+				PLAIN: 1,
+				/**
+				 * @const {Integer} DARK
+				 */
+				DARK: 2
+			}
+		},
+		
 		/**
  		* <p>animation curve constant</p>
  		*

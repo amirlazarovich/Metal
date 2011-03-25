@@ -173,6 +173,21 @@ this.metal = (function() {
 					         * @const {Integer} PLAIN
 					         */ 
 							//PLAIN: Titanium.UI.iPhone.SystemButtonStyle.PLAIN 
+						},
+						
+						indicatorStyle: {
+							/**
+							 * @const {Integer} BIG
+							 */
+							BIG: Titanium.UI.iPhone.ActivityIndicatorStyle.BIG,
+							/**
+							 * @const {Integer} PLAIN
+							 */
+							PLAIN: Titanium.UI.iPhone.ActivityIndicatorStyle.PLAIN,
+							/**
+							 * @const {Integer} DARK
+							 */
+							DARK: Titanium.UI.iPhone.ActivityIndicatorStyle.DARK
 						}
 					};
 				}
@@ -383,31 +398,43 @@ this.metal = (function() {
         },
         
         /**
-         * isArray
-         * Checks if the object is an array
+         * Checks if subject is an array
+         * 
          * @method isArray
-         * @param {Object} The object to check if it is an array
+         * @param {Object} subject 
          */
-        isArray: function(obj) {
-            return this.is(obj, 'Array');
+        isArray: function(subject) {
+            return this.is(subject, 'Array');
         },
         
         /**
+         * Checks if subject is a number
+         * 
          * @method isNumber
-         * Checks if n is a number
-         * @param {Object} n The object to sjek.
+         * @param {Object} subject.
          */
-        isNumber: function(n) {
-            return !isNaN(parseFloat(n)) && isFinite(n);
+        isNumber: function(subject) {
+            return !isNaN(parseFloat(subject)) && isFinite(subject);
         },
         
         /**
+         * Check if subject is an object
+         * 
          * @method isObject
-         * Check if an object is an object *_* fun.
-         * @param {Object} obj 
+         * @param {Object} subject 
          */
-        isObject: function(obj) {
-            return this.is(obj, 'Object');
+        isObject: function(subject) {
+            return this.is(subject, 'Object');
+        },
+        
+        /**
+         * Check if subject is a function
+         * 
+         * @method isFunction
+         * @param {Object} subject
+         */
+        isFunction: function(subject) {
+        	return this.is(subject, 'Function');
         },
         
         ////////////////////////////////////////////////////////////
@@ -1013,6 +1040,7 @@ metal.include(
 	'/Metal/ui/Component.js',
 	'/Metal/ui/ControlledComponent.js',
 	'/Metal/ui/AbstractView.js',
+	'/Metal/ui/AbstractWindow.js',
 	'/Metal/ui/Window.js',
 	'/Metal/ui/TabGroup.js',
 	'/Metal/ui/Tab.js',
@@ -1042,6 +1070,7 @@ metal.include(
 	'/Metal/widget/ImageButton.js',
 	'/Metal/widget/SearchBar.js',
 	'/Metal/widget/ActivityIndicator.js',
+	'/Metal/widget/Message.js',
 	
 	// Model
 	'/Metal/model/GeoLocation.js',
