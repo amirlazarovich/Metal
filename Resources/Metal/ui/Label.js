@@ -167,6 +167,7 @@ metal.ui.Label = metal.extend(metal.ui.AbstractView, {
 
 	/**
  	* @constructor
+ 	* @param {Object} config
  	*/
 	constructor: function(config) {
 		metal.overrideClass(this, config);

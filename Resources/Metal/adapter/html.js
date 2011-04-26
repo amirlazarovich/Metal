@@ -4581,4 +4581,19 @@ if (typeof Titanium == 'undefined') {
 
 		}
 	};
+	
+	Ti.Network = {
+		createHTTPClient: function() {
+			return {
+				open: function() {
+					
+				},
+				
+				send: function() {
+					
+				}
+			};
+		}	
+	};
+
 }

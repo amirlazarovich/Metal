@@ -47,7 +47,7 @@ metal.ui.Window = metal.extend(metal.ui.AbstractWindow, {
 
 		// Set Titanium component
 		this.component = Ti.UI.createWindow(metal.formatProperties(this.properties));
-
+		
 		// Call parent constructor
 		metal.ui.Window.superclass.constructor.call(this);
 	},
@@ -69,6 +69,15 @@ metal.ui.Window = metal.extend(metal.ui.AbstractWindow, {
 		} else {
 			this.component.setToolbar(metal.getView(items));
 		}
+	},
+	
+	/**
+	 * @method setLeftNavButton
+	 * @param {metal.uj.Component} button
+	 */
+	setLeftNavButton: function(button) {
+		this.leftNavButton = button;
+		this.component.setLeftNavButton(metal.getView(button));
 	},
 	
 	/**

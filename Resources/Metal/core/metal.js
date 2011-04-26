@@ -437,6 +437,45 @@ this.metal = (function() {
         	return this.is(subject, 'Function');
         },
         
+        /**
+		 * @method isMysqlTimestamp
+		 */
+		isMysqlTimestamp: function(timestamp) {
+			var regex = new RegExp('^([0-9]{2,4})-([0-1][0-9])-([0-3][0-9]) (?:([0-2][0-9]):([0-5][0-9]):([0-5][0-9]))?.?[0-9]?$');
+			return regex.test(timestamp);
+		},
+        
+        /**
+         * @method isHebrew
+         * @param {String} string
+         */
+        isHebrew: function(string) {
+        	var hebrewLetters = 'אבגדהוזחטיכלמנסעפצקרשתףךץןם';
+        	var regex = new RegExp('^[' + hebrewLetters + ']+$');
+        	return regex.test(string);
+        },
+        
+        /**
+		 * @method isAndroid
+		 */
+		isAndroid: function() {
+			return Ti.Platform.osname === 'android';
+		},
+		
+		/**
+		 * @method isIphone
+		 */ 
+		isIphone: function() {
+			return Ti.Platform.osname === 'iphone';
+		},
+		
+		/**
+		 * @method isIpad
+		 */ 
+		isIpad: function() {
+			return Ti.Platform.osname === 'ipad';
+		},
+        
         ////////////////////////////////////////////////////////////
         // INITIALIZES
         ////////////////////////////////////////////////////////////
@@ -453,11 +492,18 @@ this.metal = (function() {
                     debugState: 4, // DEBUG
                     cloudebug: false // Set Cloud debugging mode
                 };
-            }
+            } else {
+		this.apply(this.config, config);
+	    }
 
             // Update
             this.DEBUG_STATE = this.config.debugState;
             this.CLOUD_DEBUG = this.config.cloudebug;
+	    
+	    if (metal.debug) {
+		metal.debug.state = this.DEBUG_STATE;
+		metal.debug.cloudebug = this.CLOUD_DEBUG;
+	    }
         },
         
         /**
@@ -613,52 +659,58 @@ this.metal = (function() {
          * @param {Object} config
          */
         overrideClass: function(object, config) {
-        	// Deep copy the titanium/metal properties
-        	// from all parent classes 
-        	var supr = object.superclass();
-        	while(!metal.isNothing(supr)) {
-        		this.deepApply(object, {
-	        		properties: supr.properties
-	    		}, true, true);
-	    		supr = metal.isNothing(supr.superclass) ? null : supr.superclass();
-        	}
-        	
-        	var prop;
-        	
-        	// Copy all overrides from config
-        	for (var x in config) {
-            	if (config.hasOwnProperty(x)) {
-            		if (object.isTitaniumProperty(x) && !object.isDiscarded(x)) {
-            			// Titanium property - apply on object.property
-            			object.properties = object.properties || {};
-            			if (!metal.isNothing(object.properties[x]) && 
-								object.properties[x].hasOwnProperty('value')) {
-							// Overriding a complex object
-							prop = {};
-            				if (!config[x].hasOwnProperty('value')) {
-            					config[x] = { value: config[x] };
- 							}
-           					this.apply(prop, config[x], object.properties[x]);
-            				object.properties[x] = prop;
-            			} else {
-            				// Simple override
-            				object.properties[x] = config[x];	
-            			}
-            		} else if (this.isObject(config[x]) && config[x].framework != 'metal') {
-            			// Simple Object
-            			if (this.isNothing(object[x])) {
-            				// quicker assignment
-            				object[x] = config[x];
-            			} else {
-            				// perform a deep copy
-            				object[x] = object[x] || {};
-            				this.deepApply(object[x], config[x]);
-            			}
-            		} else {
-            			// Metal property - apply straight on the object itself
-            			object[x] = config[x];
-            		}
-            	}
+            // Deep copy the titanium/metal properties
+            // from all parent classes 
+            var supr = object.superclass();
+            while(!metal.isNothing(supr)) {
+                this.deepApply(object, {
+                        properties: supr.properties
+                }, true, true);
+                supr = metal.isNothing(supr.superclass) ? null : supr.superclass();
+            }
+            
+            var prop;
+            
+            // Copy all overrides from config
+            for (var x in config) {
+                if (config.hasOwnProperty(x)) {
+                    if (object.isTitaniumProperty(x) && !object.isDiscarded(x)) {
+                        // Titanium property - apply on object.property
+                        object.properties = object.properties || {};
+                        if (!metal.isNothing(object.properties[x]) && 
+                                object.properties[x].hasOwnProperty('value')) {
+                            // Overriding a complex object
+                            prop = {};
+                            if (!config[x].hasOwnProperty('value')) {
+                                config[x] = { value: config[x] };
+                            }
+                            this.apply(prop, config[x], object.properties[x]);
+                            object.properties[x] = prop;
+                        } else {
+                            // Simple override
+                            object.properties[x] = config[x];	
+                        }
+                    } else if (this.isObject(config[x]) && config[x].framework != 'metal') {
+                        // Simple Object
+                        if (this.isNothing(object[x])) {
+                            // quicker assignment
+                            object[x] = config[x];
+                        } else {
+                            // perform a deep copy
+                            object[x] = object[x] || {};
+                            this.deepApply(object[x], config[x]);
+                        }
+                    } else if (!metal.isNothing(object.events) && (object.events.hasOwnProperty(x) || object.events.hasOwnProperty(x.replace('on', '')))) {
+                        // Event
+                        prop = {};
+                        this.apply(prop, object.events);
+                        prop[x.replace('on', '')] = config[x];
+                        object.events = prop;
+                    } else {
+                        // Metal property - apply straight on the object itself
+                        object[x] = config[x];
+                    }
+                }
             }
         },
         
@@ -860,6 +912,17 @@ this.metal = (function() {
 		},
 		
 		/**
+		 * @method mysqlTimestampToDate
+		 */
+		mysqlTimestampToDate: function(timestamp) {
+		    //function parses mysql datetime string and returns javascript Date object
+		    //input has to be in this format: 2007-06-05 15:26:02 or 2007-06-05 15:26:02.0 
+		    var regex=/^([0-9]{2,4})-([0-1][0-9])-([0-3][0-9]) (?:([0-2][0-9]):([0-5][0-9]):([0-5][0-9]))?.?[0-9]?$/;
+		    var parts=timestamp.replace(regex,"$1 $2 $3 $4 $5 $6").split(' ');
+		    return new Date(parts[0],parts[1]-1,parts[2],parts[3],parts[4],parts[5]);
+	  	},
+	  	
+		/**
 		 * @method formatDate
 		 * @param {String} value
 		 * @param [optional] {String} option Can be one of the following: 'short', 'medium', 'long'
@@ -936,6 +999,20 @@ this.metal = (function() {
         ////////////////////////////////////////////////////////////
         
         /**
+         * @method getArgs
+         * @param {arguments (not an Array!)} arglist
+         * @param [optional] {Integer} offset
+         */
+        getArgs: function(arglist, offset) {
+        	var args = [];
+			for (var i = offset || 0, iln = arglist.length; i < iln; i++) {
+				args.push(arglist[i]);
+			}
+			
+			return args;
+        },
+        
+        /**
          * @method getEmptyFn
          */
         getEmptyFn: function() {
@@ -989,12 +1066,11 @@ this.metal = (function() {
          * @param {Titanium.UI.View or metal.ui.AbstractView} view
          */
         getView: function(view) {
-            view = view || {};
-            if (view.framework == 'metal') {
-                return view.getView();
-            } else {
-                return view;
-            }
+        	if (this.isNothing(view) || view.framework != 'metal') {
+        		return view;
+        	} else {
+        		return view.getView();
+        	}
         },
         
         /**
@@ -1035,6 +1111,7 @@ metal.include(
 	'/Metal/util/net.js',
 	'/Metal/util/location.js',
 	'/Metal/util/string.js',
+	'/Metal/util/base64.js',
 	
 	// UI
 	'/Metal/ui/Component.js',
@@ -1061,10 +1138,16 @@ metal.include(
  	'/Metal/ui/OptionDialog.js',
 	'/Metal/ui/ButtonBar.js',
 	'/Metal/ui/Toolbar.js',
+	'/Metal/ui/ProgressBar.js',
+	'/Metal/ui/CoverFlowView.js',
+	'/Metal/ui/ScrollView.js',
+	'/Metal/ui/ScrollableView.js',
+	'/Metal/ui/WebView.js',
 	
 	// Media
 	'/Metal/media/PhotoGallery.js',
 	'/Metal/media/Camera.js',
+	'/Metal/media/VideoPlayer.js',
 	
 	// Widgets
 	'/Metal/widget/ImageButton.js',
@@ -1072,8 +1155,14 @@ metal.include(
 	'/Metal/widget/ActivityIndicator.js',
 	'/Metal/widget/Message.js',
 	
+	// UX
+	'/Metal/ux/LoadingIndicator.js',
+	
 	// Model
 	'/Metal/model/GeoLocation.js',
+	
+	// Adapters
+	'/Metal/adapter/android/AndroidAdapter.js',
 	
 	// Tests
 	'/Metal/test/net.js'

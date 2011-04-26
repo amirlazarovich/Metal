@@ -96,9 +96,9 @@ metal.widget.Message = metal.extend(metal.ui.AbstractWindow, {
 	/**
 	 * How much time (in milliseconds) before closing this message
 	 * 
-	 * @property {Integer} delay
+	 * @property {Integer} duration
 	 */
-	delay: 1e3, // one second
+	duration: 1e3, // one second
 	
 	/**
  	* @constructor
@@ -164,7 +164,7 @@ metal.widget.Message = metal.extend(metal.ui.AbstractWindow, {
 	/**
 	 * @method show
 	 * @param [optional] {Object} configOrCallback 
-	 * 							  config: Additional/overrides configuration. May use: startAnimation, endAnimation, delay
+	 * 							  config: Additional/overrides configuration. May use: startAnimation, endAnimation, duration
 	 * 						   or callback: a callback function for after closing
 	 */
 	show: function(configOrCallback) {
@@ -179,8 +179,8 @@ metal.widget.Message = metal.extend(metal.ui.AbstractWindow, {
 			config = configOrCallback;
 		}
 		
-		// Set the closing event delay
-		var delay = config.delay || this.delay;
+		// Set the closing event duration
+		var duration = config.duration || this.duration;
 		
 		// Define/Set animations
 		var startAnimation = config.startAnimation || this.startAnimation;
@@ -194,6 +194,6 @@ metal.widget.Message = metal.extend(metal.ui.AbstractWindow, {
 			me.close(endAnimation);
 			// invoke the callback function with this message's closure
 			cb.call(me);
-		}, delay); 
+		}, duration); 
 	}
 });

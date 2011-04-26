@@ -199,7 +199,7 @@ metal.ui.AbstractWindow = metal.extend(metal.ui.AbstractView, {
 		var me = this;
 	
 		me.on('close', function() {
-			ilog('AbstractWindow::' + me.get('id'), 'closing...');
+			dlog('AbstractWindow::' + me.get('id'), 'closing...');
 			me.controller.close(me);
 		});
 	},
@@ -219,10 +219,8 @@ metal.ui.AbstractWindow = metal.extend(metal.ui.AbstractView, {
 	* @param {Object|metal.ui.Animation} animation
 	*/
 	close: function(animation) {
-		this.component.close(animation);
-		
+		this.component.close(animation); 
 		// TODO FIXME [AbstractWindow::close] Need to destroy this metal object and its associations
- 		
 	},
 	
 	/**

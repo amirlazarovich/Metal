@@ -12,6 +12,8 @@ metal.ns('metal.util.Observable');
  */
 metal.util.Observable = metal.extend(Object, {
 	
+	type: 'MetalObservable',
+	
 	/**
 	 * The Titanium component this Observable controls over
 	 * 

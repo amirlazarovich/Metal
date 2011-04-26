@@ -132,15 +132,15 @@ metal.widget.ActivityIndicator = metal.extend(metal.ui.AbstractView, {
 			// The indicator will be wrapped inside a metal.ui.View and centered next to a
 			// potential (if given) label as its message
 			this.component = Titanium.UI.createView(metal.formatProperties(this.properties));
-			this.indicator = Titanium.UI.createActivityIndicator(config.indicator || { 
+			this.indicator = Titanium.UI.createActivityIndicator(this.indicator || { 
 				style: this.get('style', true),
 				width: (this.get('style', true) === metal.ui.iphone.indicatorStyle.BIG) ? this.BIG_WIDTH : this.NORMAL_WIDTH,
 				height: this.HEIGHT
 			});
 			
-			if (config.message) {
+			if (this.get('message')) {
 				// Set label
-				this.label = new metal.ui.Label(config.message);
+				this.label = new metal.ui.Label(this.get('message'));
 			}
 		}
 		

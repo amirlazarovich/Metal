@@ -18,10 +18,10 @@ metal.ui.TableView = metal.extend(metal.ui.AbstractView, (function() {
 			section.setHeader(header);
 		}
 
-		if (data.length > 0) {
+		//if (data.length > 0) {
 			section.add(data);
 			store.push(section.getView());
-		}
+		//}
 
 		return store;
 	}
@@ -366,10 +366,10 @@ metal.ui.TableView = metal.extend(metal.ui.AbstractView, (function() {
 			var section = new metal.ui.TableSection();
 			section.setHeader(header);
 
-			if (data.length > 0) {
+			///if (data.length > 0) {
 				section.add(data);
 				store.push(section.getView());
-			}
+			//}
 
 			this.component.data = store;
 		},

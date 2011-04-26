@@ -139,20 +139,20 @@ metal.debug = (function() {
     				result = me.DEBUG;
     				break;
     				
-				case 'info': 
-					result = me.INFO;
-					break;
-					
-				case 'warn':
-					result = me.WARN;
-					break;
-					
-				case 'error':
-					result = me.ERROR;
-					break;
-					
-				default: 
-					result = me.NONE;
+			case 'info': 
+				result = me.INFO;
+				break;
+				
+			case 'warn':
+				result = me.WARN;
+				break;
+				
+			case 'error':
+				result = me.ERROR;
+				break;
+				
+			default: 
+				result = me.NONE;
         	}
         	
         	return result;

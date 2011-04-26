@@ -312,7 +312,17 @@ metal.ui.AbstractView = metal.extend(metal.ui.Component, (function() {
  		* @property {metal.core.control} controller
  		*/
 		controller: undefined,
-
+                
+                /**
+                 * @property {Object} events
+                 */ 
+                events: {
+                    /**
+                    * @event {Function} click
+                    */ 
+                    click: undefined
+                },
+                
 		/**
  		* @constructor
  		* @param {Object} config
@@ -335,6 +345,7 @@ metal.ui.AbstractView = metal.extend(metal.ui.Component, (function() {
 			// Call parent constructor
 			metal.ui.AbstractView.superclass.constructor.call(this);
 		},
+                
 		/**
  		*
  		* @method animate
@@ -392,17 +403,17 @@ metal.ui.AbstractView = metal.extend(metal.ui.Component, (function() {
  		* @param {Integer} id
  		*/
 		getItemById: function(id) {
-			var item;
-			for (var i = 0, iln = this.items.length; i < iln; i++) {
-				if (this.items[i].get('id') === indexOrId) {
-					return this.items[i];
-				} else if (this.items[i].items) {
-					item = this.items[i].getItem(indexOrId);
-					if (item) {
-						return item;
-					}
-				}
-			}
+                        var item;
+                        for (var i = 0, iln = this.items.length; i < iln; i++) {
+                            if (this.items[i].get('id') === indexOrId) {
+                                return this.items[i];
+                            } else if (this.items[i].items) {
+                                item = this.items[i].getItem(indexOrId);
+                                if (item) {
+                                        return item;
+                                }
+                            }
+                        }
 		},
 		/**
  		* @method getAnimation
@@ -432,8 +443,9 @@ metal.ui.AbstractView = metal.extend(metal.ui.Component, (function() {
 			var spacerIndex;
 			var views = [];
 			var view;
-			var left, pleft;
-			var right, pright;
+			var left;
+			var right;
+			var tempWidth;
 
 			if (metal.isArray(items)) {
 				// Array
@@ -448,12 +460,10 @@ metal.ui.AbstractView = metal.extend(metal.ui.Component, (function() {
 					} else {
 						view = metal.getView(items[i]);
 						// Calculate the true width of this view
-						pleft = parseFloat(view.left) || 0;
-						pright = parseFloat(view.right) || 0;
-
-						left = view.left ? parseFloat(view.left) : 0;
-						right = view.right ? parseFloat(view.right) : 0;
-						width += view.width + left + right;
+						left = metal.isNumber(view.left) ? parseFloat(view.left) : 0;
+                        right = metal.isNumber(view.right) ? parseFloat(view.right) : 0;
+                        tempWidth = metal.isNumber(view.width) ? view.width : 0 ;
+                        width += tempWidth + left + right;
 
 						views.push(view);
 						this.items.push(items[i]);
@@ -476,7 +486,7 @@ metal.ui.AbstractView = metal.extend(metal.ui.Component, (function() {
 
 					this.component.add(views);
 				}
-			} else if (metal.isObject(items)) {
+			} else if (!metal.isNothing(items)) {
 				// Single object
 				this.component.add(metal.getView(items));
 				this.items.push(items);
@@ -489,6 +499,7 @@ metal.ui.AbstractView = metal.extend(metal.ui.Component, (function() {
  		* @param {Titanium.UI.View or metal.ui.AbstractView} item
  		*/
 		remove: function(item) {
+			this.items.splice(this.items.indexOf(item), 1);
 			this.component.remove(metal.getView(item));
 		},
 		/**
@@ -524,6 +535,12 @@ metal.ui.AbstractView = metal.extend(metal.ui.Component, (function() {
 			// Call parent
 			metal.ui.AbstractView.superclass.initEvents.call(this);
 			
+                        var events = this.events;
+                        for (var event in events) {
+                            if (metal.isFunction(events[event])) {
+                                this.on(event, events[event]);
+                            }
+                        }
 		},
 		/**
  		*
@@ -534,7 +551,7 @@ metal.ui.AbstractView = metal.extend(metal.ui.Component, (function() {
 			var animation = this.getAnimation();
 			if (animation != null) {
 				// Animation is set on this view
-				this.animate(animation.getComponent());
+				this.animate(metal.getComponent(animation));
 			}
 		}
 		
