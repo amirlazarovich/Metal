@@ -18,50 +18,50 @@ This is really easy! and it only requires two small steps :) (well, after of cou
 
 ### Simple Example ###
 
-	    /**
-		 * 
-		 * @include metal
-		 */
-		Ti.include(
-			'/Metal/core/metal.js');	
-		
-		// Create my tab group
-		var myTabGroup = new metal.ui.TabGroup({
-			// Give my tab group an id - later you can use it
-			// with both JSS and metal.control class (see below)
-			// [this is optional, but highly recommended]
-			id: 'mytabs',
-			
-			// Add tabs
-			items: [
-				// First tab window
-				new metal.ui.Window({ 
-					title: 'Metal',
-					backgroundColor: 'white',			
-					items: [
-						// Nested items inside my window
-						new metal.ui.Label({
-							text: 'Hello World'
-						})
-					]
-				})
-				
-				// ... add more tabs here (@see metal.ui.Tab for more capabilities)
-			]
-		});
-		
-		// Display my tab group
-		myTabGroup.open();
+    /**
+     * 
+     * @include metal
+     */
+    Ti.include(
+            '/Metal/core/metal.js');	
+    
+    // Create my tab group
+    var myTabGroup = new metal.ui.TabGroup({
+            // Give my tab group an id - later you can use it
+            // with both JSS and metal.control class (see below)
+            // [this is optional, but highly recommended]
+            id: 'mytabs',
+            
+            // Add tabs
+            items: [
+                    // First tab window
+                    new metal.ui.Window({ 
+                            title: 'Metal',
+                            backgroundColor: 'white',			
+                            items: [
+                                    // Nested items inside my window
+                                    new metal.ui.Label({
+                                            text: 'Hello World'
+                                    })
+                            ]
+                    })
+                    
+                    // ... add more tabs here (@see metal.ui.Tab for more capabilities)
+            ]
+    });
+    
+    // Display my tab group
+    myTabGroup.open();
 
 ### Important notes for Android users ###
 - In order for Metal to work with Android you need to insert the following line into the tiapp.xml file directly 
   under the `<ti:app>` tag:
 	
-	<property name="ti.android.threadstacksize" type="int">65536</property>
+    `<property name="ti.android.threadstacksize" type="int">65536</property>`
 
 - This is just a reminder, but if you plan on using Google Maps you also need to include your Google Maps keys for dev/production under the `<ti:app>` tag:
 	
-	<property name="ti.android.google.map.api.key.development">ENTER YOUR DEVELOPMENT KEY HERE</property>
-	<property name="ti.android.google.map.api.key.production">ENTER YOUR PRODUCTION KEY HERE</property>
+    `<property name="ti.android.google.map.api.key.development">ENTER YOUR DEVELOPMENT KEY HERE</property>`
+    `<property name="ti.android.google.map.api.key.production">ENTER YOUR PRODUCTION KEY HERE</property>`
 
   [Click here to generate your own Android Google Maps keys](http://code.google.com/android/maps-api-signup.html)
