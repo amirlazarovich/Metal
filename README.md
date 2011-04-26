@@ -55,9 +55,10 @@ This is really easy! and it only requires two small steps :) (well, after of cou
 
 
 ### Important notes for Android users ###
-- In order for Metal to work with Android you need to insert the following line into the tiapp.xml file directly under the `<ti:app>` tag:
-  `<property name="ti.android.threadstacksize" type="int">65536</property>`
+- In order for Metal to work with Android you need to insert the following line into the tiapp.xml file directly 
+  under the `<ti:app>` tag:
+		<property name="ti.android.threadstacksize" type="int">65536</property>
 - This is just a reminder, but if you plan on using Google Maps you also need to include your Google Maps keys for dev/production under the `<ti:app>` tag:
-  `<property name="ti.android.google.map.api.key.development">ENTER YOUR DEVELOPMENT KEY HERE</property>`
-  `<property name="ti.android.google.map.api.key.production">ENTER YOUR PRODUCTION KEY HERE</property>`
+		<property name="ti.android.google.map.api.key.development">ENTER YOUR DEVELOPMENT KEY HERE</property>
+		<property name="ti.android.google.map.api.key.production">ENTER YOUR PRODUCTION KEY HERE</property>
   [Click here to generate your own Android Google Maps keys](http://code.google.com/android/maps-api-signup.html)
